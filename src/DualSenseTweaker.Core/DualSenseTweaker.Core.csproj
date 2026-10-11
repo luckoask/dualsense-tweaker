@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Windows only: HID via HidSharp's Windows backend, audio via WASAPI (NAudio). -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DualSenseTweaker.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DualSenseTweaker.Tests" />
+    <EmbeddedResource Include="Localization\strings.json" LogicalName="DualSenseTweaker.Core.Localization.strings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HidSharp" Version="2.6.4" />
+    <PackageReference Include="NAudio.Wasapi" Version="3.1.0" />
+  </ItemGroup>
+
+</Project>

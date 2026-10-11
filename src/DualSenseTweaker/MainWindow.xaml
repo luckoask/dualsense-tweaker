@@ -1,0 +1,1345 @@
+﻿<Window x:Class="DualSenseTweaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:l="clr-namespace:DualSenseTweaker.Localization"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:DualSenseTweaker.ViewModels"
+        xmlns:c="clr-namespace:DualSenseTweaker.Controls"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        xml:lang="sk-SK"
+        Title="{l:Text 'DualSense Tweaker od LCKS'}"
+        Icon="Assets/app.ico"
+        Width="1400" Height="920" MinWidth="1240" MinHeight="700"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource UiFont}"
+        Background="{DynamicResource WindowBrush}"
+        Foreground="{DynamicResource TextBrush}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Controls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+            <c:EqualsToVisibilityConverter x:Key="SectionVisibility" />
+            <c:HexToColorConverter x:Key="HexToColor" />
+            <c:UpperCaseConverter x:Key="Upper" />
+            <c:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility" />
+
+            <Style x:Key="Page" TargetType="ScrollViewer">
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+                <Setter Property="Padding" Value="32,22,14,6" />
+            </Style>
+
+            <!-- Letter-spaced label in front of a segmented control (SPLIT / SCALING style) -->
+            <Style x:Key="RowCaption" TargetType="c:TrackedText">
+                <Setter Property="FontSize" Value="11.5" />
+                <Setter Property="Spacing" Value="2.2" />
+                <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <DataTemplate x:Key="TriggerEditor" DataType="{x:Type vm:TriggerEditorViewModel}">
+                <Border Style="{StaticResource Panel}">
+                    <StackPanel>
+                        <c:PanelTitle Number="{Binding Number}" Title="{Binding UpperTitle}" />
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'REŽIM'}" />
+                            <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding ModeOptions}"
+                                     DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Mode}" />
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,2,0,16" Text="{Binding Description}" />
+
+                        <!-- Trigger travel: zones 0 (released) … 9 (pressed) -->
+                        <Border Style="{StaticResource Inset}" Padding="14,14,14,10" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ItemsControl ItemsSource="{Binding Zones}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Rows="1" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="2,0">
+                                                <Grid Height="30">
+                                                    <Border CornerRadius="6" Background="{DynamicResource TrackBrush}" />
+                                                    <Border x:Name="Fill" CornerRadius="6" Background="{StaticResource SliderFillGradient}" Opacity="{Binding Intensity}" />
+                                                </Grid>
+                                                <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center" FontSize="10.5"
+                                                           FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource DimTextBrush}" Text="{Binding Zone}" />
+                                            </StackPanel>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Kind}" Value="Click">
+                                                    <Setter TargetName="Fill" Property="Background" Value="{DynamicResource TextBrush}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Kind}" Value="Vibration">
+                                                    <Setter TargetName="Fill" Property="Background" Value="{StaticResource OrangeBrush}" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Margin="2,6,0,0" FontSize="11" Foreground="{DynamicResource DimTextBrush}"
+                                           Text="{l:Text 'zóna 0 = uvoľnená spúšť · 9 = úplne stlačená · biela = cvaknutie · oranžová = vibrácie'}" />
+                            </StackPanel>
+                        </Border>
+
+                        <c:SliderRow Label="{l:Text 'Začiatok'}" Value="{Binding StartPosition}"
+                                     Minimum="{Binding StartMinimum}" Maximum="{Binding StartMaximum}"
+                                     Visibility="{Binding ShowStart, Converter={StaticResource BoolToVisibility}}" />
+                        <c:SliderRow Label="{l:Text 'Koniec'}" Value="{Binding EndPosition}"
+                                     Minimum="{Binding EndMinimum}" Maximum="{Binding EndMaximum}"
+                                     Visibility="{Binding ShowEnd, Converter={StaticResource BoolToVisibility}}" />
+                        <c:SliderRow Label="{l:Text 'Sila'}" Value="{Binding Strength}" Minimum="1" Maximum="8"
+                                     Visibility="{Binding ShowStrength, Converter={StaticResource BoolToVisibility}}" />
+                        <c:SliderRow Label="{l:Text 'Intenzita'}" Value="{Binding Amplitude}" Minimum="1" Maximum="8"
+                                     Visibility="{Binding ShowVibration, Converter={StaticResource BoolToVisibility}}" />
+                        <c:SliderRow Label="{l:Text 'Frekvencia'}" Value="{Binding Frequency}" Minimum="1" Maximum="255" Unit=" Hz"
+                                     Visibility="{Binding ShowVibration, Converter={StaticResource BoolToVisibility}}" />
+
+                        <DockPanel Margin="0,16,0,0">
+                            <Button DockPanel.Dock="Left" Command="{Binding TestCommand}"
+                                    ToolTip="{l:Text 'Znovu odošle efekt do ovládača, aj keď ho medzitým zmenila hra.'}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Path Width="12" Height="12" Margin="0,0,9,0" Stretch="Uniform" Fill="{DynamicResource TextBrush}" Data="M0,0 L10,6 L0,12 Z" />
+                                    <TextBlock Text="{l:Text 'Otestovať'}" />
+                                </StackPanel>
+                            </Button>
+                            <TextBlock Margin="16,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11"
+                                       Foreground="{DynamicResource DimTextBrush}" TextTrimming="CharacterEllipsis" Text="{Binding BytesText}" />
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource GridBrush}">
+        <!-- Soft brand glows behind the grid -->
+        <Ellipse Width="900" Height="700" Margin="-420,-380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Offset="0" Color="#264F82F7" />
+                    <GradientStop Offset="1" Color="#004F82F7" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse Width="900" Height="700" Margin="0,0,-420,-380" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsHitTestVisible="False">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Offset="0" Color="#1CF2884A" />
+                    <GradientStop Offset="1" Color="#00F2884A" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <DockPanel>
+            <!-- ═══ Header ═══════════════════════════════════════════════════════ -->
+            <Grid DockPanel.Dock="Top" Margin="32,22,32,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="Logo" Width="44" Height="44" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <c:TrackedText Text="DUAL" FontFamily="{StaticResource DisplayFont}" FontSize="23" Spacing="5.5"
+                                           Foreground="{DynamicResource TitleLightGradient}" />
+                            <c:TrackedText Margin="5.5,0,0,0" Text="SENSE" FontFamily="{StaticResource DisplayFont}" FontSize="23" Spacing="5.5"
+                                           Foreground="{StaticResource TitleGradient}" />
+                            <c:TrackedText Margin="16,0,7,0" VerticalAlignment="Center" Text="{l:Text 'OD'}" FontSize="10" Spacing="2"
+                                           Foreground="{DynamicResource DimTextBrush}" />
+                            <c:TrackedText VerticalAlignment="Center" Text="LCKS" FontSize="10.5" Spacing="2.5" Foreground="{DynamicResource TextBrush}" />
+                        </StackPanel>
+                        <c:TrackedText Margin="0,7,0,0" Text="{l:Text 'TWEAKER · OVLÁDAČ PODĽA TEBA'}" FontSize="10.5" Spacing="3.2"
+                                       FontWeight="SemiBold" Foreground="{DynamicResource DimTextBrush}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding RescanCommand}" Padding="14,9">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="15" Height="15" Margin="0,0,9,0">
+                                <Canvas Width="24" Height="24">
+                                    <Path Stroke="{DynamicResource TextBrush}" StrokeThickness="2" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                          Data="M4 12a8 8 0 0 1 14-5.3 M20 4v5h-5 M20 12a8 8 0 0 1-14 5.3 M4 20v-5h5" />
+                                </Canvas>
+                            </Viewbox>
+                            <TextBlock Text="{l:Text 'Hľadať ovládač'}" />
+                        </StackPanel>
+                    </Button>
+                    <Border Margin="12,0,0,0" Padding="14,8" CornerRadius="12" BorderThickness="1"
+                            Background="{DynamicResource ItemBrush}" BorderBrush="{DynamicResource ItemBorderBrush}">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Style="{StaticResource ConnectionDot}" Margin="0,0,10,0" />
+                            <c:TrackedText Text="{Binding HeaderStatus}" FontSize="11.5" Spacing="2.2" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <c:BatteryIndicator Margin="14,0,0,0" Width="28" Height="14" Level="{Binding BatteryPercent}"
+                                        IsCharging="{Binding IsCharging}" IsKnown="{Binding HasStatus}" />
+                    <StackPanel Margin="16,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Viewbox Width="15" Height="15" Margin="0,0,7,0">
+                            <Canvas Width="24" Height="24">
+                                <Path Stroke="{DynamicResource MutedTextBrush}" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                      Data="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0 M12 11v5 M12 8h.01" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock FontFamily="{StaticResource MonoFont}" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{Binding AppVersion}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- ═══ Navigation ═══════════════════════════════════════════════════ -->
+            <Grid DockPanel.Dock="Top" Margin="32,24,32,0">
+                <Border Height="1" VerticalAlignment="Bottom" Background="{DynamicResource PanelBorderBrush}" />
+                <ListBox Style="{StaticResource NavTabs}" ItemsSource="{Binding Sections}" SelectedItem="{Binding SelectedSection}" />
+            </Grid>
+
+            <!-- ═══ Shortcut bar ═════════════════════════════════════════════════ -->
+            <Border DockPanel.Dock="Bottom" Padding="32,14" Background="{DynamicResource FooterBrush}"
+                    BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="0,1,0,0">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Viewbox Width="18" Height="18" Margin="0,0,9,0">
+                            <Canvas Width="24" Height="24">
+                                <Path Stroke="{DynamicResource MutedTextBrush}" StrokeThickness="1.8" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                      Data="M6 9h12a4 4 0 0 1 3.9 3.2l.8 4.1a2 2 0 0 1-3.4 1.8L17 16H7l-2.3 2.1a2 2 0 0 1-3.4-1.8l.8-4.1A4 4 0 0 1 6 9z M8 11v3 M6.5 12.5h3 M15.5 12h1 M17.5 14h1" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="5×" />
+                        <Border Style="{StaticResource KeyCap}"><TextBlock Style="{StaticResource KeyCapText}" Text="PS" /></Border>
+                        <TextBlock Margin="0,0,20,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'otvorí okno'}" />
+                        <Border Style="{StaticResource KeyCap}"><TextBlock Style="{StaticResource KeyCapText}" Text="PS" /></Border>
+                        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="+" />
+                        <Border Style="{StaticResource KeyCap}"><TextBlock Style="{StaticResource KeyCapText}" Text="{l:Text 'KLIK'}" /></Border>
+                        <TextBlock Margin="0,0,20,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'myš panelom'}" />
+                        <Border Style="{StaticResource KeyCap}"><TextBlock Style="{StaticResource KeyCapText}" Text="PS" /></Border>
+                        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="+" />
+                        <Border Style="{StaticResource KeyCap}"><TextBlock Style="{StaticResource KeyCapText}" Text="R1" /></Border>
+                        <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'myš pohybom'}" />
+                        <Border Width="1" Height="18" Margin="20,0" Background="{DynamicResource PanelBorderBrush}" />
+                        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'Autor'}" />
+                        <c:TrackedText VerticalAlignment="Center" Text="LCKS" FontSize="12.5" Spacing="3" Foreground="{DynamicResource TextBrush}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <c:TrackedText Margin="0,0,14,0" VerticalAlignment="Center" Text="{Binding Profiles.ShortcutBarPrefix}"
+                                       FontSize="11.5" Spacing="2" Foreground="{DynamicResource MutedTextBrush}" />
+                        <ItemsControl ItemsSource="{Binding Profiles.ShortcutHints}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,0,18,0" Orientation="Horizontal">
+                                        <Border Style="{StaticResource KeyCap}"><TextBlock Style="{StaticResource KeyCapText}" Text="{Binding Key}" /></Border>
+                                        <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{Binding Label}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- ═══ Status line ═════════════════════════════════════════════════ -->
+            <Grid DockPanel.Dock="Bottom" Margin="32,0,32,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Viewbox Width="15" Height="15" Margin="0,0,10,0">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource MutedTextBrush}" StrokeThickness="2" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  Data="M12 3l9.5 17h-19z M12 10v4.5 M12 17.5h.01" />
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock VerticalAlignment="Center" FontSize="12.5" Foreground="{DynamicResource MutedTextBrush}" TextTrimming="CharacterEllipsis"
+                               Text="{Binding StatusMessage}" />
+                </StackPanel>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11.5"
+                           Foreground="{DynamicResource DimTextBrush}" Text="{Binding RateText}" />
+            </Grid>
+
+            <!-- ═══ Pages ═══════════════════════════════════════════════════════ -->
+            <Grid>
+                <!-- ZARIADENIE -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=device}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="01" Title="{l:Text 'OVLÁDAČE'}" />
+                                            <ListBox Style="{StaticResource ControllerCards}" ItemsSource="{Binding Controllers.Cards}"
+                                                     SelectedItem="{Binding Controllers.Selected}" />
+                                            <TextBlock Margin="2,0,0,0" FontSize="13" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'Nie je pripojený žiadny ovládač. Zapni ho tlačidlom PS alebo pripoj káblom USB-C.'}"
+                                                       Visibility="{Binding Controllers.HasSelection, Converter={StaticResource InverseBoolToVisibility}}" />
+
+                                            <Border Style="{StaticResource Inset}" Margin="0,6,0,0" Padding="18,16"
+                                                    Visibility="{Binding Controllers.HasSelection, Converter={StaticResource BoolToVisibility}}">
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="90" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="10" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'NÁZOV'}" />
+                                                        <TextBox Grid.Column="1" Text="{Binding Controllers.SelectedName}" ToolTip="{l:Text 'Názov sa uloží po kliknutí mimo poľa.'}" />
+                                                        <c:TrackedText Grid.Row="2" Style="{StaticResource RowCaption}" Text="{l:Text 'PROFIL'}" />
+                                                        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Controllers.ProfileOptions}"
+                                                                  DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Controllers.SelectedProfile}"
+                                                                  ToolTip="{l:Text 'Tento profil ovládač použije vždy, keď sa pripojí'}" />
+                                                    </Grid>
+                                                    <TextBlock Style="{StaticResource Hint}" Margin="0,10,0,14" Text="{Binding Controllers.SelectionHint}" />
+                                                    <WrapPanel>
+                                                        <Button Margin="0,0,8,8" Command="{Binding Controllers.LinkOthersCommand}"
+                                                                ToolTip="{l:Text 'Ostatné ovládače dostanú tento profil – čo potom zmeníš, zmení sa na všetkých naraz'}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Viewbox Width="14" Height="14" Margin="0,0,8,0">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Stroke="{DynamicResource TextBrush}" StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                                              Data="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1 M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                                <TextBlock Text="{l:Text 'Prepojiť ostatné s týmto'}" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Margin="0,0,8,8" Content="{l:Text 'Vlastná kópia'}" Command="{Binding Controllers.MakeIndependentCommand}"
+                                                                ToolTip="{l:Text 'Zruší prepojenie s ostatnými ovládačmi a vytvorí vlastný profil s rovnakými nastaveniami.'}" />
+                                                        <Button Margin="0,0,8,8" Content="{l:Text 'Odstrániť'}" Command="{Binding Controllers.ForgetCommand}"
+                                                                ToolTip="{l:Text 'Odstráni odpojený ovládač zo zoznamu'}" />
+                                                    </WrapPanel>
+                                                    <Border Height="1" Margin="0,8,0,14" Background="{DynamicResource PanelBorderBrush}" />
+                                                    <DockPanel>
+                                                        <Button DockPanel.Dock="Right" Margin="8,0,0,0" Content="{l:Text 'Nastavenia Bluetooth'}" Command="{Binding Controllers.BluetoothSettingsCommand}"
+                                                                ToolTip="{l:Text 'Otvorí nastavenia Windows, kde môžeš zrušiť párovanie ovládača.'}" />
+                                                        <Button HorizontalAlignment="Left" Command="{Binding Controllers.FactoryResetCommand}"
+                                                                ToolTip="{l:Text 'Obnoví pôvodné nastavenia a odstráni priradený profil aj kalibráciu tohto ovládača.'}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Viewbox Width="14" Height="14" Margin="0,0,8,0">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Stroke="{DynamicResource WarningBrush}" StrokeThickness="2.2" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                                              Data="M4 12a8 8 0 1 0 2.3-5.7 M4 4v4.5h4.5" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                                <TextBlock Text="{l:Text 'Obnoviť pôvodný stav'}" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </DockPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <c:TrackedText Margin="4,22,0,4" Style="{StaticResource RowCaption}" Text="{l:Text 'UPRAVOVANÝ OVLÁDAČ'}" FontSize="10.5" Foreground="{DynamicResource DimTextBrush}" />
+                                            <Grid Margin="4,4,4,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="130" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="30" />
+                                                </Grid.RowDefinitions>
+                                                <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'PRIPOJENIE'}" />
+                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding ConnectionText}" />
+                                                <c:TrackedText Grid.Row="1" Style="{StaticResource RowCaption}" Text="{l:Text 'SLÚCHADLÁ'}" />
+                                                <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding HeadphonesText}" />
+                                                <c:TrackedText Grid.Row="2" Style="{StaticResource RowCaption}" Text="{l:Text 'MIKROFÓN'}" />
+                                                <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Text="{Binding MicrophoneText}" />
+                                                <c:TrackedText Grid.Row="3" Style="{StaticResource RowCaption}" Text="{l:Text 'FIRMVÉR'}" />
+                                                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource MonoValue}" Foreground="{DynamicResource TextBrush}" Text="{Binding FirmwareText}" />
+                                                <c:TrackedText Grid.Row="4" Style="{StaticResource RowCaption}" Text="{l:Text 'VIBRÁCIE'}" />
+                                                <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding RumbleModeText}" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="02" Title="{l:Text 'BATÉRIA'}" />
+                                            <Border Style="{StaticResource Inset}" Padding="24,20">
+                                                <DockPanel>
+                                                    <c:BatteryIndicator DockPanel.Dock="Left" Width="92" Height="42" Margin="0,0,24,0"
+                                                                        Level="{Binding BatteryPercent}" IsCharging="{Binding IsCharging}" IsKnown="{Binding HasStatus}" />
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <TextBlock FontFamily="{StaticResource DisplayFont}" FontSize="30" FontWeight="SemiBold"
+                                                                   Text="{Binding BatteryShortText}" />
+                                                        <TextBlock Foreground="{DynamicResource MutedTextBrush}" TextWrapping="Wrap" Text="{Binding BatteryStateText}" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="04" Title="{l:Text 'OBNOVOVANIE'}" />
+                                            <UniformGrid Columns="2">
+                                                <c:SwitchRow Margin="0,0,24,10" Title="{l:Text 'Svetelný pás'}" Hint="{l:Text 'Ak ho hra prepíše'}" IsChecked="{Binding Refresh.Lightbar}" />
+                                                <c:SwitchRow Margin="0,0,0,10" Title="{l:Text 'Spúšte'}" Hint="{l:Text 'Okrem režimu Hra'}" IsChecked="{Binding Refresh.Triggers}" />
+                                                <c:SwitchRow Margin="0,0,24,10" Title="{l:Text 'Indikátory LED'}" Hint="{l:Text 'Hráč a mikrofón'}" IsChecked="{Binding Refresh.Leds}" />
+                                            </UniformGrid>
+                                            <c:SliderRow Margin="0,6,0,0" Label="Interval" Minimum="250" Maximum="5000" Step="250" Unit=" ms" Value="{Binding Refresh.IntervalMs}" />
+                                            <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Keď hra alebo Steam Input prepíše nastavenia, aplikácia ich v tomto intervale pošle znova. Zmeny sa posielajú vždy okamžite.'}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="05" Title="{l:Text 'ZVUK OVLÁDAČA'}" />
+                                            <c:SwitchRow Title="{l:Text 'Riadiť výstup a hlasitosť'}" Hint="{l:Text 'Iba cez USB – Windows cez Bluetooth zvuk do ovládača neposiela'}"
+                                                         IsChecked="{Binding Output.AudioControlEnabled}" />
+                                            <StackPanel Margin="0,12,0,0" IsEnabled="{Binding Output.AudioControlEnabled}">
+                                                <Grid Margin="0,0,0,10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="110" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'VÝSTUP'}" />
+                                                    <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Output.AudioRouteOptions}"
+                                                             DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Output.AudioRoute}" />
+                                                </Grid>
+                                                <c:SliderRow Label="{l:Text 'Reproduktor'}" Maximum="{Binding Output.MaxSpeakerVolume}" Value="{Binding Output.SpeakerVolume}" />
+                                                <c:SliderRow Label="{l:Text 'Slúchadlá'}" Maximum="{Binding Output.MaxHeadphoneVolume}" Value="{Binding Output.HeadphoneVolume}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- PROFILY -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=profiles}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Style="{StaticResource Panel}" VerticalAlignment="Top">
+                                    <StackPanel>
+                                        <c:PanelTitle Number="01" Title="{l:Text 'PROFIL'}" />
+                                        <TextBlock Margin="0,-6,0,16" FontSize="12.5" TextWrapping="Wrap" Foreground="{StaticResource AccentBrush}"
+                                                   Text="{Binding Controllers.ProfileTargetText}" />
+                                        <ListBox Margin="0,0,-14,0" Style="{StaticResource ProfileTiles}" ItemsSource="{Binding Profiles.Items}" SelectedItem="{Binding Profiles.Active}" />
+                                        <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,16" Text="{Binding Profiles.ActiveDescription}" />
+                                        <WrapPanel>
+                                            <Button Margin="0,0,8,8" Content="{Binding Profiles.ResetLabel}" Command="{Binding Profiles.ResetCommand}" />
+                                            <Button Margin="0,0,8,8" Content="{l:Text 'Odstrániť'}" Command="{Binding Profiles.DeleteCommand}" />
+                                            <Button Margin="0,0,8,8" Content="{l:Text 'Načítať'}" Command="{Binding Profiles.ImportCommand}" />
+                                            <Button Margin="0,0,8,8" Content="{l:Text 'Uložiť'}" Command="{Binding Profiles.ExportCommand}" />
+                                        </WrapPanel>
+                                        <c:TrackedText Margin="0,14,0,10" Style="{StaticResource RowCaption}" Text="{l:Text 'NOVÝ PROFIL Z AKTUÁLNYCH NASTAVENÍ'}" />
+                                        <DockPanel>
+                                            <Button DockPanel.Dock="Right" Margin="10,0,0,0" Content="{l:Text 'Vytvoriť'}" Command="{Binding Profiles.CreateCommand}" />
+                                            <TextBox Text="{Binding Profiles.NewProfileName, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DockPanel>
+                                        <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Zmeny nastavení sa do aktívneho profilu ukladajú automaticky.'}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <StackPanel Grid.Column="1">
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="02" Title="{l:Text 'SKRATKY'}" />
+                                            <c:SwitchRow Title="{l:Text 'Prepínať profily skratkou'}" Hint="{l:Text 'Funguje aj počas hry a s oknom v lište'}" IsChecked="{Binding Preferences.HotkeysEnabled}" />
+                                            <Grid Margin="0,14,0,0" IsEnabled="{Binding Preferences.HotkeysEnabled}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="130" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'KOMBINÁCIA'}" />
+                                                <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Preferences.ModifierOptions}"
+                                                         DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Preferences.HotkeyModifiers}" />
+                                            </Grid>
+                                            <TextBlock Style="{StaticResource Hint}" Text="{Binding Preferences.HotkeyStatus}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="03" Title="{l:Text 'AUTOMATICKÝ PROFIL'}" />
+                                            <c:SwitchRow Title="{l:Text 'Profil podľa spustenej hry'}" Hint="{l:Text 'Po skončení hry sa vráti pôvodný profil'}" IsChecked="{Binding AutoProfile.Enabled}" />
+                                            <TextBlock Style="{StaticResource Hint}" Margin="0,8,0,14" Text="{Binding AutoProfile.ActiveRuleText}" />
+                                            <ItemsControl ItemsSource="{Binding AutoProfile.Rules}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Style="{StaticResource Inset}" Margin="0,0,0,8" Padding="16,8">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="12.5" Text="{Binding Value.ExeName}" />
+                                                                <TextBlock Grid.Column="1" Margin="12,0" VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}" Text="→" />
+                                                                <TextBlock Grid.Column="2" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding Label}" />
+                                                                <Button Grid.Column="3" Padding="12,6" Content="{l:Text 'Odstrániť'}"
+                                                                        Command="{Binding DataContext.AutoProfile.RemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                        CommandParameter="{Binding}" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <Grid Margin="0,6,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="160" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Text="{Binding AutoProfile.NewExe, UpdateSourceTrigger=PropertyChanged}" ToolTip="{l:Text 'Názov procesu hry, napr. eldenring.exe'}" />
+                                                <Button Grid.Column="1" Margin="8,0" Content="{l:Text 'Vybrať .exe…'}" Command="{Binding AutoProfile.BrowseCommand}" />
+                                                <ComboBox Grid.Column="2" ItemsSource="{Binding AutoProfile.ProfileOptions}" DisplayMemberPath="Label"
+                                                          SelectedValuePath="Value" SelectedValue="{Binding AutoProfile.NewProfile}" />
+                                                <Button Grid.Column="3" Margin="8,0,0,0" Content="{l:Text 'Pridať'}" Command="{Binding AutoProfile.AddCommand}" />
+                                            </Grid>
+                                            <TextBlock Style="{StaticResource Hint}"
+                                                       Text="{l:Text 'Kontrola beží každé 2 sekundy. Ak počas hry prepneš profil ručne, aplikácia ho nemení a po skončení hry ho už nevracia.'}" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- TRIGGERY -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=triggers}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentControl Content="{Binding LeftTrigger}" ContentTemplate="{StaticResource TriggerEditor}" />
+                                    <ContentControl Grid.Column="1" Content="{Binding RightTrigger}" ContentTemplate="{StaticResource TriggerEditor}" />
+                                </Grid>
+                                <TextBlock Style="{StaticResource Hint}" Margin="4,0,24,0"
+                                           Text="{l:Text 'V režime „Hra“ ovláda spúšte samotná hra. Ak chceš používať vlastné efekty aj vtedy, keď ich hra mení, zapni ich obnovovanie v sekcii Zariadenie.'}" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- SVETLÁ -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=lights}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Style="{StaticResource Panel}" VerticalAlignment="Top">
+                                    <StackPanel>
+                                        <c:PanelTitle Number="01" Title="{l:Text 'SVETELNÝ PÁS'}" />
+                                        <Grid Margin="0,0,0,16">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="14" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <c:TrackedText Margin="0,0,0,8" Style="{StaticResource RowCaption}" Text="{l:Text 'RUČNÁ FARBA'}" />
+                                                <Border Height="58" CornerRadius="14" BorderThickness="1" BorderBrush="{DynamicResource ItemBorderBrush}"
+                                                        Background="{Binding Output.LightbarPreview}" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2">
+                                                <c:TrackedText Margin="0,0,0,8" Style="{StaticResource RowCaption}" Text="{l:Text 'ŽIVÝ NÁHĽAD'}" />
+                                                <Border Height="58" CornerRadius="14" BorderThickness="1" BorderBrush="{DynamicResource ItemBorderBrush}"
+                                                        Background="{Binding Output.LiveLightbar}" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'EFEKT'}" />
+                                            <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Output.LightbarEffectOptions}"
+                                                     DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Output.LightbarEffect}" />
+                                        </Grid>
+                                        <StackPanel Visibility="{Binding Output.IsRainbow, Converter={StaticResource BoolToVisibility}}">
+                                            <c:SliderRow Label="{l:Text 'Cyklus dúhy'}" Minimum="1" Maximum="60" Step="1" Unit=" s" Value="{Binding Output.RainbowCycleSeconds}" />
+                                            <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,14" Text="{l:Text 'Čas jedného prechodu všetkými farbami. Kratší cyklus znamená rýchlejšiu dúhu. Efekt pokračuje aj na pozadí.'}" />
+                                        </StackPanel>
+                                        <StackPanel Visibility="{Binding Output.IsRainbow, Converter={StaticResource InverseBoolToVisibility}}">
+                                            <c:TrackedText Margin="0,0,0,10" Style="{StaticResource RowCaption}" Text="{l:Text 'VÝBER FARBY'}" />
+                                            <c:HuePicker Height="200" Margin="0,0,0,16" Color="{Binding Output.LightbarColor}" />
+                                            <DockPanel Margin="0,0,0,10">
+                                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <c:TrackedText Margin="0,0,10,0" Style="{StaticResource RowCaption}" Text="HEX" />
+                                                    <TextBox Width="104" FontFamily="{StaticResource MonoFont}" Text="{Binding Output.LightbarHex}"
+                                                             ToolTip="{l:Text 'Napríklad #FF1428. Farba sa uloží po kliknutí mimo poľa.'}" />
+                                                </StackPanel>
+                                                <ListBox Style="{StaticResource SwatchList}" ItemsSource="{Binding Output.Swatches}" SelectedValue="{Binding Output.LightbarHex}" />
+                                            </DockPanel>
+                                            <c:SliderRow Label="{l:Text 'Červená'}" Maximum="255" Value="{Binding Output.LightbarRed}" />
+                                            <c:SliderRow Label="{l:Text 'Zelená'}" Maximum="255" Value="{Binding Output.LightbarGreen}" />
+                                            <c:SliderRow Label="{l:Text 'Modrá'}" Maximum="255" Value="{Binding Output.LightbarBlue}" />
+                                        </StackPanel>
+                                        <c:SliderRow Label="{l:Text 'Jas'}" Maximum="100" Unit=" %" Value="{Binding Output.LightbarBrightness}" />
+                                        <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Dúha plynulo mení farbu celého svetelného pásu. Výber stálej farby alebo dúhy vypne iba svetlo podľa zvuku. Zvukové vibrácie pokračujú. Reakciu svetla na zvuk znova zapneš v sekcii Reakcia na zvuk.'}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="1" Style="{StaticResource Panel}" VerticalAlignment="Top">
+                                    <StackPanel>
+                                        <c:PanelTitle Number="02" Title="{l:Text 'INDIKÁTORY LED'}" />
+                                        <Border Style="{StaticResource Inset}" Margin="0,0,0,18" Padding="20,18">
+                                            <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Output.PlayerLedPreview}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border x:Name="Led" Width="38" Height="8" Margin="5,0" CornerRadius="4" Background="{DynamicResource LedOffBrush}" />
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding}" Value="True">
+                                                                <Setter TargetName="Led" Property="Background" Value="{DynamicResource LedOnBrush}" />
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="144" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="12" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="12" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'LED HRÁČA'}" />
+                                            <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Output.PlayerLedOptions}"
+                                                     DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Output.PlayerLeds}" />
+                                            <c:TrackedText Grid.Row="2" Style="{StaticResource RowCaption}" Text="{l:Text 'JAS LED'}" />
+                                            <ListBox Grid.Row="2" Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Output.LedBrightnessOptions}"
+                                                     DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Output.LedBrightness}" />
+                                            <c:TrackedText Grid.Row="4" Style="{StaticResource RowCaption}" Text="{l:Text 'LED MIKROFÓNU'}" />
+                                            <ListBox Grid.Row="4" Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Output.MicLedOptions}"
+                                                     DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Output.MicLed}" />
+                                        </Grid>
+                                        <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Indikátor mikrofónu mení iba svetlo. Mikrofón tým nevypneš. Nastavenie jasu platí pre všetky indikátory LED.'}" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- TOUCHPAD -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=touchpad}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="460" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="01" Title="{l:Text 'DOTYKOVÝ PANEL'}" />
+                                            <Border Style="{StaticResource Inset}" Padding="14">
+                                                <DockPanel>
+                                                    <CheckBox DockPanel.Dock="Right" Margin="12,0,6,0" Style="{StaticResource Switch}" IsChecked="{Binding Touchpad.Enabled}"
+                                                              ToolTip="{l:Text 'Ovládať myš dotykovým panelom'}" />
+                                                    <Border Width="58" Height="58" Margin="0,0,18,0" CornerRadius="14">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                <GradientStop Offset="0" Color="#FF2C3E70" />
+                                                                <GradientStop Offset="1" Color="#FF6B3A2C" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                        <Viewbox Width="28" Height="28">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Stroke="White" StrokeThickness="1.7" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                                      Data="M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z M12 18v3 M9.5 10.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Ellipse Style="{StaticResource ConnectionDot}" Margin="0,0,9,0" />
+                                                            <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Touchpad.StatusTitle}" />
+                                                        </StackPanel>
+                                                        <TextBlock Margin="17,3,0,0" FontSize="12.5" Foreground="{DynamicResource MutedTextBrush}" Text="{Binding Touchpad.StatusSubtitle}" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="02" Title="{l:Text 'NÁHĽAD'}" />
+                                            <c:TouchpadView Height="260" Margin="6,0,6,20" Frame="{Binding Touchpad.Frame}" IsActive="{Binding Touchpad.Enabled}" />
+                                            <WrapPanel HorizontalAlignment="Center">
+                                                <WrapPanel.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="FontSize" Value="12" />
+                                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                                    </Style>
+                                                </WrapPanel.Resources>
+                                                <Border Style="{StaticResource Badge}"><TextBlock Text="{l:Text '1 prst · pohyb kurzora'}" /></Border>
+                                                <Border Style="{StaticResource Badge}"><TextBlock Text="{l:Text '2 prsty · posúvanie'}" /></Border>
+                                                <Border Style="{StaticResource Badge}"><TextBlock Text="{l:Text 'stlačenie · podľa počtu prstov'}" /></Border>
+                                                <Border Style="{StaticResource Badge}"><TextBlock Text="{l:Text 'ťuknutie · kliknutie'}" /></Border>
+                                                <Border Style="{StaticResource Badge}"><TextBlock Text="{l:Text 'palec drží tlačidlo · druhý prst presúva'}" /></Border>
+                                                <Border Style="{StaticResource Badge}"><TextBlock Text="{l:Text 'PS + stlačenie panela · zapnúť / vypnúť'}" /></Border>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="03" Title="{l:Text 'KLIKANIE'}" />
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="190" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="48" />
+                                                    <RowDefinition Height="48" />
+                                                    <RowDefinition Height="58" />
+                                                    <RowDefinition Height="48" />
+                                                    <RowDefinition Height="48" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Style="{StaticResource SettingTitle}" Text="{l:Text 'Stlačenie jedným prstom'}" />
+                                                <ComboBox Grid.Column="1" ItemsSource="{Binding Touchpad.ButtonOptions}"
+                                                          DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Touchpad.Click1}" />
+                                                <TextBlock Grid.Row="1" Style="{StaticResource SettingTitle}" Text="{l:Text 'Stlačenie dvoma prstami'}" />
+                                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Touchpad.ButtonOptions}"
+                                                          DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Touchpad.Click2}" />
+                                                <c:SwitchRow Grid.Row="2" Grid.ColumnSpan="2" Title="{l:Text 'Ťuknutie ako klik'}" Hint="{l:Text 'Krátky dotyk bez stlačenia'}" IsChecked="{Binding Touchpad.TapToClick}" />
+                                                <TextBlock Grid.Row="3" Style="{StaticResource SettingTitle}" Text="{l:Text 'Ťuknutie jedným prstom'}" />
+                                                <ComboBox Grid.Row="3" Grid.Column="1" IsEnabled="{Binding Touchpad.TapToClick}" ItemsSource="{Binding Touchpad.ButtonOptions}"
+                                                          DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Touchpad.Tap1}" />
+                                                <TextBlock Grid.Row="4" Style="{StaticResource SettingTitle}" Text="{l:Text 'Ťuknutie dvoma prstami'}" />
+                                                <ComboBox Grid.Row="4" Grid.Column="1" IsEnabled="{Binding Touchpad.TapToClick}" ItemsSource="{Binding Touchpad.ButtonOptions}"
+                                                          DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Touchpad.Tap2}" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="04" Title="{l:Text 'KURZOR'}" />
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Right" Style="{StaticResource RowValue}" Text="{Binding Touchpad.CursorSpeed, StringFormat={}{0:0} %}" />
+                                                <TextBlock Style="{StaticResource SettingTitle}" Text="{l:Text 'Rýchlosť'}" />
+                                            </DockPanel>
+                                            <Slider Margin="0,10,0,18" Maximum="100" Value="{Binding Touchpad.CursorSpeed}" />
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Right" Style="{StaticResource RowValue}" Text="{Binding Touchpad.Acceleration, StringFormat={}{0:0} %}" />
+                                                <TextBlock Style="{StaticResource SettingTitle}" Text="{l:Text 'Zrýchlenie pri rýchlom pohybe'}" />
+                                            </DockPanel>
+                                            <Slider Margin="0,10,0,4" Maximum="100" Value="{Binding Touchpad.Acceleration}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="05" Title="{l:Text 'POSÚVANIE'}" />
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Right" Style="{StaticResource RowValue}" Text="{Binding Touchpad.ScrollSpeed, StringFormat={}{0:0} %}" />
+                                                <TextBlock Style="{StaticResource SettingTitle}" Text="{l:Text 'Rýchlosť'}" />
+                                            </DockPanel>
+                                            <Slider Margin="0,10,0,16" Minimum="10" Maximum="300" Value="{Binding Touchpad.ScrollSpeed}" />
+                                            <c:SwitchRow Title="{l:Text 'Prirodzený smer'}" Hint="{l:Text 'Obsah sa hýbe s prstami, ako na notebooku'}" IsChecked="{Binding Touchpad.NaturalScrolling}" />
+                                            <c:SwitchRow Title="{l:Text 'Zotrvačnosť'}" Hint="{l:Text 'Po rýchlom pohybe posúvanie pokračuje a postupne sa spomalí.'}" IsChecked="{Binding Touchpad.Inertia}" />
+                                            <c:SwitchRow Title="{l:Text 'Vodorovné posúvanie'}" Hint="{l:Text 'Posun dvoma prstami do strán'}" IsChecked="{Binding Touchpad.HorizontalScrolling}" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- GYRO -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=gyro}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="470" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <!-- 01 live 3D test -->
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <DockPanel>
+                                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center">
+                                                        <Ellipse.Style>
+                                                            <Style TargetType="Ellipse">
+                                                                <Setter Property="Fill" Value="{StaticResource OrangeBrush}" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Gyro.IsStill}" Value="True">
+                                                                        <Setter Property="Fill" Value="{DynamicResource OnlineBrush}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Gyro.HasData}" Value="False">
+                                                                        <Setter Property="Fill" Value="{DynamicResource OfflineBrush}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Ellipse.Style>
+                                                    </Ellipse>
+                                                    <c:TrackedText VerticalAlignment="Center" FontSize="11" Spacing="2" Foreground="{DynamicResource MutedTextBrush}"
+                                                                   Text="{Binding Gyro.MotionStateText, Converter={StaticResource Upper}}" />
+                                                    <TextBlock Margin="14,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11.5"
+                                                               Foreground="{DynamicResource DimTextBrush}" Text="{Binding Gyro.SampleRateText}" />
+                                                </StackPanel>
+                                                <c:PanelTitle Number="01" Title="{l:Text 'ŽIVÝ TEST'}" />
+                                            </DockPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="170" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Style="{StaticResource Inset}" Height="340" Padding="0" ClipToBounds="True">
+                                                    <Grid>
+                                                        <c:Controller3DView Orientation="{Binding Gyro.Orientation}" LightbarBrush="{Binding Output.LiveLightbar}" Input="{Binding Gyro.Frame}"
+                                                                            PlayerLeds="{Binding Output.PlayerLeds}" MicLed="{Binding Output.MicLed}" LedBrightness="{Binding Output.LedBrightness}" />
+                                                        <TextBlock Margin="16,0,16,10" VerticalAlignment="Bottom" FontSize="11" Foreground="{DynamicResource DimTextBrush}"
+                                                                   TextWrapping="Wrap" Text="{l:Text 'Model zobrazuje tvoje stlačenia a pohyby. Pohľad otočíš ťahaním myšou, priblížiš pomocou Ctrl + kolieska. Model: Taohid Animation / CC BY 4.0.'}"
+                                                                   ToolTip="{l:Text 'Model: Taohid Animation · https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6&#10;GLB adaptácia: SafaElmali / DualSense Studio · https://github.com/SafaElmali/dualsense-studio&#10;Licencia: https://creativecommons.org/licenses/by/4.0/&#10;Úpravy LCKS: orientácia, mierka, materiály a animácie ovládacích prvkov vo WPF.'}" />
+                                                        <TextBlock Margin="0,14,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="{DynamicResource MutedTextBrush}" IsHitTestVisible="False"
+                                                                   Text="{Binding Gyro.MotionStateText}"
+                                                                   Visibility="{Binding Gyro.HasData, Converter={StaticResource InverseBoolToVisibility}}" />
+                                                    </Grid>
+                                                </Border>
+                                                <StackPanel Grid.Column="1" Margin="22,4,0,0">
+                                                    <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'SKLON'}" />
+                                                    <TextBlock Margin="0,4,0,18" FontFamily="{StaticResource DisplayFont}" FontSize="30" Text="{Binding Gyro.PitchText}" />
+                                                    <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'NÁKLON'}" />
+                                                    <TextBlock Margin="0,4,0,18" FontFamily="{StaticResource DisplayFont}" FontSize="30" Text="{Binding Gyro.RollText}" />
+                                                    <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'OTOČENIE'}" />
+                                                    <TextBlock Margin="0,4,0,18" FontFamily="{StaticResource DisplayFont}" FontSize="30" Text="{Binding Gyro.YawText}" />
+                                                    <Button HorizontalAlignment="Left" Command="{Binding Gyro.RecenterCommand}" ToolTip="{l:Text 'Nastaví aktuálny smer ako východiskovú polohu. Rovnakú akciu vykoná stlačenie R3.'}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Viewbox Width="14" Height="14" Margin="0,0,9,0">
+                                                                <Canvas Width="24" Height="24">
+                                                                    <Path Stroke="{DynamicResource TextBrush}" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                                          Data="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0-16 0 M12 2v4 M12 18v4 M2 12h4 M18 12h4" />
+                                                                </Canvas>
+                                                            </Viewbox>
+                                                            <TextBlock Text="{l:Text 'Vycentrovať'}" />
+                                                        </StackPanel>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- 02 signal graphs -->
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="02" Title="{l:Text 'SIGNÁL'}" />
+                                            <DockPanel Margin="0,0,0,8">
+                                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11.5"
+                                                           Foreground="{DynamicResource MutedTextBrush}" Text="{Binding Gyro.GyroText}" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <c:TrackedText Margin="0,0,16,0" Style="{StaticResource RowCaption}" Text="{l:Text 'GYROSKOP °/S'}" />
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,6,0" Fill="#4F82F7" />
+                                                    <TextBlock Margin="0,0,14,0" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'X sklon'}" />
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,6,0" Fill="#F2884A" />
+                                                    <TextBlock Margin="0,0,14,0" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'Y otočenie'}" />
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,6,0" Fill="#B57CFF" />
+                                                    <TextBlock FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="{l:Text 'Z náklon'}" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                            <Border Style="{StaticResource Inset}" Padding="10,8" Margin="0,0,0,16">
+                                                <c:MotionGraph Height="130" Kind="Gyro" Points="{Binding Gyro.History}" />
+                                            </Border>
+                                            <DockPanel Margin="0,0,0,8">
+                                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                                    <TextBlock VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11.5"
+                                                               Foreground="{DynamicResource MutedTextBrush}" Text="{Binding Gyro.AccelText}" />
+                                                    <TextBlock Margin="14,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11.5"
+                                                               Foreground="{DynamicResource TextBrush}" Text="{Binding Gyro.GForceText}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <c:TrackedText Margin="0,0,16,0" Style="{StaticResource RowCaption}" Text="{l:Text 'AKCELEROMETER G'}" />
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,6,0" Fill="#4F82F7" />
+                                                    <TextBlock Margin="0,0,14,0" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="X" />
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,6,0" Fill="#F2884A" />
+                                                    <TextBlock Margin="0,0,14,0" FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="Y" />
+                                                    <Ellipse Width="8" Height="8" Margin="0,0,6,0" Fill="#B57CFF" />
+                                                    <TextBlock FontSize="12" Foreground="{DynamicResource MutedTextBrush}" Text="Z" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                            <Border Style="{StaticResource Inset}" Padding="10,8">
+                                                <c:MotionGraph Height="100" Kind="Accel" Points="{Binding Gyro.History}" />
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- 03 aim test -->
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="03" Title="{l:Text 'TEST MIERENIA'}" />
+                                            <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,14"
+                                                       Text="{l:Text 'Zameriavač používa nastavenia mierenia vpravo. Namier na terč a stlač R2. Kurzor Windows sa pohybuje iba vtedy, keď je zapnuté ovládanie myši pohybom ovládača.'}" />
+                                            <c:AimTestView Height="300" State="{Binding Gyro.AimState}" />
+                                            <DockPanel Margin="0,14,0,0">
+                                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                                    <Button Margin="0,0,8,0" Content="{l:Text 'Vycentrovať'}" Command="{Binding Gyro.RecenterCommand}" />
+                                                    <Button Content="{l:Text 'Nové kolo'}" Command="{Binding Gyro.ResetScoreCommand}" />
+                                                </StackPanel>
+                                                <TextBlock VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextBrush}" Text="{Binding Gyro.AimStats}" />
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <!-- 04 gyro → mouse -->
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="04" Title="{l:Text 'MYŠ POHYBOM OVLÁDAČA'}" />
+                                            <Border Style="{StaticResource Inset}" Padding="14">
+                                                <DockPanel>
+                                                    <CheckBox DockPanel.Dock="Right" Margin="12,0,6,0" Style="{StaticResource Switch}" IsChecked="{Binding Gyro.MouseEnabled}"
+                                                              ToolTip="{l:Text 'Ovládať myš pohybom ovládača'}" />
+                                                    <Border Width="58" Height="58" Margin="0,0,18,0" CornerRadius="14">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                <GradientStop Offset="0" Color="#FF2C3E70" />
+                                                                <GradientStop Offset="1" Color="#FF6B3A2C" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                        <Viewbox Width="28" Height="28">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Stroke="White" StrokeThickness="1.7" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                                      Data="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0 M12 3v3 M12 18v3 M3 12h3 M18 12h3 M5.6 5.6l1.8 1.8 M16.6 16.6l1.8 1.8" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Ellipse Width="8" Height="8" Margin="0,0,9,0" VerticalAlignment="Center">
+                                                                <Ellipse.Style>
+                                                                    <Style TargetType="Ellipse">
+                                                                        <Setter Property="Fill" Value="{DynamicResource OfflineBrush}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Gyro.MouseEnabled}" Value="True">
+                                                                                <Setter Property="Fill" Value="{DynamicResource WarningBrush}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Gyro.MouseMoving}" Value="True">
+                                                                                <Setter Property="Fill" Value="{DynamicResource OnlineBrush}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Ellipse.Style>
+                                                            </Ellipse>
+                                                            <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Gyro.MouseStateTitle}" />
+                                                        </StackPanel>
+                                                        <TextBlock Margin="17,3,0,0" FontSize="12.5" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}"
+                                                                   Text="{Binding Gyro.MouseStateSubtitle}" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Border>
+
+                                            <c:TrackedText Margin="0,20,0,10" Style="{StaticResource RowCaption}" Text="{l:Text 'RÝCHLE NASTAVENIE'}" />
+                                            <UniformGrid Rows="1">
+                                                <Button Margin="0,0,6,0" Padding="6,9" Content="{l:Text 'Mierenie'}" Command="{Binding Gyro.PresetCommand}" CommandParameter="aim"
+                                                        ToolTip="{l:Text 'Ovládanie myši pohybom je aktívne iba pri držaní L2. Presné mierenie bez zrýchlenia.'}" />
+                                                <Button Margin="3,0" Padding="6,9" Content="{l:Text 'Rýchle'}" Command="{Binding Gyro.PresetCommand}" CommandParameter="fast"
+                                                        ToolTip="{l:Text 'Ovládanie myši je stále aktívne a zrýchlenie uľahčuje rýchle otočenia. Držaním L1 ho pozastavíš.'}" />
+                                                <Button Margin="3,0" Padding="6,9" Content="{l:Text 'Na plochu'}" Command="{Binding Gyro.PresetCommand}" CommandParameter="desktop"
+                                                        ToolTip="{l:Text 'Vzduchová myš: hýbe sa, len keď držíš prst na dotykovom paneli'}" />
+                                                <Button Margin="6,0,0,0" Padding="6,9" Content="{l:Text 'Predvolené'}" Command="{Binding Gyro.PresetCommand}" CommandParameter="default" />
+                                            </UniformGrid>
+
+                                            <Grid Margin="0,20,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="110" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="12" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'AKTIVÁCIA'}" />
+                                                <ComboBox Grid.Column="1" ItemsSource="{Binding Gyro.ActivationOptions}"
+                                                          DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Gyro.Activation}" />
+                                                <c:TrackedText Grid.Row="2" Style="{StaticResource RowCaption}" Text="{l:Text 'OS'}" />
+                                                <ListBox Grid.Row="2" Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Gyro.AxisOptions}"
+                                                         DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Gyro.Axis}" />
+                                            </Grid>
+                                            <TextBlock Style="{StaticResource Hint}" Text="{Binding Gyro.AxisHint}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- 05 sensitivity and feel -->
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="05" Title="{l:Text 'CITLIVOSŤ'}" />
+                                            <c:SliderRow Label="{l:Text 'Citlivosť'}" Minimum="1" Maximum="60" Step="0.5" Unit=" /°" Value="{Binding Gyro.Sensitivity}" />
+                                            <TextBlock Style="{StaticResource Hint}" Margin="0,4,0,12" Text="{Binding Gyro.SensitivityHint}" />
+                                            <c:SliderRow Label="{l:Text 'Vertikálne'}" Minimum="10" Maximum="200" Step="5" Unit=" %" Value="{Binding Gyro.VerticalPercent}"
+                                                         ToolTip="{l:Text 'Citlivosť hore/dole oproti doľava/doprava'}" />
+                                            <UniformGrid Margin="0,10,0,6" Columns="2">
+                                                <c:SwitchRow Margin="0,0,20,0" Title="{l:Text 'Obrátiť X'}" Hint="{l:Text 'Doľava ↔ doprava'}" IsChecked="{Binding Gyro.InvertX}" />
+                                                <c:SwitchRow Title="{l:Text 'Obrátiť Y'}" Hint="{l:Text 'Hore ↔ dole'}" IsChecked="{Binding Gyro.InvertY}" />
+                                            </UniformGrid>
+                                            <c:TrackedText Margin="0,14,0,8" Style="{StaticResource RowCaption}" Text="{l:Text 'ODOZVA'}" />
+                                            <c:SliderRow Label="{l:Text 'Zrýchlenie'}" Maximum="100" Step="5" Unit=" %" Value="{Binding Gyro.Acceleration}"
+                                                         ToolTip="{l:Text 'Rýchly pohyb zosilní otočenie, pomalý pohyb zostane presný. Pri 100 % je zosilnenie najviac štvornásobné.'}" />
+                                            <c:SliderRow Label="{l:Text 'Stabilizácia'}" Maximum="10" Step="0.1" Unit=" °/s" Value="{Binding Gyro.Tightening}"
+                                                         ToolTip="{l:Text 'Tlmí drobné nechcené pohyby ruky, aby sa zameriavač netriasol.'}" />
+                                            <c:SliderRow Label="{l:Text 'Vyhladenie'}" Maximum="20" Step="0.5" Unit=" °/s" Value="{Binding Gyro.Smoothing}"
+                                                         ToolTip="{l:Text 'Vyhladí iba pohyby pomalšie ako táto hodnota; rýchle pohyby ostávajú bez oneskorenia'}" />
+                                            <TextBlock Style="{StaticResource Hint}"
+                                                       Text="{l:Text 'Stabilizácia a vyhladenie tlmia drobné pohyby ruky a zachovávajú odozvu pri rýchlom otočení. Nastavenia sa ukladajú do aktívneho profilu.'}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- 06 calibration -->
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="06" Title="{l:Text 'KALIBRÁCIA'}" />
+                                            <c:SwitchRow Title="{l:Text 'Automatická kalibrácia'}" Hint="{l:Text 'Gyroskop sa priebežne dolaďuje, keď je ovládač v pokoji.'}"
+                                                         IsChecked="{Binding Gyro.AutoCalibration}" />
+                                            <Border Style="{StaticResource Inset}" Margin="0,14,0,14" Padding="16,14">
+                                                <StackPanel>
+                                                    <ProgressBar Style="{StaticResource Meter}" Maximum="100" Value="{Binding Gyro.CalibrationPercent, Mode=OneWay}" />
+                                                    <TextBlock Margin="0,10,0,0" FontSize="12.5" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}"
+                                                               Text="{Binding Gyro.CalibrationText}" />
+                                                </StackPanel>
+                                            </Border>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Margin="0,0,8,0" Content="{Binding Gyro.CalibrateLabel}" Command="{Binding Gyro.CalibrateCommand}" />
+                                                <Button Content="{l:Text 'Vymazať kalibráciu'}" Command="{Binding Gyro.ForgetCalibrationCommand}" />
+                                            </StackPanel>
+                                            <Grid Margin="4,18,4,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="130" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="28" />
+                                                    <RowDefinition Height="28" />
+                                                    <RowDefinition Height="28" />
+                                                </Grid.RowDefinitions>
+                                                <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'Z VÝROBY'}" />
+                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Gyro.FactoryCalibrationText}" />
+                                                <c:TrackedText Grid.Row="1" Style="{StaticResource RowCaption}" Text="{l:Text 'POSUN'}" />
+                                                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource MonoValue}" Foreground="{DynamicResource TextBrush}" Text="{Binding Gyro.BiasText}" />
+                                                <c:TrackedText Grid.Row="2" Style="{StaticResource RowCaption}" Text="{l:Text 'FREKVENCIA'}" />
+                                                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MonoValue}" Foreground="{DynamicResource TextBrush}" Text="{Binding Gyro.SampleRateText}" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- VIBRÁCIE & HAPTIKA -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=haptics}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Style="{StaticResource Panel}" VerticalAlignment="Top">
+                                    <StackPanel>
+                                        <c:PanelTitle Number="01" Title="{l:Text 'KLASICKÉ VIBRÁCIE'}" />
+                                        <c:SliderRow Label="{l:Text 'Silný'}" Maximum="255" Value="{Binding Output.RumbleHeavy}" ToolTip="{l:Text 'Ľavý, silný motor (nízka frekvencia)'}" />
+                                        <c:SliderRow Label="{l:Text 'Jemný'}" Maximum="255" Value="{Binding Output.RumbleSoft}" ToolTip="{l:Text 'Pravý, jemný motor (vysoká frekvencia)'}" />
+                                        <Button Margin="0,12,0,0" HorizontalAlignment="Left" Content="{l:Text 'Zastaviť vibrácie'}" Command="{Binding Output.StopRumbleCommand}" />
+                                        <c:TrackedText Margin="0,24,0,10" Style="{StaticResource RowCaption}" Text="{l:Text 'ÚTLM V OVLÁDAČI · PLATÍ AJ PRE HRY'}" />
+                                        <c:SliderRow Label="{l:Text 'Útlm vibrácií'}" Maximum="7" Value="{Binding Output.RumbleAttenuation}" />
+                                        <c:SliderRow Label="{l:Text 'Útlm spúští'}" Maximum="7" Value="{Binding Output.TriggerAttenuation}" />
+                                        <TextBlock Style="{StaticResource Hint}"
+                                                   Text="{l:Text 'Ručné vibrácie sa do profilu neukladajú. Útlm 0 znamená plnú intenzitu, 7 najväčšie zoslabnutie. Vibrácie z hier sa tým úplne nevypnú. Pri ukončení aplikácie sa ručné vibrácie zastavia a útlm sa vráti na 0.'}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="1" Style="{StaticResource Panel}" VerticalAlignment="Top">
+                                    <StackPanel>
+                                        <c:PanelTitle Number="02" Title="{l:Text 'HD HAPTIKA'}" />
+                                        <c:SwitchRow Title="{l:Text 'Haptika podľa zvuku systému'}" Hint="{l:Text 'Iba cez USB'}" IsChecked="{Binding Audio.HapticsEnabled}"
+                                                     IsEnabled="{Binding Audio.HapticsAvailable}" />
+                                        <StackPanel Margin="0,10,0,0" IsEnabled="{Binding Audio.HapticsAvailable}">
+                                            <c:SliderRow Label="{l:Text 'Sila'}" Maximum="300" Unit=" %" Value="{Binding Audio.HapticsStrengthPercent}" />
+                                            <c:SliderRow Label="{l:Text 'Filter'}" Minimum="30" Maximum="1000" Unit=" Hz" Value="{Binding Audio.HapticsCutoffHz}"
+                                                         ToolTip="{l:Text 'Hraničná frekvencia zvuku pre haptiku. Vyššie frekvencie sa tlmia.'}" />
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource Hint}" Text="{Binding Audio.HapticsHint}" />
+                                        <TextBlock Style="{StaticResource Hint}" Text="{Binding Audio.EngineStatus}" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- AUDIO-REAKTÍVNE -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=audio}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="01" Title="{l:Text 'SPEKTRUM'}" />
+                                            <Border Style="{StaticResource Inset}" Padding="16,16,16,14">
+                                                <StackPanel>
+                                                    <c:SpectrumView Height="150" Values="{Binding Audio.Spectrum}"
+                                                                    LowColor="{Binding Audio.BassColorHex, Converter={StaticResource HexToColor}}"
+                                                                    MidColor="{Binding Audio.MidColorHex, Converter={StaticResource HexToColor}}"
+                                                                    HighColor="{Binding Audio.HighColorHex, Converter={StaticResource HexToColor}}" />
+                                                    <Grid Margin="0,16,0,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Margin="0,0,14,0">
+                                                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'BASY'}" FontSize="10.5" />
+                                                            <ProgressBar Margin="0,6,0,0" Style="{StaticResource Meter}" Value="{Binding Audio.BassLevel, Mode=OneWay}" />
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="1" Margin="0,0,14,0">
+                                                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'STREDY'}" FontSize="10.5" />
+                                                            <ProgressBar Margin="0,6,0,0" Style="{StaticResource Meter}" Value="{Binding Audio.MidLevel, Mode=OneWay}" />
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="2" Margin="0,0,14,0">
+                                                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'VÝŠKY'}" FontSize="10.5" />
+                                                            <ProgressBar Margin="0,6,0,0" Style="{StaticResource Meter}" Value="{Binding Audio.HighLevel, Mode=OneWay}" />
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="3" Margin="0,0,14,0">
+                                                            <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'HLASITOSŤ'}" FontSize="10.5" />
+                                                            <ProgressBar Margin="0,6,0,0" Style="{StaticResource Meter}" Value="{Binding Audio.LoudnessLevel, Mode=OneWay}" />
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="4" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                                            <c:TrackedText Margin="0,0,8,0" Style="{StaticResource RowCaption}" Text="{l:Text 'ÚDER'}" FontSize="10.5" />
+                                                            <Ellipse Style="{StaticResource BeatDot}" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Button Margin="0,4,18,0" Style="{StaticResource BigAction}" Command="{Binding Audio.ToggleCommand}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path Width="22" Height="24" Margin="0,0,18,0" Stretch="Uniform" Fill="White" Data="M0,0 L20,12 L0,24 Z" />
+                                            <c:TrackedText VerticalAlignment="Center" Text="{Binding Audio.ToggleLabel}" FontFamily="{StaticResource DisplayFont}"
+                                                           FontSize="26" Spacing="9" Foreground="White" />
+                                        </StackPanel>
+                                    </Button>
+                                    <StackPanel Margin="4,16,18,18" Orientation="Horizontal">
+                                        <Viewbox Width="15" Height="15" Margin="0,0,10,0">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Stroke="{DynamicResource MutedTextBrush}" StrokeThickness="2" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                      Data="M12 3l9.5 17h-19z M12 10v4.5 M12 17.5h.01" />
+                                            </Canvas>
+                                        </Viewbox>
+                                        <TextBlock VerticalAlignment="Center" FontSize="12.5" Foreground="{DynamicResource MutedTextBrush}" TextWrapping="Wrap"
+                                                   Text="{Binding Audio.EngineStatus}" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="02" Title="{l:Text 'SIGNÁL'}" />
+                                            <c:SliderRow Label="{l:Text 'Zosilnenie'}" Minimum="-20" Maximum="30" Unit=" dB" Value="{Binding Audio.GainDb}" />
+                                            <c:SliderRow Label="{l:Text 'Citlivosť'}" Maximum="100" Unit=" %" Value="{Binding Audio.SensitivityPercent}"
+                                                         ToolTip="{l:Text 'Vyššia citlivosť zvýrazní aj tichšie zvuky a uľahčí rozpoznanie úderov basov.'}" />
+                                            <c:SliderRow Label="{l:Text 'Prah'}" Maximum="95" Unit=" %" Value="{Binding Audio.ThresholdPercent}"
+                                                         ToolTip="{l:Text 'Zvuk pod nastaveným prahom sa považuje za ticho.'}" />
+                                            <c:SliderRow Label="{l:Text 'Nábeh'}" Minimum="1" Maximum="200" Unit=" ms" Value="{Binding Audio.AttackMs}" />
+                                            <c:SliderRow Label="{l:Text 'Doznievanie'}" Minimum="10" Maximum="1000" Unit=" ms" Value="{Binding Audio.ReleaseMs}" />
+                                            <TextBlock Style="{StaticResource Hint}"
+                                                       Text="{l:Text 'Aplikácia reaguje na zvuk z predvoleného výstupného zariadenia vo Windows. Pri zmene zariadenia sa zachytávanie zvuku obnoví automaticky.'}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="03" Title="{l:Text 'PREPOJENIE SO ZVUKOM'}" />
+                                            <c:SwitchRow Title="{l:Text 'Basy → klasické vibrácie'}" Hint="{l:Text 'Vibrácie podľa basov'}" IsChecked="{Binding Audio.BassToRumble}" />
+                                            <StackPanel Margin="0,10,0,0" IsEnabled="{Binding Audio.BassToRumble}">
+                                                <Grid Margin="0,0,0,8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="110" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <c:TrackedText Style="{StaticResource RowCaption}" Text="MOTOR" />
+                                                    <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Audio.RumbleTargetOptions}"
+                                                             DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Audio.RumbleTarget}" />
+                                                </Grid>
+                                                <c:SliderRow Label="{l:Text 'Max. sila'}" Maximum="255" Value="{Binding Audio.RumbleMax}" />
+                                            </StackPanel>
+
+                                            <Grid Margin="0,18,0,8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="110" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'SVETELNÝ PÁS'}" />
+                                                <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Audio.LightbarModeOptions}"
+                                                         DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Audio.LightbarMode}" />
+                                            </Grid>
+                                            <Grid Margin="0,4,0,0" Visibility="{Binding Audio.ShowSpectrumColors, Converter={StaticResource BoolToVisibility}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="110" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <c:TrackedText Style="{StaticResource RowCaption}" Text="{l:Text 'BASY'}" />
+                                                <ListBox Grid.Column="1" Style="{StaticResource SwatchList}" ItemsSource="{Binding Audio.Swatches}" SelectedValue="{Binding Audio.BassColorHex}" />
+                                                <c:TrackedText Grid.Row="1" Style="{StaticResource RowCaption}" Text="{l:Text 'STREDY'}" />
+                                                <ListBox Grid.Row="1" Grid.Column="1" Style="{StaticResource SwatchList}" ItemsSource="{Binding Audio.Swatches}" SelectedValue="{Binding Audio.MidColorHex}" />
+                                                <c:TrackedText Grid.Row="2" Style="{StaticResource RowCaption}" Text="{l:Text 'VÝŠKY'}" />
+                                                <ListBox Grid.Row="2" Grid.Column="1" Style="{StaticResource SwatchList}" ItemsSource="{Binding Audio.Swatches}" SelectedValue="{Binding Audio.HighColorHex}" />
+                                            </Grid>
+                                            <c:SliderRow Margin="0,6,0,0" Label="{l:Text 'Min. jas'}" Maximum="100" Unit=" %" Value="{Binding Audio.MinBrightness}" />
+
+                                            <c:SwitchRow Margin="0,14,0,0" Title="{l:Text 'Záblesk pri údere basov'}" Hint="{l:Text 'Svetelný pás krátko blikne pri výraznom údere basov.'}" IsChecked="{Binding Audio.BeatFlash}" />
+                                            <StackPanel Margin="0,8,0,0" IsEnabled="{Binding Audio.BeatFlash}">
+                                                <ListBox Style="{StaticResource SwatchList}" ItemsSource="{Binding Audio.Swatches}" SelectedValue="{Binding Audio.FlashColorHex}" />
+                                                <c:SliderRow Label="{l:Text 'Trvanie'}" Minimum="20" Maximum="1000" Unit=" ms" Value="{Binding Audio.FlashMs}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+                <!-- APPLICATION SETTINGS -->
+                <c:LazyPage Visibility="{Binding CurrentSection, Converter={StaticResource SectionVisibility}, ConverterParameter=settings}">
+                    <DataTemplate>
+                        <ScrollViewer Style="{StaticResource Page}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="01" Title="{l:Text 'JAZYK A VZHĽAD'}" />
+                                            <TextBlock Style="{StaticResource SettingTitle}" Text="{l:Text 'Jazyk aplikácie'}" />
+                                            <ComboBox Margin="0,12,0,8" ItemsSource="{Binding Preferences.LanguageOptions}"
+                                                      DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Preferences.Language}"
+                                                      AutomationProperties.AutomationId="ApplicationLanguage" />
+                                            <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,24" Text="{l:Text 'Preklad sa zmení okamžite vo všetkých sekciách aplikácie.'}" />
+                                            <TextBlock Style="{StaticResource SettingTitle}" Text="{l:Text 'Vzhľad aplikácie'}" />
+                                            <ListBox Margin="0,12,0,0" Style="{StaticResource Segmented}" ItemsSource="{Binding Preferences.ThemeOptions}"
+                                                     DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Preferences.Theme}"
+                                                     AutomationProperties.AutomationId="ApplicationTheme" />
+                                            <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Jazyk a vzhľad sa ukladajú automaticky a zostanú zachované po reštarte.'}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="03" Title="{l:Text 'O APLIKÁCII'}" />
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Right" Style="{StaticResource MonoValue}" Text="{Binding AppVersion}" />
+                                                <TextBlock Style="{StaticResource SettingTitle}" Text="DualSense Tweaker" />
+                                            </DockPanel>
+                                            <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Nastavenie ovládačov DualSense a DualSense Edge cez USB alebo Bluetooth.'}" />
+                                            <TextBlock Style="{StaticResource Hint}" Text="{l:Text 'Autor: LCKS'}" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <Border Style="{StaticResource Panel}">
+                                        <StackPanel>
+                                            <c:PanelTitle Number="02" Title="{l:Text 'SPRÁVANIE APLIKÁCIE'}" />
+                                            <UniformGrid Columns="2">
+                                                <c:SwitchRow Margin="0,0,24,10" Title="{l:Text 'Spúšťať s Windows'}" Hint="{l:Text 'Po prihlásení spustiť na pozadí'}" IsChecked="{Binding Preferences.StartWithWindows}" />
+                                                <c:SwitchRow Margin="0,0,0,10" Title="{l:Text 'Skryť do lišty'}" Hint="{l:Text 'Pri zatvorení pokračovať na pozadí'}" IsChecked="{Binding Preferences.CloseToTray}" />
+                                                <c:SwitchRow Margin="0,0,24,10" Title="{l:Text '5× PS otvorí okno'}" Hint="{l:Text 'Rýchlo stlač tlačidlo PS'}" IsChecked="{Binding Preferences.OpenWithPsButton}" />
+                                                <c:SwitchRow Margin="0,0,0,10" Title="{l:Text 'Slabá batéria'}" Hint="{l:Text 'Upozorniť pri 15 % a 5 %'}" IsChecked="{Binding Preferences.LowBatteryNotifications}" />
+                                                <c:SwitchRow Margin="0,0,24,0" Title="{l:Text 'Prepnutie profilu'}" Hint="{l:Text 'Pri ručnom aj automatickom prepnutí'}" IsChecked="{Binding Preferences.ProfileSwitchNotifications}" />
+                                            </UniformGrid>
+                                            <DockPanel Margin="0,18,0,0">
+                                                <Button DockPanel.Dock="Right" Margin="12,0,0,0" Content="{l:Text 'Otvoriť záznamy'}" Command="{Binding Preferences.OpenLogFolderCommand}" />
+                                                <TextBlock VerticalAlignment="Center" FontFamily="{StaticResource MonoFont}" FontSize="11" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource DimTextBrush}" Text="{Binding Preferences.LogPath}" />
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </c:LazyPage>
+
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

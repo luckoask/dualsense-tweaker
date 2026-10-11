@@ -1,0 +1,15 @@
+bin/
+obj/
+publish/
+.vs/
+*.user
+TestResults/
+artifacts/
+.idea/
+*.suo
+*.userosscache
+*.sln.docstates
+*.log
+.env
+.env.*
+!.env.example

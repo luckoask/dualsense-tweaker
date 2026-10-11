@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="WindowColor">#FFF4F6FB</Color>
+    <Color x:Key="PanelColor">#FAFFFFFF</Color>
+    <Color x:Key="PanelBorderColor">#FFDAE1ED</Color>
+    <Color x:Key="ItemColor">#FFF6F8FC</Color>
+    <Color x:Key="ItemBorderColor">#FFD6DDE9</Color>
+    <Color x:Key="ItemHoverColor">#FFEDF2FA</Color>
+    <Color x:Key="SelectedColor">#FFE6EDF9</Color>
+    <Color x:Key="SelectedBorderColor">#FFBAC8E0</Color>
+    <Color x:Key="IconTileColor">#FFE7EDF8</Color>
+    <Color x:Key="TrackColor">#FFDBE2ED</Color>
+    <Color x:Key="TextColor">#FF172238</Color>
+    <Color x:Key="MutedTextColor">#FF4C5A72</Color>
+    <Color x:Key="DimTextColor">#FF65718B</Color>
+    <Color x:Key="NumberColor">#FF5265CE</Color>
+    <Color x:Key="OnlineColor">#FF15934B</Color>
+    <Color x:Key="OfflineColor">#FF8793A7</Color>
+    <Color x:Key="WarningColor">#FFAA7012</Color>
+    <Color x:Key="LedOnColor">#FF2E3C57</Color>
+    <Color x:Key="LedOffColor">#FFD9E0EA</Color>
+    <Color x:Key="FooterColor">#F2F4F6FB</Color>
+    <Color x:Key="GridLineColor">#0F172238</Color>
+    <Color x:Key="SegmentedColor">#FFEDF1F8</Color>
+    <Color x:Key="SwitchOffColor">#FFCCD4E2</Color>
+    <Color x:Key="KeyCapColor">#FFEBF0F8</Color>
+    <Color x:Key="KeyCapBorderColor">#FFC7D1E2</Color>
+    <Color x:Key="HoverBorderColor">#FF9DB2D5</Color>
+    <Color x:Key="PopupColor">#FFFFFFFF</Color>
+    <Color x:Key="TitlePrimaryStartColor">#FF294679</Color>
+    <Color x:Key="TitlePrimaryEndColor">#FF526AC3</Color>
+    <Color x:Key="SelectedTileStartColor">#FFEDF2FC</Color>
+    <Color x:Key="SelectedTileEndColor">#FFF1EDF9</Color>
+    <Color x:Key="SwatchEdgeColor">#40172238</Color>
+    <Color x:Key="SwatchHoverColor">#80172238</Color>
+    <Color x:Key="ChartGridColor">#20172238</Color>
+    <Color x:Key="ChartZeroColor">#50172238</Color>
+    <SolidColorBrush x:Key="WindowBrush" Color="{StaticResource WindowColor}" />
+    <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}" />
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="{StaticResource PanelBorderColor}" />
+    <SolidColorBrush x:Key="ItemBrush" Color="{StaticResource ItemColor}" />
+    <SolidColorBrush x:Key="ItemBorderBrush" Color="{StaticResource ItemBorderColor}" />
+    <SolidColorBrush x:Key="ItemHoverBrush" Color="{StaticResource ItemHoverColor}" />
+    <SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource SelectedColor}" />
+    <SolidColorBrush x:Key="SelectedBorderBrush" Color="{StaticResource SelectedBorderColor}" />
+    <SolidColorBrush x:Key="IconTileBrush" Color="{StaticResource IconTileColor}" />
+    <SolidColorBrush x:Key="TrackBrush" Color="{StaticResource TrackColor}" />
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}" />
+    <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColor}" />
+    <SolidColorBrush x:Key="DimTextBrush" Color="{StaticResource DimTextColor}" />
+    <SolidColorBrush x:Key="NumberBrush" Color="{StaticResource NumberColor}" />
+    <SolidColorBrush x:Key="OnlineBrush" Color="{StaticResource OnlineColor}" />
+    <SolidColorBrush x:Key="OfflineBrush" Color="{StaticResource OfflineColor}" />
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}" />
+    <SolidColorBrush x:Key="LedOnBrush" Color="{StaticResource LedOnColor}" />
+    <SolidColorBrush x:Key="LedOffBrush" Color="{StaticResource LedOffColor}" />
+    <SolidColorBrush x:Key="FooterBrush" Color="{StaticResource FooterColor}" />
+    <SolidColorBrush x:Key="GridLineBrush" Color="{StaticResource GridLineColor}" />
+    <SolidColorBrush x:Key="SegmentedBrush" Color="{StaticResource SegmentedColor}" />
+    <SolidColorBrush x:Key="SwitchOffBrush" Color="{StaticResource SwitchOffColor}" />
+    <SolidColorBrush x:Key="KeyCapBrush" Color="{StaticResource KeyCapColor}" />
+    <SolidColorBrush x:Key="KeyCapBorderBrush" Color="{StaticResource KeyCapBorderColor}" />
+    <SolidColorBrush x:Key="HoverBorderBrush" Color="{StaticResource HoverBorderColor}" />
+    <SolidColorBrush x:Key="PopupBrush" Color="{StaticResource PopupColor}" />
+    <SolidColorBrush x:Key="TitlePrimaryStartBrush" Color="{StaticResource TitlePrimaryStartColor}" />
+    <SolidColorBrush x:Key="TitlePrimaryEndBrush" Color="{StaticResource TitlePrimaryEndColor}" />
+    <SolidColorBrush x:Key="SelectedTileStartBrush" Color="{StaticResource SelectedTileStartColor}" />
+    <SolidColorBrush x:Key="SelectedTileEndBrush" Color="{StaticResource SelectedTileEndColor}" />
+    <SolidColorBrush x:Key="SwatchEdgeBrush" Color="{StaticResource SwatchEdgeColor}" />
+    <SolidColorBrush x:Key="SwatchHoverBrush" Color="{StaticResource SwatchHoverColor}" />
+    <SolidColorBrush x:Key="ChartGridBrush" Color="{StaticResource ChartGridColor}" />
+    <SolidColorBrush x:Key="ChartZeroBrush" Color="{StaticResource ChartZeroColor}" />
+
+    <LinearGradientBrush x:Key="TitleLightGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource TitlePrimaryStartColor}" />
+        <GradientStop Offset="1" Color="{StaticResource TitlePrimaryEndColor}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SelectedTileBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{StaticResource SelectedTileStartColor}" />
+        <GradientStop Offset="1" Color="{StaticResource SelectedTileEndColor}" />
+    </LinearGradientBrush>
+    <DrawingBrush x:Key="GridBrush" TileMode="Tile" Viewport="0,0,44,44" ViewportUnits="Absolute"
+                  Viewbox="0,0,44,44" ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="{StaticResource WindowBrush}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,44,44" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{StaticResource GridLineBrush}" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <LineGeometry StartPoint="0,0.5" EndPoint="44,0.5" />
+                            <LineGeometry StartPoint="0.5,0" EndPoint="0.5,44" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+</ResourceDictionary>

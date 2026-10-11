@@ -1,0 +1,15 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+  <!-- WiX v5 (MS-RL). From v6 on, WiX requires the Open Source Maintenance Fee for revenue-generating use. -->
+  <PropertyGroup>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+    <PayloadDir Condition="'$(PayloadDir)' == ''">$(MSBuildThisFileDirectory)..\artifacts\payload</PayloadDir>
+    <OutputName>DualSenseTweaker-$(ProductVersion)-x64</OutputName>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <Cultures>sk-SK</Cultures>
+    <DefineConstants>ProductVersion=$(ProductVersion);PayloadDir=$(PayloadDir);IconFile=$(MSBuildThisFileDirectory)..\src\DualSenseTweaker\Assets\app.ico</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="5.0.2" />
+  </ItemGroup>
+</Project>

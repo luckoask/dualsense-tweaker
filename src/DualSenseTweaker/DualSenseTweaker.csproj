@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <!-- Only for the notification-area icon (NotifyIcon); the UI itself is WPF. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DualSenseTweaker</RootNamespace>
+    <AssemblyName>DualSenseTweaker</AssemblyName>
+    <Product>DualSense Tweaker</Product>
+    <Company>LCKS</Company>
+    <Authors>LCKS</Authors>
+    <Copyright>© LCKS</Copyright>
+    <AssemblyTitle>DualSense Tweaker od LCKS</AssemblyTitle>
+    <Version>1.0.7</Version>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <!-- App translations are embedded; keep only the English fallback for framework resources. -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- Application.ThemeMode (Fluent dark theme) is still flagged as experimental in WPF. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WinForms' implicit usings would make Application, Button, … ambiguous with WPF. -->
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\app.ico" />
+    <EmbeddedResource Include="Assets\Controller\dualsense.glb" />
+    <EmbeddedResource Include="Assets\Controller\ATTRIBUTION.txt" />
+    <None Update="Assets\Controller\ATTRIBUTION.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <InternalsVisibleTo Include="DualSenseTweaker.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DualSenseTweaker.Core\DualSenseTweaker.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,2218 @@
+{
+  "     Ukončiť": {
+    "en": "     Exit",
+    "cs": "     Ukončit"
+  },
+  " (+ ďalšie: {0})": {
+    "en": " (+ more: {0})",
+    "cs": " (+ další: {0})"
+  },
+  " Ctrl+Alt+číslica na tvojej klávesnici píše znaky ({0}), preto je zvolené {1}.": {
+    "en": " Ctrl+Alt+number types characters ({0}) on your keyboard, so {1} is selected.",
+    "cs": " Ctrl+Alt+číslice na tvé klávesnici píše znaky ({0}), proto je zvoleno {1}."
+  },
+  " Obsadené inou aplikáciou: {0}.": {
+    "en": " Used by another application: {0}.",
+    "cs": " Používá jiná aplikace: {0}."
+  },
+  " Pozor: {0}+číslica na tvojej klávesnici píše {1} – kým aplikácia beží, tieto znaky nenapíšeš.": {
+    "en": " Warning: {0}+number types {1} on your keyboard. These characters are unavailable while the app is running.",
+    "cs": " Pozor: {0}+číslice na tvé klávesnici píše {1}. Dokud aplikace běží, tyto znaky nenapíšeš."
+  },
+  " v systémovej lište": {
+    "en": " in the system tray",
+    "cs": " v systémové liště"
+  },
+  "(tlačidlo „Nastavenia Bluetooth“).\n\nPokračovať?": {
+    "en": "(the “Bluetooth settings” button).\n\nContinue?",
+    "cs": "(tlačítko „Nastavení Bluetooth“).\n\nPokračovat?"
+  },
+  "{0} · pôvodný stav": {
+    "en": "{0} · original settings",
+    "cs": "{0} · původní stav"
+  },
+  "{0} · pripájam…": {
+    "en": "{0} · connecting…",
+    "cs": "{0} · připojuji…"
+  },
+  "{0} Čakám na opätovné pripojenie…": {
+    "en": "{0} Waiting to reconnect…",
+    "cs": "{0} Čekám na opětovné připojení…"
+  },
+  "{0} má vlastnú kópiu nastavení (profil „{1}“) a už nie je prepojený.": {
+    "en": "{0} has its own copy of the settings (profile “{1}”) and is no longer linked.",
+    "cs": "{0} má vlastní kopii nastavení (profil „{1}“) a již není propojený."
+  },
+  "{0} pripojený cez {1}": {
+    "en": "{0} connected via {1}",
+    "cs": "{0} připojený přes {1}"
+  },
+  "{0}: aplikácia ho už neovláda.": {
+    "en": "{0}: the app no longer controls this controller.",
+    "cs": "{0}: aplikace ho již neovládá."
+  },
+  "{0}: efekt poslaný do ovládača – stlač spúšť a vyskúšaj ho.": {
+    "en": "{0}: effect sent to the controller. Pull the trigger to try it.",
+    "cs": "{0}: efekt byl odeslán do ovladače. Stiskni spoušť a vyzkoušej ho."
+  },
+  "{0}: obnovený pôvodný stav (klasické vibrácie 0, spúšte off, útlm 0).": {
+    "en": "{0}: original settings restored (vibration 0, trigger effects off, attenuation 0).",
+    "cs": "{0}: původní stav byl obnoven (vibrace 0, efekty spouští vypnuté, útlum 0)."
+  },
+  "{0}: odoslané prevzatie ovládania svetelného pásu.": {
+    "en": "{0}: lightbar control request sent.",
+    "cs": "{0}: požadavek na převzetí ovládání světelného pásu byl odeslán."
+  },
+  "{0}: tlačidlo PS stlačené 5×.": {
+    "en": "{0}: PS button pressed 5 times.",
+    "cs": "{0}: tlačítko PS bylo stisknuto 5×."
+  },
+  "{0}: továrenský reset (klasické vibrácie 0, spúšte off, útlm 0, LED zhasnuté, svetelný pás modrý).": {
+    "en": "{0}: original settings restored (vibration 0, trigger effects off, attenuation 0, LEDs off, blue lightbar).",
+    "cs": "{0}: původní stav byl obnoven (vibrace 0, efekty spouští vypnuté, útlum 0, LED zhasnuté, světelný pás modrý)."
+  },
+  "{0}+1 … {1}+9 prepína profily v poradí zoznamu.": {
+    "en": "{0}+1 … {1}+9 switches profiles in list order.",
+    "cs": "{0}+1 … {1}+9 přepíná profily v pořadí seznamu."
+  },
+  "• aplikácia zabudne jeho profil aj kalibráciu gyroskopu a prestane ho ovládať\n\n": {
+    "en": "• the app forgets this controller’s profile assignment and gyro calibration and stops controlling it\n\n",
+    "cs": "• aplikace zapomene jeho přiřazený profil a kalibraci gyroskopu a přestane ho ovládat\n\n"
+  },
+  "• spúšte bez odporu, vibrácie vypnuté, útlm 0\n": {
+    "en": "• trigger resistance off, vibration off, attenuation 0\n",
+    "cs": "• spouště bez odporu, vibrace vypnuté, útlum 0\n"
+  },
+  "• svetelný pás modrý, indikátory hráča a mikrofónu zhasnuté\n": {
+    "en": "• blue lightbar, player and microphone indicators off\n",
+    "cs": "• světelný pás modrý, indikátory hráče a mikrofonu zhasnuté\n"
+  },
+  "1 prst · pohyb kurzora": {
+    "en": "1 finger · move the cursor",
+    "cs": "1 prst · pohyb kurzoru"
+  },
+  "2 prsty · posúvanie": {
+    "en": "2 fingers · scroll",
+    "cs": "2 prsty · posouvání"
+  },
+  "3D model neobsahuje všetky ovládacie prvky.": {
+    "en": "The 3D model does not contain all controls.",
+    "cs": "3D model neobsahuje všechny ovládací prvky."
+  },
+  "3D model sa nepodarilo načítať. Podrobnosti sú v logu aplikácie.": {
+    "en": "The 3D model could not be loaded. See the application log for details.",
+    "cs": "3D model se nepodařilo načíst. Podrobnosti jsou v záznamu aplikace."
+  },
+  "5× PS otvorí okno": {
+    "en": "5× PS opens the window",
+    "cs": "5× PS otevře okno"
+  },
+  "Accessor je mimo dát modelu.": {
+    "en": "Accessor is outside the model data.",
+    "cs": "Accessor je mimo data modelu."
+  },
+  "Adaptívne spúšte L2 a R2": {
+    "en": "Adaptive triggers L2 and R2",
+    "cs": "Adaptivní spouště L2 a R2"
+  },
+  "Ak ho hra prepíše": {
+    "en": "If a game overrides it",
+    "cs": "Pokud ho hra přepíše"
+  },
+  "AKCELEROMETER G": {
+    "en": "Accelerometer g",
+    "cs": "Akcelerometr g"
+  },
+  "AKTIVÁCIA": {
+    "en": "Activation",
+    "cs": "Aktivace"
+  },
+  "Aktívny profil: {0}": {
+    "en": "Active profile: {0}",
+    "cs": "Aktivní profil: {0}"
+  },
+  "Aktívny profil: {0}.": {
+    "en": "Active profile: {0}.",
+    "cs": "Aktivní profil: {0}."
+  },
+  "Amplitúda musí byť 0–8.": {
+    "en": "Amplitude must be between 0 and 8.",
+    "cs": "Amplituda musí být 0–8."
+  },
+  "Aplikácia reaguje na zvuk z predvoleného výstupného zariadenia vo Windows. Pri zmene zariadenia sa zachytávanie zvuku obnoví automaticky.": {
+    "en": "The app reacts to audio from the default Windows output device. Capture restarts automatically when the device changes.",
+    "cs": "Aplikace reaguje na zvuk z výchozího výstupního zařízení ve Windows. Při změně zařízení se zachytávání zvuku obnoví automaticky."
+  },
+  "Aplikácia tento ovládač neovláda. Priraď mu profil, aby si mohol upravovať jeho nastavenia.": {
+    "en": "The app does not control this controller. Assign a profile to edit its settings.",
+    "cs": "Aplikace tento ovladač neovládá. Přiřaď mu profil, abys mohl upravovat jeho nastavení."
+  },
+  "Audio subsystém Windows nie je dostupný": {
+    "en": "Windows audio services are unavailable",
+    "cs": "Zvukové služby Windows nejsou dostupné"
+  },
+  "Audio subsystém Windows nie je dostupný.": {
+    "en": "Windows audio services are unavailable.",
+    "cs": "Zvukové služby Windows nejsou dostupné."
+  },
+  "Automatická kalibrácia": {
+    "en": "Automatic calibration",
+    "cs": "Automatická kalibrace"
+  },
+  "AUTOMATICKÝ PROFIL": {
+    "en": "Automatic profile",
+    "cs": "Automatický profil"
+  },
+  "Automatický profil zlyhal": {
+    "en": "Automatic profile switching failed",
+    "cs": "Automatické přepínání profilů selhalo"
+  },
+  "Autor": {
+    "en": "Author",
+    "cs": "Autor"
+  },
+  "Autor: LCKS": {
+    "en": "Author: LCKS",
+    "cs": "Autor: LCKS"
+  },
+  "BASY": {
+    "en": "Bass",
+    "cs": "Basy"
+  },
+  "Basy → klasické vibrácie": {
+    "en": "Bass → classic vibration",
+    "cs": "Basy → klasické vibrace"
+  },
+  "BATÉRIA": {
+    "en": "Battery",
+    "cs": "Baterie"
+  },
+  "Batéria ovládača je slabá ({0} %).": {
+    "en": "Controller battery is low ({0} %).",
+    "cs": "Baterie ovladače je slabá ({0} %)."
+  },
+  "Batéria ovládača je takmer vybitá ({0} %). Pripoj ho na nabíjanie.": {
+    "en": "Controller battery is almost empty ({0} %). Connect it to a charger.",
+    "cs": "Baterie ovladače je téměř vybitá ({0} %). Připoj ho k nabíjení."
+  },
+  "Bez ovládania aplikáciou": {
+    "en": "Not controlled by the app",
+    "cs": "Bez ovládání aplikací"
+  },
+  "Bez rozptyľovania – svetlá zhasnuté, spúšte bez odporu": {
+    "en": "No distractions: lights off, no trigger resistance",
+    "cs": "Bez rozptylování: světla zhasnutá, spouště bez odporu"
+  },
+  "Bez rozptyľovania: svetelný pás a indikátory hráča zhasnuté, spúšte bez odporu, aplikácia nevibruje a vibrácie hier sú utlmené na minimum.": {
+    "en": "No distractions: lightbar and player indicators off, no trigger resistance or app vibration, and game vibration reduced as much as possible.",
+    "cs": "Bez rozptylování: světelný pás a indikátory hráče zhasnuté, spouště bez odporu, aplikace nevibruje a vibrace z her jsou co nejvíce utlumené."
+  },
+  "Bliká": {
+    "en": "Blinking",
+    "cs": "Bliká"
+  },
+  "Cestu pre štart s Windows sa nepodarilo aktualizovať": {
+    "en": "The Windows startup path could not be updated",
+    "cs": "Cestu pro spouštění s Windows se nepodařilo aktualizovat"
+  },
+  "CITLIVOSŤ": {
+    "en": "Sensitivity",
+    "cs": "Citlivost"
+  },
+  "Citlivosť hore/dole oproti doľava/doprava": {
+    "en": "Vertical sensitivity relative to horizontal sensitivity",
+    "cs": "Citlivost nahoru/dolů oproti doleva/doprava"
+  },
+  "Cyklus dúhy": {
+    "en": "Rainbow cycle",
+    "cs": "Cyklus duhy"
+  },
+  "Čaká na dotyk panela": {
+    "en": "Waiting for a touch on the pad",
+    "cs": "Čeká na dotyk panelu"
+  },
+  "Čaká na L1": {
+    "en": "Waiting for L1",
+    "cs": "Čeká na L1"
+  },
+  "Čaká na L2": {
+    "en": "Waiting for L2",
+    "cs": "Čeká na L2"
+  },
+  "Čaká na ovládač": {
+    "en": "Waiting for a controller",
+    "cs": "Čeká na ovladač"
+  },
+  "Čaká na R1": {
+    "en": "Waiting for R1",
+    "cs": "Čeká na R1"
+  },
+  "Čakám na dáta…": {
+    "en": "Waiting for data…",
+    "cs": "Čekám na data…"
+  },
+  "Čas jedného prechodu všetkými farbami. Kratší cyklus znamená rýchlejšiu dúhu. Efekt pokračuje aj na pozadí.": {
+    "en": "Time for one full colour cycle. A shorter cycle makes the rainbow faster. The effect continues in the background.",
+    "cs": "Délka jednoho přechodu všemi barvami. Kratší cyklus znamená rychlejší duhu. Efekt pokračuje i na pozadí."
+  },
+  "Červená": {
+    "en": "Red",
+    "cs": "Červená"
+  },
+  "Dobrodružný": {
+    "en": "Adventure",
+    "cs": "Dobrodružný"
+  },
+  "Doľava ↔ doprava": {
+    "en": "Left ↔ right",
+    "cs": "Doleva ↔ doprava"
+  },
+  "DOTYKOVÝ PANEL": {
+    "en": "Touchpad",
+    "cs": "Dotykový panel"
+  },
+  "Dotykový panel ako myš {0} (PS + klik).": {
+    "en": "Touchpad mouse {0} (PS + click).",
+    "cs": "Myš přes dotykový panel {0} (PS + klik)."
+  },
+  "Dotykový panel ovláda myš.": {
+    "en": "The touchpad controls the mouse.",
+    "cs": "Dotykový panel ovládá myš."
+  },
+  "Dotykový panel ovládača DualSense ako myš: kurzor, klikanie, ťahanie a posúvanie ako na notebooku": {
+    "en": "Use the DualSense touchpad as a laptop-style mouse: move, click, drag and scroll",
+    "cs": "Dotykový panel ovladače DualSense jako myš: kurzor, klikání, přetahování a posouvání jako na notebooku"
+  },
+  "Doznievanie": {
+    "en": "Release",
+    "cs": "Doznívání"
+  },
+  "Drž L1": {
+    "en": "Hold L1",
+    "cs": "Drž L1"
+  },
+  "Drž R1": {
+    "en": "Hold R1",
+    "cs": "Drž R1"
+  },
+  "DUAL": {
+    "en": "DUAL",
+    "cs": "DUAL"
+  },
+  "DualSense Tweaker": {
+    "en": "DualSense Tweaker",
+    "cs": "DualSense Tweaker"
+  },
+  "DualSense Tweaker {0} štartuje{1}.": {
+    "en": "DualSense Tweaker {0} starting{1}.",
+    "cs": "DualSense Tweaker {0} se spouští{1}."
+  },
+  "DualSense Tweaker beží na pozadí": {
+    "en": "DualSense Tweaker is running in the background",
+    "cs": "DualSense Tweaker běží na pozadí"
+  },
+  "DualSense Tweaker od LCKS": {
+    "en": "DualSense Tweaker by LCKS",
+    "cs": "DualSense Tweaker od LCKS"
+  },
+  "Dúha": {
+    "en": "Rainbow",
+    "cs": "Duha"
+  },
+  "Dúha plynulo mení farbu celého svetelného pásu. Výber stálej farby alebo dúhy vypne iba svetlo podľa zvuku. Zvukové vibrácie pokračujú. Reakciu svetla na zvuk znova zapneš v sekcii Reakcia na zvuk.": {
+    "en": "Rainbow smoothly changes the colour of the entire lightbar. Choosing a solid colour or rainbow disables audio-controlled lighting only. Audio vibration continues. Enable lighting reactions again under Audio reaction.",
+    "cs": "Duha plynule mění barvu celého světelného pásu. Výběr stálé barvy nebo duhy vypne pouze světlo podle zvuku. Zvukové vibrace pokračují. Reakci světla na zvuk znovu zapneš v sekci Reakce na zvuk."
+  },
+  "EFEKT": {
+    "en": "Effect",
+    "cs": "Efekt"
+  },
+  "Fatálna chyba, aplikácia končí": {
+    "en": "Fatal error, the app is closing",
+    "cs": "Závažná chyba, aplikace se ukončuje"
+  },
+  "Feature report 0x{0:X2} sa nepodarilo prečítať: {1}": {
+    "en": "Feature report 0x{0:X2} could not be read: {1}",
+    "cs": "Feature report 0x{0:X2} se nepodařilo přečíst: {1}"
+  },
+  "Filter": {
+    "en": "Filter",
+    "cs": "Filtr"
+  },
+  "FIRMVÉR": {
+    "en": "Firmware",
+    "cs": "Firmware"
+  },
+  "Frekvencia": {
+    "en": "Frequency",
+    "cs": "Frekvence"
+  },
+  "Frekvencia musí byť 0–255 Hz.": {
+    "en": "Frequency must be between 0 and 255 Hz.",
+    "cs": "Frekvence musí být 0–255 Hz."
+  },
+  "Funguje aj počas hry a s oknom v lište": {
+    "en": "Works during games and with the window in the tray",
+    "cs": "Funguje i během hry a s oknem v liště"
+  },
+  "Globálne skratky sú vypnuté.": {
+    "en": "Global shortcuts are disabled.",
+    "cs": "Globální zkratky jsou vypnuté."
+  },
+  "Gyro myš {0} (PS + R1).": {
+    "en": "Gyro mouse {0} (PS + R1).",
+    "cs": "Myš pohybem ovladače {0} (PS + R1)."
+  },
+  "Gyro: kalibrácia hotová, posun {0:0.00} / {1:0.00} / {2:0.00} °/s.": {
+    "en": "Gyro: calibration complete, bias {0:0.00} / {1:0.00} / {2:0.00} °/s.",
+    "cs": "Gyroskop: kalibrace dokončena, posun {0:0.00} / {1:0.00} / {2:0.00} °/s."
+  },
+  "Gyro: kalibrácia spustená.": {
+    "en": "Gyro: calibration started.",
+    "cs": "Gyroskop: kalibrace spuštěna."
+  },
+  "GYROSKOP °/S": {
+    "en": "Gyroscope °/s",
+    "cs": "Gyroskop °/s"
+  },
+  "Gyroskop sa priebežne dolaďuje, keď je ovládač v pokoji.": {
+    "en": "The gyroscope adjusts itself while the controller is still.",
+    "cs": "Gyroskop se průběžně dolaďuje, když je ovladač v klidu."
+  },
+  "Haptický výstup sa zastavil: {0}": {
+    "en": "Haptic output stopped: {0}",
+    "cs": "Haptický výstup se zastavil: {0}"
+  },
+  "Haptika čaká na ovládač.": {
+    "en": "Haptics are waiting for a controller.",
+    "cs": "Haptika čeká na ovladač."
+  },
+  "Haptika nedostupná ({0}) – používam klasické vibrácie z basov.": {
+    "en": "Haptics unavailable ({0}). Using classic bass vibration.",
+    "cs": "Haptika není dostupná ({0}). Používám klasické vibrace podle basů."
+  },
+  "Haptika podľa zvuku systému": {
+    "en": "Haptics from system audio",
+    "cs": "Haptika podle zvuku systému"
+  },
+  "Haptiku sa nepodarilo spustiť: {0}": {
+    "en": "Haptics could not be started: {0}",
+    "cs": "Haptiku se nepodařilo spustit: {0}"
+  },
+  "HD HAPTIKA": {
+    "en": "HD haptics",
+    "cs": "HD haptika"
+  },
+  "HD haptika cez Bluetooth nie je dostupná. Používam vibrácie podľa basov.": {
+    "en": "HD haptics are unavailable over Bluetooth. Using bass vibration.",
+    "cs": "HD haptika přes Bluetooth není dostupná. Používám vibrace podle basů."
+  },
+  "HD haptika zo zvuku je dostupná iba cez USB. Pri pripojení cez Bluetooth sa namiesto nej používajú klasické vibrácie podľa basov.": {
+    "en": "Audio-driven HD haptics require USB. Bluetooth uses classic bass vibration instead.",
+    "cs": "HD haptika ze zvuku je dostupná pouze přes USB. Při připojení přes Bluetooth se místo ní používají klasické vibrace podle basů."
+  },
+  "HEX": {
+    "en": "HEX",
+    "cs": "HEX"
+  },
+  "Hľadám ovládač…": {
+    "en": "Looking for a controller…",
+    "cs": "Hledám ovladač…"
+  },
+  "Hľadať ovládač": {
+    "en": "Find controller",
+    "cs": "Hledat ovladač"
+  },
+  "HLASITOSŤ": {
+    "en": "Volume",
+    "cs": "Hlasitost"
+  },
+  "Hore ↔ dole": {
+    "en": "Up ↔ down",
+    "cs": "Nahoru ↔ dolů"
+  },
+  "Hotovo – posun je uložený pre tento ovládač.": {
+    "en": "Done. Calibration saved for this controller.",
+    "cs": "Hotovo. Kalibrace byla uložena pro tento ovladač."
+  },
+  "Hra": {
+    "en": "Game",
+    "cs": "Hra"
+  },
+  "Hra {0} bola ukončená. Obnovený profil: {1}.": {
+    "en": "Game {0} has closed. Restored profile: {1}.",
+    "cs": "Hra {0} byla ukončena. Obnovený profil: {1}."
+  },
+  "Hráč a mikrofón": {
+    "en": "Player and microphone",
+    "cs": "Hráč a mikrofon"
+  },
+  "Hraničná frekvencia zvuku pre haptiku. Vyššie frekvencie sa tlmia.": {
+    "en": "Cutoff frequency for haptics. Higher frequencies are attenuated.",
+    "cs": "Hraniční frekvence zvuku pro haptiku. Vyšší frekvence se tlumí."
+  },
+  "Chýba ikona aplikácie.": {
+    "en": "The application icon is missing.",
+    "cs": "Chybí ikona aplikace."
+  },
+  "Chyba pri správe ovládačov": {
+    "en": "Error managing controllers",
+    "cs": "Chyba při správě ovladačů"
+  },
+  "Chýba pribalený 3D model ovládača.": {
+    "en": "The bundled 3D controller model is missing.",
+    "cs": "Chybí přibalený 3D model ovladače."
+  },
+  "Iba cez USB": {
+    "en": "USB only",
+    "cs": "Pouze přes USB"
+  },
+  "Iba cez USB – Windows cez Bluetooth zvuk do ovládača neposiela": {
+    "en": "USB only. Windows does not send controller audio over Bluetooth",
+    "cs": "Pouze přes USB. Windows přes Bluetooth neposílá zvuk do ovladače"
+  },
+  "Ikona je v systémovej lište. Ukončíš ho cez pravý klik na ikonu → Ukončiť.": {
+    "en": "The icon is in the system tray. Right-click it and choose Exit to close the app.",
+    "cs": "Ikona je v systémové liště. Aplikaci ukončíš pravým kliknutím na ikonu → Ukončit."
+  },
+  "Indikátor mikrofónu mení iba svetlo. Mikrofón tým nevypneš. Nastavenie jasu platí pre všetky indikátory LED.": {
+    "en": "The microphone indicator changes its light only; it does not mute the microphone. Brightness applies to all LED indicators.",
+    "cs": "Indikátor mikrofonu mění pouze světlo. Mikrofon tím nevypneš. Nastavení jasu platí pro všechny indikátory LED."
+  },
+  "Indikátory LED": {
+    "en": "LED indicators",
+    "cs": "Indikátory LED"
+  },
+  "Inštalátor požiadal o ukončenie.": {
+    "en": "The installer requested the app to close.",
+    "cs": "Instalátor požádal o ukončení aplikace."
+  },
+  "Intenzita": {
+    "en": "Intensity",
+    "cs": "Intenzita"
+  },
+  "Interval": {
+    "en": "Interval",
+    "cs": "Interval"
+  },
+  "Jas": {
+    "en": "Brightness",
+    "cs": "Jas"
+  },
+  "JAS LED": {
+    "en": "LED brightness",
+    "cs": "Jas LED"
+  },
+  "Jas podľa hlasitosti": {
+    "en": "Brightness by volume",
+    "cs": "Jas podle hlasitosti"
+  },
+  "JAZYK A VZHĽAD": {
+    "en": "Language and appearance",
+    "cs": "Jazyk a vzhled"
+  },
+  "Jazyk a vzhľad sa ukladajú automaticky a zostanú zachované po reštarte.": {
+    "en": "Language and appearance are saved automatically and kept after restarting.",
+    "cs": "Jazyk a vzhled se ukládají automaticky a zůstanou zachované po restartu."
+  },
+  "Jazyk aplikácie": {
+    "en": "Application language",
+    "cs": "Jazyk aplikace"
+  },
+  "Jazyk, vzhľad, spúšťanie a správanie aplikácie": {
+    "en": "Language, appearance, startup and application behaviour",
+    "cs": "Jazyk, vzhled, spouštění a chování aplikace"
+  },
+  "Jemný": {
+    "en": "Soft",
+    "cs": "Jemný"
+  },
+  "KALIBRÁCIA": {
+    "en": "Calibration",
+    "cs": "Kalibrace"
+  },
+  "Kalibrácia gyroskopu z ovládača je neplatná, použijem predvolené hodnoty.": {
+    "en": "The controller’s gyro calibration is invalid. Using default values.",
+    "cs": "Kalibrace gyroskopu z ovladače je neplatná. Použiji výchozí hodnoty."
+  },
+  "Kalibrácia zlyhala: namerané hodnoty sú príliš veľké. Skús to znova na stole.": {
+    "en": "Calibration failed: measured values are too high. Place the controller on a table and try again.",
+    "cs": "Kalibrace selhala: naměřené hodnoty jsou příliš vysoké. Zkus to znovu na stole."
+  },
+  "Kalibrácia zrušená.": {
+    "en": "Calibration cancelled.",
+    "cs": "Kalibrace zrušena."
+  },
+  "Kalibrovať": {
+    "en": "Calibrate",
+    "cs": "Kalibrovat"
+  },
+  "Keď hra alebo Steam Input prepíše nastavenia, aplikácia ich v tomto intervale pošle znova. Zmeny sa posielajú vždy okamžite.": {
+    "en": "If a game or Steam Input overrides settings, the app reapplies them at this interval. Your changes are always sent immediately.",
+    "cs": "Když hra nebo Steam Input přepíše nastavení, aplikace je v tomto intervalu odešle znovu. Tvé změny se odesílají vždy okamžitě."
+  },
+  "KLASICKÉ VIBRÁCIE": {
+    "en": "Classic vibration",
+    "cs": "Klasické vibrace"
+  },
+  "Klasické vibrácie, útlm v ovládači a HD haptika zo zvuku": {
+    "en": "Classic vibration, controller attenuation and audio-driven HD haptics",
+    "cs": "Klasické vibrace, útlum v ovladači a HD haptika ze zvuku"
+  },
+  "KLIK": {
+    "en": "Click",
+    "cs": "Klik"
+  },
+  "KLIKANIE": {
+    "en": "Clicking",
+    "cs": "Klikání"
+  },
+  "Kliknutím na kartu ho začneš upravovať.": {
+    "en": "Click the card to edit this controller.",
+    "cs": "Kliknutím na kartu začneš tento ovladač upravovat."
+  },
+  "KOMBINÁCIA": {
+    "en": "Combination",
+    "cs": "Kombinace"
+  },
+  "Koniec": {
+    "en": "End",
+    "cs": "Konec"
+  },
+  "Koniec musí byť od začiatku+1 do 8.": {
+    "en": "End must be between start+1 and 8.",
+    "cs": "Konec musí být od začátku+1 do 8."
+  },
+  "Kontrola beží každé 2 sekundy. Ak počas hry prepneš profil ručne, aplikácia ho nemení a po skončení hry ho už nevracia.": {
+    "en": "Checks run every 2 seconds. If you switch profiles manually during a game, the app keeps your choice and does not restore the previous profile when the game closes.",
+    "cs": "Kontrola probíhá každé 2 sekundy. Pokud během hry přepneš profil ručně, aplikace tvou volbu zachová a po skončení hry už původní profil nevrátí."
+  },
+  "Krátky dotyk bez stlačenia": {
+    "en": "A brief touch without pressing",
+    "cs": "Krátký dotyk bez stisknutí"
+  },
+  "Kriticky slabá batéria": {
+    "en": "Critically low battery",
+    "cs": "Kriticky slabá baterie"
+  },
+  "KURZOR": {
+    "en": "Cursor",
+    "cs": "Kurzor"
+  },
+  "L2 · ľavá spúšť": {
+    "en": "L2 · left trigger",
+    "cs": "L2 · levá spoušť"
+  },
+  "Ľavé tlačidlo": {
+    "en": "Left button",
+    "cs": "Levé tlačítko"
+  },
+  "Ľavý, silný motor (nízka frekvencia)": {
+    "en": "Left, heavy motor (low frequency)",
+    "cs": "Levý, silný motor (nízká frekvence)"
+  },
+  "LCKS": {
+    "en": "LCKS",
+    "cs": "LCKS"
+  },
+  "LED HRÁČA": {
+    "en": "Player LED",
+    "cs": "LED hráče"
+  },
+  "LED MIKROFÓNU": {
+    "en": "Microphone LED",
+    "cs": "LED mikrofonu"
+  },
+  "Max. sila": {
+    "en": "Max. strength",
+    "cs": "Max. síla"
+  },
+  "Mierenie": {
+    "en": "Aiming",
+    "cs": "Míření"
+  },
+  "MIKROFÓN": {
+    "en": "Microphone",
+    "cs": "Mikrofon"
+  },
+  "Min. jas": {
+    "en": "Min. brightness",
+    "cs": "Min. jas"
+  },
+  "Model musí obsahovať trojuholníky.": {
+    "en": "The model must contain triangles.",
+    "cs": "Model musí obsahovat trojúhelníky."
+  },
+  "Model obsahuje neplatné súradnice.": {
+    "en": "The model contains invalid coordinates.",
+    "cs": "Model obsahuje neplatné souřadnice."
+  },
+  "Model používa nepodporovaný sparse accessor.": {
+    "en": "The model uses an unsupported sparse accessor.",
+    "cs": "Model používá nepodporovaný sparse accessor."
+  },
+  "Model zobrazuje tvoje stlačenia a pohyby. Pohľad otočíš ťahaním myšou, priblížiš pomocou Ctrl + kolieska. Model: Taohid Animation / CC BY 4.0.": {
+    "en": "The model shows your button presses and movements. Drag to rotate the view; use Ctrl + mouse wheel to zoom. Model: Taohid Animation / CC BY 4.0.",
+    "cs": "Model zobrazuje tvá stisknutí a pohyby. Pohled otočíš přetažením myší, přiblížíš pomocí Ctrl + kolečka. Model: Taohid Animation / CC BY 4.0."
+  },
+  "Model: Taohid Animation · https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6\nGLB adaptácia: SafaElmali / DualSense Studio · https://github.com/SafaElmali/dualsense-studio\nLicencia: https://creativecommons.org/licenses/by/4.0/\nÚpravy LCKS: orientácia, mierka, materiály a animácie ovládacích prvkov vo WPF.": {
+    "en": "Model: Taohid Animation · https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6\nGLB adaptation: SafaElmali / DualSense Studio · https://github.com/SafaElmali/dualsense-studio\nLicence: https://creativecommons.org/licenses/by/4.0/\nLCKS modifications: orientation, scale, materials and control animations in WPF.",
+    "cs": "Model: Taohid Animation · https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6\nGLB adaptace: SafaElmali / DualSense Studio · https://github.com/SafaElmali/dualsense-studio\nLicence: https://creativecommons.org/licenses/by/4.0/\nÚpravy LCKS: orientace, měřítko, materiály a animace ovládacích prvků ve WPF."
+  },
+  "Modrá": {
+    "en": "Blue",
+    "cs": "Modrá"
+  },
+  "MOTOR": {
+    "en": "Motor",
+    "cs": "Motor"
+  },
+  "Myš cez dotykový panel je vypnutá (zapneš ju PS + klik).": {
+    "en": "Touchpad mouse is off (PS + click to enable).",
+    "cs": "Myš přes dotykový panel je vypnutá (zapneš ji PS + klik)."
+  },
+  "Myš cez dotykový panel je vypnutá.": {
+    "en": "Touchpad mouse is off.",
+    "cs": "Myš přes dotykový panel je vypnutá."
+  },
+  "Myš ovládaš pohybom ovládača. Aktívny profil: {0}.": {
+    "en": "Controller motion controls the mouse. Active profile: {0}.",
+    "cs": "Myš ovládáš pohybem ovladače. Aktivní profil: {0}."
+  },
+  "myš panelom": {
+    "en": "pad mouse",
+    "cs": "myš přes panel"
+  },
+  "myš pohybom": {
+    "en": "motion mouse",
+    "cs": "myš pohybem"
+  },
+  "Myš pohybom je vypnutá": {
+    "en": "Motion mouse is off",
+    "cs": "Myš pohybem je vypnutá"
+  },
+  "MYŠ POHYBOM OVLÁDAČA": {
+    "en": "Motion mouse",
+    "cs": "Myš pohybem ovladače"
+  },
+  "Na plochu": {
+    "en": "Desktop",
+    "cs": "Na plochu"
+  },
+  "Nábeh": {
+    "en": "Attack",
+    "cs": "Náběh"
+  },
+  "nabíja sa": {
+    "en": "charging",
+    "cs": "nabíjí se"
+  },
+  "nabitá": {
+    "en": "fully charged",
+    "cs": "nabitá"
+  },
+  "načítaná z ovládača": {
+    "en": "loaded from the controller",
+    "cs": "načtená z ovladače"
+  },
+  "Načítanie 3D modelu ovládača zlyhalo": {
+    "en": "The 3D controller model failed to load",
+    "cs": "Načtení 3D modelu ovladače selhalo"
+  },
+  "Načítať": {
+    "en": "Import",
+    "cs": "Načíst"
+  },
+  "Načítať profil zo súboru": {
+    "en": "Import profile from a file",
+    "cs": "Načíst profil ze souboru"
+  },
+  "NÁHĽAD": {
+    "en": "Preview",
+    "cs": "Náhled"
+  },
+  "Nájdené ovládače: ": {
+    "en": "Controllers found: ",
+    "cs": "Nalezené ovladače: "
+  },
+  "Nakláňanie": {
+    "en": "Roll",
+    "cs": "Naklánění"
+  },
+  "Naklápanie doľava a doprava – ako volant pred sebou.": {
+    "en": "Tilt left and right, like a steering wheel held in front of you.",
+    "cs": "Naklánění doleva a doprava, jako volant před sebou."
+  },
+  "NÁKLON": {
+    "en": "Roll",
+    "cs": "Náklon"
+  },
+  "Namier na terč a stlač R2": {
+    "en": "Aim at the target and press R2",
+    "cs": "Zamiř na terč a stiskni R2"
+  },
+  "Napríklad #FF1428. Farba sa uloží po kliknutí mimo poľa.": {
+    "en": "For example, #FF1428. The colour is saved when you leave the field.",
+    "cs": "Například #FF1428. Barva se uloží po kliknutí mimo pole."
+  },
+  "Nastavenia Bluetooth": {
+    "en": "Bluetooth settings",
+    "cs": "Nastavení Bluetooth"
+  },
+  "Nastavenia sa nepodarilo načítať: {0}": {
+    "en": "Settings could not be loaded: {0}",
+    "cs": "Nastavení se nepodařilo načíst: {0}"
+  },
+  "Nastavenia sa nepodarilo uložiť: {0}": {
+    "en": "Settings could not be saved: {0}",
+    "cs": "Nastavení se nepodařilo uložit: {0}"
+  },
+  "Nastavenie ovládačov DualSense a DualSense Edge cez USB alebo Bluetooth.": {
+    "en": "Configure DualSense and DualSense Edge controllers over USB or Bluetooth.",
+    "cs": "Nastavení ovladačů DualSense a DualSense Edge přes USB nebo Bluetooth."
+  },
+  "Nastaví aktuálny smer ako východiskovú polohu. Rovnakú akciu vykoná stlačenie R3.": {
+    "en": "Sets the current direction as the starting orientation. Pressing R3 does the same.",
+    "cs": "Nastaví aktuální směr jako výchozí polohu. Stejnou akci provede stisknutí R3."
+  },
+  "NÁZOV": {
+    "en": "Name",
+    "cs": "Název"
+  },
+  "Názov procesu hry, napr. eldenring.exe": {
+    "en": "Game process name, e.g. eldenring.exe",
+    "cs": "Název procesu hry, např. eldenring.exe"
+  },
+  "Názov profilu nesmie byť prázdny.": {
+    "en": "The profile name cannot be empty.",
+    "cs": "Název profilu nesmí být prázdný."
+  },
+  "Názov sa uloží po kliknutí mimo poľa.": {
+    "en": "The name is saved when you leave the field.",
+    "cs": "Název se uloží po kliknutí mimo pole."
+  },
+  "Nekonzistentná geometria modelu.": {
+    "en": "Inconsistent model geometry.",
+    "cs": "Nekonzistentní geometrie modelu."
+  },
+  "nenabíja sa (teplota alebo napätie sú mimo povoleného rozsahu)": {
+    "en": "Not charging (temperature or voltage is outside the allowed range)",
+    "cs": "Nenabíjí se (teplota nebo napětí je mimo povolený rozsah)"
+  },
+  "Nenašiel sa žiadny ovládač.": {
+    "en": "No controller was found.",
+    "cs": "Nebyl nalezen žádný ovladač."
+  },
+  "Neočakávaná dĺžka output reportu ({0} B, potrebných {1} B).": {
+    "en": "Unexpected output report length ({0} bytes; {1} required).",
+    "cs": "Neočekávaná délka výstupního reportu ({0} B, potřeba {1} B)."
+  },
+  "Neošetrená výnimka v UI": {
+    "en": "Unhandled UI exception",
+    "cs": "Neošetřená výjimka v rozhraní"
+  },
+  "Neošetrená výnimka v úlohe": {
+    "en": "Unhandled task exception",
+    "cs": "Neošetřená výjimka v úloze"
+  },
+  "Neplatná textúra modelu.": {
+    "en": "Invalid model texture.",
+    "cs": "Neplatná textura modelu."
+  },
+  "Neplatné CRC vstupného reportu (spolu {0}).": {
+    "en": "Invalid input report CRC (total {0}).",
+    "cs": "Neplatné CRC vstupního reportu (celkem {0})."
+  },
+  "Neplatný GLB model.": {
+    "en": "Invalid GLB model.",
+    "cs": "Neplatný GLB model."
+  },
+  "Neplatný index modelu.": {
+    "en": "Invalid model index.",
+    "cs": "Neplatný index modelu."
+  },
+  "Nepodporované dáta geometrie.": {
+    "en": "Unsupported geometry data.",
+    "cs": "Nepodporovaná data geometrie."
+  },
+  "Nepodporovaný formát výstupu ({0}-bit).": {
+    "en": "Unsupported output format ({0}-bit).",
+    "cs": "Nepodporovaný formát výstupu ({0}bitový)."
+  },
+  "Nepodporovaný formát zvukového zariadenia ({0}-bit).": {
+    "en": "Unsupported audio device format ({0}-bit).",
+    "cs": "Nepodporovaný formát zvukového zařízení ({0}bitový)."
+  },
+  "Nepripojené": {
+    "en": "Not connected",
+    "cs": "Nepřipojená"
+  },
+  "Nepripojený": {
+    "en": "Not connected",
+    "cs": "Nepřipojený"
+  },
+  "Neúplná geometria GLB.": {
+    "en": "Incomplete GLB geometry.",
+    "cs": "Neúplná geometrie GLB."
+  },
+  "Neúplný trojuholník modelu.": {
+    "en": "Incomplete model triangle.",
+    "cs": "Neúplný trojúhelník modelu."
+  },
+  "neznámy stav": {
+    "en": "unknown state",
+    "cs": "neznámý stav"
+  },
+  "Nie je pripojený žiadny ovládač. Zapni ho tlačidlom PS alebo pripoj káblom USB-C.": {
+    "en": "No controller is connected. Turn it on with PS or connect a USB-C cable.",
+    "cs": "Není připojený žádný ovladač. Zapni ho tlačítkem PS nebo připoj kabelem USB-C."
+  },
+  "Nízky": {
+    "en": "Low",
+    "cs": "Nízký"
+  },
+  "Nové kolo": {
+    "en": "New round",
+    "cs": "Nové kolo"
+  },
+  "Nový ovládač {0} ({1}) dostal profil {2}.": {
+    "en": "New controller {0} ({1}) was assigned profile {2}.",
+    "cs": "Novému ovladači {0} ({1}) byl přiřazen profil {2}."
+  },
+  "NOVÝ PROFIL Z AKTUÁLNYCH NASTAVENÍ": {
+    "en": "New profile from current settings",
+    "cs": "Nový profil z aktuálních nastavení"
+  },
+  "O APLIKÁCII": {
+    "en": "About the app",
+    "cs": "O aplikaci"
+  },
+  "Oba": {
+    "en": "Both",
+    "cs": "Oba"
+  },
+  "Oba výstupy": {
+    "en": "Both outputs",
+    "cs": "Oba výstupy"
+  },
+  "Obnoví pôvodné nastavenia a odstráni priradený profil aj kalibráciu tohto ovládača.": {
+    "en": "Restores original settings and removes this controller’s profile assignment and calibration.",
+    "cs": "Obnoví původní nastavení a odstraní přiřazený profil i kalibraci tohoto ovladače."
+  },
+  "Obnoviť pôvodný stav": {
+    "en": "Restore original settings",
+    "cs": "Obnovit původní stav"
+  },
+  "Obnoviť pôvodný stav – {0}": {
+    "en": "Restore original settings – {0}",
+    "cs": "Obnovit původní stav – {0}"
+  },
+  "Obnoviť predvolené hodnoty": {
+    "en": "Restore defaults",
+    "cs": "Obnovit výchozí hodnoty"
+  },
+  "Obnoviť profil {0}": {
+    "en": "Reset {0} profile",
+    "cs": "Obnovit profil {0}"
+  },
+  "OBNOVOVANIE": {
+    "en": "Reapply settings",
+    "cs": "Obnovování"
+  },
+  "Obrátiť X": {
+    "en": "Invert X",
+    "cs": "Obrátit X"
+  },
+  "Obrátiť Y": {
+    "en": "Invert Y",
+    "cs": "Obrátit Y"
+  },
+  "Obsah sa hýbe s prstami, ako na notebooku": {
+    "en": "Content follows your fingers, like on a laptop",
+    "cs": "Obsah se pohybuje s prsty, jako na notebooku"
+  },
+  "Očakávané float súradnice modelu.": {
+    "en": "Floating-point model coordinates were expected.",
+    "cs": "Očekávaly se souřadnice modelu typu float."
+  },
+  "OD": {
+    "en": "BY",
+    "cs": "OD"
+  },
+  "ODOZVA": {
+    "en": "Response",
+    "cs": "Odezva"
+  },
+  "Odpojené": {
+    "en": "Disconnected",
+    "cs": "Odpojeno"
+  },
+  "Odpojený": {
+    "en": "Disconnected",
+    "cs": "Odpojený"
+  },
+  "Odpojený – profil si pamätá a použije ho hneď po pripojení.": {
+    "en": "Disconnected. The assigned profile will be applied as soon as the controller reconnects.",
+    "cs": "Odpojený. Přiřazený profil se použije hned po opětovném připojení."
+  },
+  "Odpor medzi začiatkom a koncom, ktorý na konci povolí s cvaknutím – ako spúšť zbrane.": {
+    "en": "Resistance between the start and end positions, releasing with a click at the end, like a gun trigger.",
+    "cs": "Odpor mezi začátkem a koncem, který na konci povolí s cvaknutím, jako spoušť zbraně."
+  },
+  "Odpor na spúšťach, silné klasické vibrácie a svetlo podľa zvuku": {
+    "en": "Trigger resistance, strong classic vibration and audio-controlled lighting",
+    "cs": "Odpor na spouštích, silné klasické vibrace a světlo podle zvuku"
+  },
+  "Odporúčané: otáčanie okolo skutočnej zvislej osi, nech držíš ovládač akokoľvek. Funguje rovnako naležato aj na výšku.": {
+    "en": "Recommended: rotate around the real vertical axis, however you hold the controller. Works flat or upright.",
+    "cs": "Doporučeno: otáčení kolem skutečné svislé osy bez ohledu na držení ovladače. Funguje vleže i na výšku."
+  },
+  "Odstránenie ikony z lišty": {
+    "en": "Removing the tray icon",
+    "cs": "Odstranění ikony z lišty"
+  },
+  "Odstráni odpojený ovládač zo zoznamu": {
+    "en": "Removes a disconnected controller from the list",
+    "cs": "Odstraní odpojený ovladač ze seznamu"
+  },
+  "Odstrániť": {
+    "en": "Remove",
+    "cs": "Odstranit"
+  },
+  "Okrem režimu Hra": {
+    "en": "Except in Game mode",
+    "cs": "Kromě režimu Hra"
+  },
+  "OS": {
+    "en": "Axis",
+    "cs": "Osa"
+  },
+  "Ostatné ovládače dostanú tento profil – čo potom zmeníš, zmení sa na všetkých naraz": {
+    "en": "Other controllers will use this profile. Any later change will apply to all of them.",
+    "cs": "Ostatní ovladače dostanou tento profil. Každá další změna se projeví na všech zároveň."
+  },
+  "Otáčanie": {
+    "en": "Yaw",
+    "cs": "Otáčení"
+  },
+  "Otáčanie ovládača okolo jeho vlastnej zvislej osi – ako volant položený na stole.": {
+    "en": "Rotate around the controller’s own vertical axis, like a steering wheel lying on a table.",
+    "cs": "Otáčení ovladače kolem jeho vlastní svislé osy, jako volant položený na stole."
+  },
+  "Otestovať": {
+    "en": "Test",
+    "cs": "Otestovat"
+  },
+  "OTOČENIE": {
+    "en": "Yaw",
+    "cs": "Otočení"
+  },
+  "Otočenie o 90° = {0:N0} bodov (pri 1:1 rýchlosti myši vo Windows to sú pixely). Hra si body prepočíta vlastnou citlivosťou myši.": {
+    "en": "A 90° turn = {0:N0} counts (pixels at 1:1 Windows mouse speed). The game applies its own mouse sensitivity.",
+    "cs": "Otočení o 90° = {0:N0} bodů (při rychlosti myši 1:1 ve Windows jde o pixely). Hra body přepočítá vlastní citlivostí myši."
+  },
+  "Otvorí nastavenia Windows, kde môžeš zrušiť párovanie ovládača.": {
+    "en": "Opens Windows settings, where you can unpair the controller.",
+    "cs": "Otevře nastavení Windows, kde můžeš zrušit párování ovladače."
+  },
+  "otvorí okno": {
+    "en": "opens the window",
+    "cs": "otevře okno"
+  },
+  "Otvoriť DualSense Tweaker": {
+    "en": "Open DualSense Tweaker",
+    "cs": "Otevřít DualSense Tweaker"
+  },
+  "Otvoriť záznamy": {
+    "en": "Open logs",
+    "cs": "Otevřít záznamy"
+  },
+  "Ovládač": {
+    "en": "Controller",
+    "cs": "Ovladač"
+  },
+  "Ovládač „{0}“ nie je pripojený. Aplikácia odstránila jeho priradený profil a kalibráciu.": {
+    "en": "Controller “{0}” is disconnected. The app removed its profile assignment and calibration.",
+    "cs": "Ovladač „{0}“ není připojený. Aplikace odstranila jeho přiřazený profil a kalibraci."
+  },
+  "Ovládač „{0}“ sa vráti do pôvodného stavu:\n\n": {
+    "en": "Controller “{0}” will return to its original settings:\n\n",
+    "cs": "Ovladač „{0}“ se vrátí do původního stavu:\n\n"
+  },
+  "Ovládač {0}": {
+    "en": "Controller {0}",
+    "cs": "Ovladač {0}"
+  },
+  "Ovládač {0} odstránený zo zoznamu.": {
+    "en": "Controller {0} removed from the list.",
+    "cs": "Ovladač {0} byl odstraněn ze seznamu."
+  },
+  "Ovládač {0}: profil {1}.": {
+    "en": "Controller {0}: profile {1}.",
+    "cs": "Ovladač {0}: profil {1}."
+  },
+  "Ovládač {0}: továrenský reset.": {
+    "en": "Controller {0}: original settings restored.",
+    "cs": "Ovladač {0}: původní stav byl obnoven."
+  },
+  "Ovládač bol odpojený.": {
+    "en": "The controller disconnected.",
+    "cs": "Ovladač byl odpojen."
+  },
+  "Ovládač bol odpojený. Čakám na opätovné pripojenie…": {
+    "en": "The controller disconnected. Waiting to reconnect…",
+    "cs": "Ovladač byl odpojen. Čekám na opětovné připojení…"
+  },
+  "Ovládač DualSense sa nenašiel. Pripoj ho cez USB alebo Bluetooth.": {
+    "en": "No DualSense controller was found. Connect it over USB or Bluetooth.",
+    "cs": "Ovladač DualSense nebyl nalezen. Připoj ho přes USB nebo Bluetooth."
+  },
+  "Ovládač je v pôvodnom stave – priraď mu profil v sekcii Zariadenie.": {
+    "en": "The controller uses its original settings. Assign a profile in the Device section.",
+    "cs": "Ovladač je v původním stavu. Přiřaď mu profil v sekci Zařízení."
+  },
+  "Ovládač neprijíma výstupné reporty (timeout).": {
+    "en": "The controller is not accepting output reports (timeout).",
+    "cs": "Ovladač nepřijímá výstupní reporty (časový limit)."
+  },
+  "Ovládač nie je pripojený": {
+    "en": "Controller not connected",
+    "cs": "Ovladač není připojený"
+  },
+  "Ovládač nie je pripojený.": {
+    "en": "Controller not connected.",
+    "cs": "Ovladač není připojený."
+  },
+  "Ovládač posiela zjednodušený BT report, znova žiadam rozšírený režim.": {
+    "en": "The controller is sending a basic Bluetooth report. Requesting extended mode again.",
+    "cs": "Ovladač posílá zjednodušený Bluetooth report. Znovu žádám rozšířený režim."
+  },
+  "Ovládač prestal posielať dáta.": {
+    "en": "The controller stopped sending data.",
+    "cs": "Ovladač přestal posílat data."
+  },
+  "Ovládač sa hýbe – polož ho na rovný stôl a nedotýkaj sa ho.": {
+    "en": "The controller is moving. Place it on a flat table and leave it untouched.",
+    "cs": "Ovladač se pohybuje. Polož ho na rovný stůl a nedotýkej se ho."
+  },
+  "OVLÁDAČE": {
+    "en": "Controllers",
+    "cs": "Ovladače"
+  },
+  "Ovládače prepojené na profil {0}.": {
+    "en": "Controllers linked to profile {0}.",
+    "cs": "Ovladače byly propojeny s profilem {0}."
+  },
+  "Ovládanie myši je stále aktívne a zrýchlenie uľahčuje rýchle otočenia. Držaním L1 ho pozastavíš.": {
+    "en": "Mouse control is always active; acceleration helps with quick turns. Hold L1 to pause it.",
+    "cs": "Ovládání myši je stále aktivní a zrychlení usnadňuje rychlá otočení. Držením L1 ho pozastavíš."
+  },
+  "Ovládanie myši pohybom je aktívne iba pri držaní L2. Presné mierenie bez zrýchlenia.": {
+    "en": "Motion mouse is active only while holding L2. Precise aiming without acceleration.",
+    "cs": "Ovládání myši pohybem je aktivní pouze při držení L2. Přesné míření bez zrychlení."
+  },
+  "Ovládanie myši pohybom je vypnuté. Zapneš ho kombináciou PS + R1.": {
+    "en": "Motion mouse is off. Enable it with PS + R1.",
+    "cs": "Ovládání myši pohybem je vypnuté. Zapneš ho kombinací PS + R1."
+  },
+  "Ovládanie myši vypneš kombináciou PS + R1. Počas držania tlačidla PS je pohyb kurzora pozastavený.": {
+    "en": "Disable mouse control with PS + R1. Holding PS pauses cursor movement.",
+    "cs": "Ovládání myši vypneš kombinací PS + R1. Při držení tlačítka PS je pohyb kurzoru pozastavený."
+  },
+  "Ovládať myš dotykovým panelom": {
+    "en": "Control the mouse with the touchpad",
+    "cs": "Ovládat myš dotykovým panelem"
+  },
+  "Ovládať myš pohybom ovládača": {
+    "en": "Control the mouse with controller motion",
+    "cs": "Ovládat myš pohybem ovladače"
+  },
+  "palec drží tlačidlo · druhý prst presúva": {
+    "en": "thumb holds the button · second finger drags",
+    "cs": "palec drží tlačítko · druhý prst přetahuje"
+  },
+  "Po chybe sa nepodarilo obnoviť nastavenia ovládača": {
+    "en": "Controller settings could not be restored after an error",
+    "cs": "Po chybě se nepodařilo obnovit nastavení ovladače"
+  },
+  "Po prihlásení spustiť na pozadí": {
+    "en": "Start in the background after signing in",
+    "cs": "Po přihlášení spustit na pozadí"
+  },
+  "Po pripojení bude dotykový panel ovládať myš.": {
+    "en": "The touchpad will control the mouse after connecting.",
+    "cs": "Po připojení bude dotykový panel ovládat myš."
+  },
+  "Po rýchlom pohybe posúvanie pokračuje a postupne sa spomalí.": {
+    "en": "Scrolling continues after a quick gesture and gradually slows down.",
+    "cs": "Po rychlém pohybu posouvání pokračuje a postupně se zpomalí."
+  },
+  "Po skončení hry sa vráti pôvodný profil": {
+    "en": "Restores the previous profile when the game closes",
+    "cs": "Po skončení hry se vrátí původní profil"
+  },
+  "Podľa polohy": {
+    "en": "Player space",
+    "cs": "Podle polohy"
+  },
+  "Polož ovládač na stôl a stlač Kalibrovať. Trvá to 2 sekundy.": {
+    "en": "Place the controller on a table and press Calibrate. This takes 2 seconds.",
+    "cs": "Polož ovladač na stůl a stiskni Kalibrovat. Trvá to 2 sekundy."
+  },
+  "POSUN": {
+    "en": "Bias",
+    "cs": "Posun"
+  },
+  "Posun dvoma prstami do strán": {
+    "en": "Move two fingers sideways",
+    "cs": "Posun dvou prstů do stran"
+  },
+  "POSÚVANIE": {
+    "en": "Scrolling",
+    "cs": "Posouvání"
+  },
+  "Pozastavené (L1)": {
+    "en": "Paused (L1)",
+    "cs": "Pozastaveno (L1)"
+  },
+  "Pozastavené (PS)": {
+    "en": "Paused (PS)",
+    "cs": "Pozastaveno (PS)"
+  },
+  "Pozícia musí byť 0–9.": {
+    "en": "Position must be between 0 and 9.",
+    "cs": "Poloha musí být 0–9."
+  },
+  "Pôvodné nastavenia ovládača „{0}“ boli obnovené.": {
+    "en": "Original settings restored for controller “{0}”.",
+    "cs": "Původní nastavení ovladače „{0}“ byla obnovena."
+  },
+  "Prah": {
+    "en": "Threshold",
+    "cs": "Práh"
+  },
+  "Pravé tlačidlo": {
+    "en": "Right button",
+    "cs": "Pravé tlačítko"
+  },
+  "Pravidlo bolo pridané: {0} → {1}.": {
+    "en": "Rule added: {0} → {1}.",
+    "cs": "Pravidlo bylo přidáno: {0} → {1}."
+  },
+  "Pravidlo pre {0} odstránené.": {
+    "en": "Rule for {0} removed.",
+    "cs": "Pravidlo pro {0} bylo odstraněno."
+  },
+  "Pravý, jemný motor (vysoká frekvencia)": {
+    "en": "Right, soft motor (high frequency)",
+    "cs": "Pravý, jemný motor (vysoká frekvence)"
+  },
+  "Prázdny model ovládača.": {
+    "en": "Empty controller model.",
+    "cs": "Prázdný model ovladače."
+  },
+  "Pre ovládač „{0}“ bol uložený profil „{1}“.": {
+    "en": "Profile “{1}” saved for controller “{0}”.",
+    "cs": "Pro ovladač „{0}“ byl uložen profil „{1}“."
+  },
+  "predvoľba": {
+    "en": "preset",
+    "cs": "předvolba"
+  },
+  "predvolená": {
+    "en": "default",
+    "cs": "výchozí"
+  },
+  "predvolená (ovládač ju neposlal)": {
+    "en": "default (not provided by the controller)",
+    "cs": "výchozí (ovladač ji neposlal)"
+  },
+  "Predvolené": {
+    "en": "Default",
+    "cs": "Výchozí"
+  },
+  "Preklad sa zmení okamžite vo všetkých sekciách aplikácie.": {
+    "en": "The translation changes immediately throughout the application.",
+    "cs": "Překlad se změní okamžitě ve všech sekcích aplikace."
+  },
+  "Prepínanie, globálne skratky a automatický profil podľa hry": {
+    "en": "Profile switching, global shortcuts and automatic profiles for games",
+    "cs": "Přepínání, globální zkratky a automatický profil podle hry"
+  },
+  "Prepínať profily skratkou": {
+    "en": "Switch profiles with shortcuts",
+    "cs": "Přepínat profily zkratkou"
+  },
+  "Prepnutie profilu": {
+    "en": "Profile switching",
+    "cs": "Přepnutí profilu"
+  },
+  "PREPOJENIE SO ZVUKOM": {
+    "en": "Audio mapping",
+    "cs": "Propojení se zvukem"
+  },
+  "Prepojený s: {0}. Čo zmeníš, platí pre všetky prepojené ovládače naraz.": {
+    "en": "Linked to: {0}. Changes apply to all linked controllers at once.",
+    "cs": "Propojený s: {0}. Změny se projeví na všech propojených ovladačích zároveň."
+  },
+  "Prepojiť ostatné s týmto": {
+    "en": "Link the others to this one",
+    "cs": "Propojit ostatní s tímto"
+  },
+  "Pri mierení (drž L2)": {
+    "en": "When aiming (hold L2)",
+    "cs": "Při míření (drž L2)"
+  },
+  "Pri ručnom aj automatickom prepnutí": {
+    "en": "On manual and automatic switches",
+    "cs": "Při ručním i automatickém přepnutí"
+  },
+  "Pri zatvorení pokračovať na pozadí": {
+    "en": "Keep running in the background when closed",
+    "cs": "Při zavření pokračovat na pozadí"
+  },
+  "Pribalený model musí mať zapečené transformácie.": {
+    "en": "The bundled model must have baked transforms.",
+    "cs": "Přibalený model musí mít zapečené transformace."
+  },
+  "Pridať": {
+    "en": "Add",
+    "cs": "Přidat"
+  },
+  "Pripoj ovládač.": {
+    "en": "Connect a controller.",
+    "cs": "Připoj ovladač."
+  },
+  "Pripojené": {
+    "en": "Connected",
+    "cs": "Připojená"
+  },
+  "Pripojené {0}: in={1} B, out={2} B, feature={3} B, ": {
+    "en": "Connected {0}: in={1} bytes, out={2} bytes, feature={3} bytes, ",
+    "cs": "Připojeno {0}: in={1} B, out={2} B, feature={3} B, "
+  },
+  "Pripojené: {0}{1}": {
+    "en": "Connected: {0}{1}",
+    "cs": "Připojeno: {0}{1}"
+  },
+  "PRIPOJENIE": {
+    "en": "Connection",
+    "cs": "Připojení"
+  },
+  "Pripojenie k {0} zlyhalo: {1} Skúšam znova…": {
+    "en": "Connection to {0} failed: {1} Retrying…",
+    "cs": "Připojení k {0} selhalo: {1} Zkouším znovu…"
+  },
+  "Pripojenie, batéria, zvuk ovládača a obnovovanie nastavení": {
+    "en": "Connection, battery, controller audio and reapplying settings",
+    "cs": "Připojení, baterie, zvuk ovladače a obnovování nastavení"
+  },
+  "Pripojený": {
+    "en": "Connected",
+    "cs": "Připojený"
+  },
+  "Prirodzený smer": {
+    "en": "Natural direction",
+    "cs": "Přirozený směr"
+  },
+  "PROFIL": {
+    "en": "Profile",
+    "cs": "Profil"
+  },
+  "Profil „{0}“ bol načítaný.": {
+    "en": "Profile “{0}” imported.",
+    "cs": "Profil „{0}“ byl načten."
+  },
+  "Profil „{0}“ bol obnovený na predvolené nastavenia.": {
+    "en": "Profile “{0}” restored to defaults.",
+    "cs": "Profil „{0}“ byl obnoven na výchozí nastavení."
+  },
+  "Profil „{0}“ bol odstránený.": {
+    "en": "Profile “{0}” removed.",
+    "cs": "Profil „{0}“ byl odstraněn."
+  },
+  "Profil „{0}“ bol uložený do súboru {1}.": {
+    "en": "Profile “{0}” saved to {1}.",
+    "cs": "Profil „{0}“ byl uložen do souboru {1}."
+  },
+  "Profil „{0}“ už existuje.": {
+    "en": "Profile “{0}” already exists.",
+    "cs": "Profil „{0}“ již existuje."
+  },
+  "Profil „{0}“ vytvorený z aktuálnych nastavení.": {
+    "en": "Profile “{0}” created from the current settings.",
+    "cs": "Profil „{0}“ byl vytvořen z aktuálních nastavení."
+  },
+  "Profil {0} sa nepodarilo načítať: {1}": {
+    "en": "Profile {0} could not be loaded: {1}",
+    "cs": "Profil {0} se nepodařilo načíst: {1}"
+  },
+  "Profil {0} sa nepodarilo uložiť: {1}": {
+    "en": "Profile {0} could not be saved: {1}",
+    "cs": "Profil {0} se nepodařilo uložit: {1}"
+  },
+  "Profil DualSense Tweaker (*.json)|*.json|Všetky súbory (*.*)|*.*": {
+    "en": "DualSense Tweaker profile (*.json)|*.json|All files (*.*)|*.*",
+    "cs": "Profil DualSense Tweaker (*.json)|*.json|Všechny soubory (*.*)|*.*"
+  },
+  "Profil podľa spustenej hry": {
+    "en": "Profile for the running game",
+    "cs": "Profil podle spuštěné hry"
+  },
+  "Profil pre: {0} a prepojené ovládače ({1}). Aplikácia ho použije pri každom pripojení.": {
+    "en": "Profile for: {0} and linked controllers ({1}). Used whenever they connect.",
+    "cs": "Profil pro: {0} a propojené ovladače ({1}). Aplikace ho použije při každém připojení."
+  },
+  "Profil pre: {0}. Aplikácia ho použije pri každom pripojení.": {
+    "en": "Profile for: {0}. Used whenever it connects.",
+    "cs": "Profil pro: {0}. Aplikace ho použije při každém připojení."
+  },
+  "Profil prepnutý": {
+    "en": "Profile switched",
+    "cs": "Profil přepnut"
+  },
+  "Profil sa nepodarilo načítať: {0}": {
+    "en": "Profile could not be imported: {0}",
+    "cs": "Profil se nepodařilo načíst: {0}"
+  },
+  "Profil sa nepodarilo uložiť: {0}": {
+    "en": "Profile could not be saved: {0}",
+    "cs": "Profil se nepodařilo uložit: {0}"
+  },
+  "Profil sa použije pre pripojený ovládač a zapamätá sa mu.": {
+    "en": "The profile will be applied to the connected controller and remembered.",
+    "cs": "Profil se použije pro připojený ovladač a aplikace si ho zapamatuje."
+  },
+  "Profil z lišty: {0}": {
+    "en": "Profile from tray: {0}",
+    "cs": "Profil z lišty: {0}"
+  },
+  "Profil: ": {
+    "en": "Profile: ",
+    "cs": "Profil: "
+  },
+  "PS": {
+    "en": "PS",
+    "cs": "PS"
+  },
+  "PS + stlačenie panela · zapnúť / vypnúť": {
+    "en": "PS + pad click · on / off",
+    "cs": "PS + stisknutí panelu · zapnout / vypnout"
+  },
+  "R1": {
+    "en": "R1",
+    "cs": "R1"
+  },
+  "R2 · pravá spúšť": {
+    "en": "R2 · right trigger",
+    "cs": "R2 · pravá spoušť"
+  },
+  "Reakcia na zvuk je vypnutá.": {
+    "en": "Audio reaction is off.",
+    "cs": "Reakce na zvuk je vypnutá."
+  },
+  "Reproduktor": {
+    "en": "Speaker",
+    "cs": "Reproduktor"
+  },
+  "REŽIM": {
+    "en": "Mode",
+    "cs": "Režim"
+  },
+  "Riadiť výstup a hlasitosť": {
+    "en": "Control audio output and volume",
+    "cs": "Řídit výstup a hlasitost"
+  },
+  "Rozšírený BT režim sa nepodarilo zapnúť, skúsim znova po prvom vstupnom reporte.": {
+    "en": "Extended Bluetooth mode could not be enabled. Retrying after the first input report.",
+    "cs": "Rozšířený režim Bluetooth se nepodařilo zapnout. Zkusím to znovu po prvním vstupním reportu."
+  },
+  "RUČNÁ FARBA": {
+    "en": "Manual colour",
+    "cs": "Ruční barva"
+  },
+  "Ručné vibrácie sa do profilu neukladajú. Útlm 0 znamená plnú intenzitu, 7 najväčšie zoslabnutie. Vibrácie z hier sa tým úplne nevypnú. Pri ukončení aplikácie sa ručné vibrácie zastavia a útlm sa vráti na 0.": {
+    "en": "Manual vibration is not saved in the profile. Attenuation 0 means full strength; 7 is the greatest reduction. Game vibration cannot be fully disabled this way. Closing the app stops manual vibration and resets attenuation to 0.",
+    "cs": "Ruční vibrace se do profilu neukládají. Útlum 0 znamená plnou intenzitu, 7 největší zeslabení. Vibrace z her se tím úplně nevypnou. Při ukončení aplikace se ruční vibrace zastaví a útlum se vrátí na 0."
+  },
+  "rumble={0}, IMU kalibrácia={1}": {
+    "en": "vibration={0}, IMU calibration={1}",
+    "cs": "vibrace={0}, kalibrace IMU={1}"
+  },
+  "Rýchle": {
+    "en": "Fast",
+    "cs": "Rychlé"
+  },
+  "RÝCHLE NASTAVENIE": {
+    "en": "Quick setup",
+    "cs": "Rychlé nastavení"
+  },
+  "Rýchlo stlač tlačidlo PS": {
+    "en": "Press PS quickly",
+    "cs": "Rychle stiskni tlačítko PS"
+  },
+  "Rýchlosť": {
+    "en": "Speed",
+    "cs": "Rychlost"
+  },
+  "Rýchly pohyb zosilní otočenie, pomalý pohyb zostane presný. Pri 100 % je zosilnenie najviac štvornásobné.": {
+    "en": "Fast movement turns further; slow movement stays precise. At 100%, amplification is at most fourfold.",
+    "cs": "Rychlý pohyb zesílí otočení, pomalý pohyb zůstane přesný. Při 100 % je zesílení nejvýše čtyřnásobné."
+  },
+  "SendInput zlyhal (chyba {0}); okno v popredí je pravdepodobne spustené ako správca.": {
+    "en": "SendInput failed (error {0}); the foreground window is probably running as administrator.",
+    "cs": "SendInput selhal (chyba {0}); okno v popředí je pravděpodobně spuštěné jako správce."
+  },
+  "SENSE": {
+    "en": "SENSE",
+    "cs": "SENSE"
+  },
+  "SIGNÁL": {
+    "en": "Signal",
+    "cs": "Signál"
+  },
+  "Sila": {
+    "en": "Strength",
+    "cs": "Síla"
+  },
+  "Sila musí byť 0–8.": {
+    "en": "Strength must be between 0 and 8.",
+    "cs": "Síla musí být 0–8."
+  },
+  "Silný": {
+    "en": "Heavy",
+    "cs": "Silný"
+  },
+  "SKLON": {
+    "en": "Pitch",
+    "cs": "Sklon"
+  },
+  "SKRATKY": {
+    "en": "Shortcuts",
+    "cs": "Zkratky"
+  },
+  "Skryť do lišty": {
+    "en": "Minimise to tray",
+    "cs": "Skrýt do lišty"
+  },
+  "Slabá batéria": {
+    "en": "Low battery",
+    "cs": "Slabá baterie"
+  },
+  "SLÚCHADLÁ": {
+    "en": "Headphones",
+    "cs": "Sluchátka"
+  },
+  "SPEKTRUM": {
+    "en": "Spectrum",
+    "cs": "Spektrum"
+  },
+  "Spektrum, spracovanie signálu a mapovanie zvuku na ovládač": {
+    "en": "Spectrum, signal processing and audio-to-controller mapping",
+    "cs": "Spektrum, zpracování signálu a propojení zvuku s ovladačem"
+  },
+  "SPRÁVANIE APLIKÁCIE": {
+    "en": "Application behaviour",
+    "cs": "Chování aplikace"
+  },
+  "Spustená hra: {0}. Aktívny profil: {1}.": {
+    "en": "Running game: {0}. Active profile: {1}.",
+    "cs": "Spuštěná hra: {0}. Aktivní profil: {1}."
+  },
+  "SPUSTIŤ": {
+    "en": "Start",
+    "cs": "Spustit"
+  },
+  "Spúšť ovláda samotná hra. Aplikácia jej efekty nemení.": {
+    "en": "The game controls this trigger. The app leaves its effects untouched.",
+    "cs": "Spoušť ovládá samotná hra. Aplikace její efekty nemění."
+  },
+  "Spúšť vibruje od nastavenej polohy. Intenzitu nastavíš od 1 do 8 a frekvenciu v hertzoch.": {
+    "en": "The trigger vibrates from the selected position. Set intensity from 1 to 8 and frequency in hertz.",
+    "cs": "Spoušť vibruje od nastavené polohy. Intenzitu nastavíš od 1 do 8 a frekvenci v hertzech."
+  },
+  "Spúšťať s Windows": {
+    "en": "Start with Windows",
+    "cs": "Spouštět s Windows"
+  },
+  "Spúšte": {
+    "en": "Triggers",
+    "cs": "Spouště"
+  },
+  "Stabilizácia": {
+    "en": "Stabilisation",
+    "cs": "Stabilizace"
+  },
+  "Stabilizácia a vyhladenie tlmia drobné pohyby ruky a zachovávajú odozvu pri rýchlom otočení. Nastavenia sa ukladajú do aktívneho profilu.": {
+    "en": "Stabilisation and smoothing reduce small hand movements while preserving quick turns. Settings are saved in the active profile.",
+    "cs": "Stabilizace a vyhlazení tlumí drobné pohyby ruky a zachovávají odezvu při rychlém otočení. Nastavení se ukládají do aktivního profilu."
+  },
+  "Stála farba": {
+    "en": "Solid colour",
+    "cs": "Stálá barva"
+  },
+  "Stály odpor od nastavenej polohy po koniec stlačenia. Poloha 0 znamená uvoľnenú spúšť, 9 úplne stlačenú.": {
+    "en": "Constant resistance from the selected position to full travel. Position 0 is released; 9 is fully pressed.",
+    "cs": "Stálý odpor od nastavené polohy do konce stisknutí. Poloha 0 znamená uvolněnou spoušť, 9 úplně stisknutou."
+  },
+  "Statická farba": {
+    "en": "Static colour",
+    "cs": "Statická barva"
+  },
+  "stlačenie · podľa počtu prstov": {
+    "en": "press · based on finger count",
+    "cs": "stisknutí · podle počtu prstů"
+  },
+  "Stlačenie dvoma prstami": {
+    "en": "Press with two fingers",
+    "cs": "Stisknutí dvěma prsty"
+  },
+  "Stlačenie jedným prstom": {
+    "en": "Press with one finger",
+    "cs": "Stisknutí jedním prstem"
+  },
+  "Stredné tlačidlo": {
+    "en": "Middle button",
+    "cs": "Prostřední tlačítko"
+  },
+  "Stredný": {
+    "en": "Medium",
+    "cs": "Střední"
+  },
+  "STREDY": {
+    "en": "Mids",
+    "cs": "Středy"
+  },
+  "Súbor nie je platný profil: {0}": {
+    "en": "The file is not a valid profile: {0}",
+    "cs": "Soubor není platný profil: {0}"
+  },
+  "Súbor nie je platný profil.": {
+    "en": "The file is not a valid profile.",
+    "cs": "Soubor není platný profil."
+  },
+  "Súťažný": {
+    "en": "Competitive",
+    "cs": "Soutěžní"
+  },
+  "Svetelný pás": {
+    "en": "Lightbar",
+    "cs": "Světelný pás"
+  },
+  "Svetelný pás krátko blikne pri výraznom údere basov.": {
+    "en": "The lightbar briefly flashes on a strong bass beat.",
+    "cs": "Světelný pás krátce blikne při výrazném úderu basů."
+  },
+  "Svetelný pás používa uloženú farbu. Zvuk jeho farbu ani jas nemení. Túto reakciu zapneš v sekcii Reakcia na zvuk → Prepojenie so zvukom.": {
+    "en": "The lightbar uses the saved colour. Audio does not change its colour or brightness. Enable this under Audio reaction → Audio mapping.",
+    "cs": "Světelný pás používá uloženou barvu. Zvuk jeho barvu ani jas nemění. Tuto reakci zapneš v sekci Reakce na zvuk → Propojení se zvukem."
+  },
+  "Svetelný pás teraz zobrazuje dúhu. Zvukové vibrácie pokračujú. Reakciu svetla na zvuk zapneš v sekcii Reakcia na zvuk.": {
+    "en": "The lightbar is showing the rainbow. Audio vibration continues. Enable audio-controlled lighting in Audio reaction.",
+    "cs": "Světelný pás nyní zobrazuje duhu. Zvukové vibrace pokračují. Reakci světla na zvuk zapneš v sekci Reakce na zvuk."
+  },
+  "Svetelný pás, indikátory hráča a mikrofónu": {
+    "en": "Lightbar, player and microphone indicators",
+    "cs": "Světelný pás, indikátory hráče a mikrofonu"
+  },
+  "Svetlá": {
+    "en": "Lights",
+    "cs": "Světla"
+  },
+  "Svetlý": {
+    "en": "Light",
+    "cs": "Světlý"
+  },
+  "Štart hotový za {0} ms.": {
+    "en": "Startup completed in {0} ms.",
+    "cs": "Spuštění dokončeno za {0} ms."
+  },
+  "Štart s Windows sa nepodarilo nastaviť": {
+    "en": "Windows startup could not be configured",
+    "cs": "Spouštění s Windows se nepodařilo nastavit"
+  },
+  "Štart s Windows sa nepodarilo nastaviť: {0}": {
+    "en": "Windows startup could not be configured: {0}",
+    "cs": "Spouštění s Windows se nepodařilo nastavit: {0}"
+  },
+  "Štart s Windows: {0}": {
+    "en": "Windows startup: {0}",
+    "cs": "Spouštění s Windows: {0}"
+  },
+  "Ťahaním otočíš pohľad, Ctrl + koliesko priblíži, dvojklik vráti pohľad hráča.": {
+    "en": "Drag to rotate, Ctrl + mouse wheel to zoom, double-click to restore the player view.",
+    "cs": "Přetažením otočíš pohled, Ctrl + kolečkem přiblížíš, dvojklik vrátí pohled hráče."
+  },
+  "Tento ovládač práve upravuješ – zmeny v ostatných sekciách idú do jeho profilu.": {
+    "en": "You are editing this controller. Changes in other sections update its profile.",
+    "cs": "Tento ovladač právě upravuješ. Změny v ostatních sekcích se ukládají do jeho profilu."
+  },
+  "Tento profil ovládač použije vždy, keď sa pripojí": {
+    "en": "This profile is applied whenever the controller connects",
+    "cs": "Tento profil ovladač použije vždy, když se připojí"
+  },
+  "TEST MIERENIA": {
+    "en": "Aim test",
+    "cs": "Test míření"
+  },
+  "Tlmí drobné nechcené pohyby ruky, aby sa zameriavač netriasol.": {
+    "en": "Reduces small unwanted hand movements so the crosshair stays steady.",
+    "cs": "Tlumí drobné nechtěné pohyby ruky, aby se zaměřovač netřásl."
+  },
+  "Tmavý": {
+    "en": "Dark",
+    "cs": "Tmavý"
+  },
+  "Trvanie": {
+    "en": "Duration",
+    "cs": "Trvání"
+  },
+  "ťuknutie · kliknutie": {
+    "en": "tap · click",
+    "cs": "ťuknutí · kliknutí"
+  },
+  "Ťuknutie ako klik": {
+    "en": "Tap to click",
+    "cs": "Ťuknutí jako klik"
+  },
+  "Ťuknutie dvoma prstami": {
+    "en": "Tap with two fingers",
+    "cs": "Ťuknutí dvěma prsty"
+  },
+  "Ťuknutie jedným prstom": {
+    "en": "Tap with one finger",
+    "cs": "Ťuknutí jedním prstem"
+  },
+  "Tvoje profily ostanú. Pred predajom ešte ovládač odstráň z Bluetooth zariadení vo Windows ": {
+    "en": "Your profiles will be kept. Before selling the controller, also remove it from Bluetooth devices in Windows ",
+    "cs": "Tvé profily zůstanou zachované. Před prodejem ještě ovladač odstraň ze zařízení Bluetooth ve Windows "
+  },
+  "TWEAKER · OVLÁDAČ PODĽA TEBA": {
+    "en": "Tweaker · your controller, your way",
+    "cs": "Tweaker · ovladač podle tebe"
+  },
+  "ÚDER": {
+    "en": "Beat",
+    "cs": "Úder"
+  },
+  "Uložená kalibrácia bola vymazaná. Gyroskop sa automaticky doladí, keď bude ovládač v pokoji.": {
+    "en": "Saved calibration cleared. The gyroscope adjusts itself while the controller is still.",
+    "cs": "Uložená kalibrace byla vymazána. Gyroskop se automaticky doladí, když bude ovladač v klidu."
+  },
+  "Uloženie profilov": {
+    "en": "Saving profiles",
+    "cs": "Uložení profilů"
+  },
+  "Uložiť": {
+    "en": "Export",
+    "cs": "Uložit"
+  },
+  "Uložiť profil do súboru": {
+    "en": "Save profile to a file",
+    "cs": "Uložit profil do souboru"
+  },
+  "Upozorniť pri 15 % a 5 %": {
+    "en": "Notify at 15 % and 5 %",
+    "cs": "Upozornit při 15 % a 5 %"
+  },
+  "UPRAVOVANÝ OVLÁDAČ": {
+    "en": "Selected controller",
+    "cs": "Upravovaný ovladač"
+  },
+  "UPRAVUJEŠ": {
+    "en": "Editing",
+    "cs": "Upravuješ"
+  },
+  "Upravuješ ovládač {0}.": {
+    "en": "Editing controller {0}.",
+    "cs": "Upravuješ ovladač {0}."
+  },
+  "Útlm spúští": {
+    "en": "Trigger attenuation",
+    "cs": "Útlum spouští"
+  },
+  "ÚTLM V OVLÁDAČI · PLATÍ AJ PRE HRY": {
+    "en": "Controller attenuation · also affects games",
+    "cs": "Útlum v ovladači · platí i pro hry"
+  },
+  "Útlm vibrácií": {
+    "en": "Vibration attenuation",
+    "cs": "Útlum vibrací"
+  },
+  "Uvoľnenie myši z dotykového panela": {
+    "en": "Releasing the touchpad mouse",
+    "cs": "Uvolnění myši z dotykového panelu"
+  },
+  "Uvoľnenie ovládača": {
+    "en": "Releasing the controller",
+    "cs": "Uvolnění ovladače"
+  },
+  "Uvoľnenie zámku inštancie": {
+    "en": "Releasing the single-instance lock",
+    "cs": "Uvolnění zámku instance"
+  },
+  "Uvoľnenie zoznamu ovládačov": {
+    "en": "Releasing the controller list",
+    "cs": "Uvolnění seznamu ovladačů"
+  },
+  "V nastaveniach zvuku Windows nastav pre „Wireless Controller“ 4 kanály (Quadraphonic).": {
+    "en": "Set “Wireless Controller” to 4 channels (Quadraphonic) in Windows sound settings.",
+    "cs": "V nastavení zvuku Windows nastav pro „Wireless Controller“ 4 kanály (Quadraphonic)."
+  },
+  "V režime „Hra“ ovláda spúšte samotná hra. Ak chceš používať vlastné efekty aj vtedy, keď ich hra mení, zapni ich obnovovanie v sekcii Zariadenie.": {
+    "en": "In Game mode, the game controls the triggers. To use your own effects while a game changes them, enable trigger reapplying in the Device section.",
+    "cs": "V režimu „Hra“ ovládá spouště samotná hra. Pokud chceš používat vlastní efekty i tehdy, když je hra mění, zapni jejich obnovování v sekci Zařízení."
+  },
+  "v1 (starší firmvér)": {
+    "en": "v1 (older firmware)",
+    "cs": "v1 (starší firmware)"
+  },
+  "Vertikálne": {
+    "en": "Vertical",
+    "cs": "Svisle"
+  },
+  "Vibrácia": {
+    "en": "Vibration",
+    "cs": "Vibrace"
+  },
+  "VIBRÁCIE": {
+    "en": "Vibration",
+    "cs": "Vibrace"
+  },
+  "Vibrácie a haptika": {
+    "en": "Vibration and haptics",
+    "cs": "Vibrace a haptika"
+  },
+  "Vibrácie podľa basov": {
+    "en": "Vibration from bass",
+    "cs": "Vibrace podle basů"
+  },
+  "Vlastná kópia": {
+    "en": "Independent copy",
+    "cs": "Vlastní kopie"
+  },
+  "Vlastné nastavenia, všetko podľa teba": {
+    "en": "Your own settings, just the way you want them",
+    "cs": "Vlastní nastavení, všechno podle tebe"
+  },
+  "vlastný": {
+    "en": "Custom",
+    "cs": "Vlastní"
+  },
+  "Vlastný profil – všetko nastaviteľné.": {
+    "en": "Custom profile: every setting is adjustable.",
+    "cs": "Vlastní profil: všechno lze nastavit."
+  },
+  "Vodorovné posúvanie": {
+    "en": "Horizontal scrolling",
+    "cs": "Vodorovné posouvání"
+  },
+  "Vstup {0:0}/s · Výstup {1:0}/s · Odoslané: {2}": {
+    "en": "Input {0:0}/s · Output {1:0}/s · Sent: {2}",
+    "cs": "Vstup {0:0}/s · Výstup {1:0}/s · Odesláno: {2}"
+  },
+  "Všetky": {
+    "en": "All",
+    "cs": "Všechny"
+  },
+  "Všetky ovládače používajú nastavenia z {0} – zmena sa prejaví na všetkých naraz.": {
+    "en": "All controllers use the settings from {0}. Changes apply to all of them.",
+    "cs": "Všechny ovladače používají nastavení z {0}. Změny se projeví na všech zároveň."
+  },
+  "VÝBER FARBY": {
+    "en": "Colour picker",
+    "cs": "Výběr barvy"
+  },
+  "vybíja sa": {
+    "en": "discharging",
+    "cs": "vybíjí se"
+  },
+  "Vybrať .exe…": {
+    "en": "Browse .exe…",
+    "cs": "Vybrat .exe…"
+  },
+  "Vybrať spustiteľný súbor hry": {
+    "en": "Choose the game executable",
+    "cs": "Vybrat spustitelný soubor hry"
+  },
+  "Vycentrovať": {
+    "en": "Recenter",
+    "cs": "Vycentrovat"
+  },
+  "Vyhladenie": {
+    "en": "Smoothing",
+    "cs": "Vyhlazení"
+  },
+  "Vyhladí iba pohyby pomalšie ako táto hodnota; rýchle pohyby ostávajú bez oneskorenia": {
+    "en": "Smooths only movements slower than this value. Fast movements remain immediate.",
+    "cs": "Vyhladí pouze pohyby pomalejší než tato hodnota. Rychlé pohyby zůstávají bez zpoždění."
+  },
+  "Vymazať kalibráciu": {
+    "en": "Clear calibration",
+    "cs": "Vymazat kalibraci"
+  },
+  "Vyp.": {
+    "en": "Off",
+    "cs": "Vyp."
+  },
+  "vypnutá": {
+    "en": "off",
+    "cs": "vypnutá"
+  },
+  "Vypnuté": {
+    "en": "Off",
+    "cs": "Vypnuto"
+  },
+  "vypnutý": {
+    "en": "off",
+    "cs": "vypnutý"
+  },
+  "Vysoký": {
+    "en": "High",
+    "cs": "Vysoký"
+  },
+  "VÝSTUP": {
+    "en": "Output",
+    "cs": "Výstup"
+  },
+  "VÝŠKY": {
+    "en": "Treble",
+    "cs": "Výšky"
+  },
+  "Vyššia citlivosť zvýrazní aj tichšie zvuky a uľahčí rozpoznanie úderov basov.": {
+    "en": "Higher sensitivity highlights quieter sounds and makes bass beats easier to detect.",
+    "cs": "Vyšší citlivost zvýrazní i tišší zvuky a usnadní rozpoznání úderů basů."
+  },
+  "Vytvoriť": {
+    "en": "Create",
+    "cs": "Vytvořit"
+  },
+  "Vyžaduje pripojenie cez USB a štvorkanálový zvukový výstup ovládača vo Windows. Počas prehrávania haptiky sú klasické vibrácie z aplikácie pozastavené.": {
+    "en": "Requires USB and a four-channel controller audio output in Windows. Classic app vibration is paused while haptics play.",
+    "cs": "Vyžaduje připojení přes USB a čtyřkanálový zvukový výstup ovladače ve Windows. Při přehrávání haptiky jsou klasické vibrace z aplikace pozastavené."
+  },
+  "Vzduchová myš: hýbe sa, len keď držíš prst na dotykovom paneli": {
+    "en": "Air mouse: moves only while your finger touches the pad",
+    "cs": "Vzduchová myš: pohybuje se jen při dotyku panelu prstem"
+  },
+  "Vzhľad aplikácie": {
+    "en": "Application appearance",
+    "cs": "Vzhled aplikace"
+  },
+  "Vždy": {
+    "en": "Always",
+    "cs": "Vždy"
+  },
+  "Vždy, L1 pozastaví": {
+    "en": "Always; L1 pauses",
+    "cs": "Vždy, L1 pozastaví"
+  },
+  "Windows končí reláciu ({0}).": {
+    "en": "Windows is ending the session ({0}).",
+    "cs": "Windows ukončuje relaci ({0})."
+  },
+  "X": {
+    "en": "X",
+    "cs": "X"
+  },
+  "X sklon": {
+    "en": "X pitch",
+    "cs": "X sklon"
+  },
+  "Y": {
+    "en": "Y",
+    "cs": "Y"
+  },
+  "Y otočenie": {
+    "en": "Y yaw",
+    "cs": "Y otočení"
+  },
+  "Z": {
+    "en": "Z",
+    "cs": "Z"
+  },
+  "Z náklon": {
+    "en": "Z roll",
+    "cs": "Z náklon"
+  },
+  "z ovládača": {
+    "en": "from the controller",
+    "cs": "z ovladače"
+  },
+  "Z VÝROBY": {
+    "en": "Factory",
+    "cs": "Z výroby"
+  },
+  "Záblesk pri údere basov": {
+    "en": "Flash on bass beats",
+    "cs": "Záblesk při úderu basů"
+  },
+  "Začiatok": {
+    "en": "Start",
+    "cs": "Začátek"
+  },
+  "Začiatok musí byť 2–7.": {
+    "en": "Start must be between 2 and 7.",
+    "cs": "Začátek musí být 2–7."
+  },
+  "Zadaj názov profilu.": {
+    "en": "Enter a profile name.",
+    "cs": "Zadej název profilu."
+  },
+  "Zachytávam: {0}": {
+    "en": "Capturing: {0}",
+    "cs": "Zachytávám: {0}"
+  },
+  "Zachytávanie zvuku nebeží.": {
+    "en": "Audio capture is not running.",
+    "cs": "Zachytávání zvuku neběží."
+  },
+  "Zachytávanie zvuku sa nepodarilo spustiť: {0}": {
+    "en": "Audio capture could not be started: {0}",
+    "cs": "Zachytávání zvuku se nepodařilo spustit: {0}"
+  },
+  "Zachytávanie zvuku sa zastavilo: {0}": {
+    "en": "Audio capture stopped: {0}",
+    "cs": "Zachytávání zvuku se zastavilo: {0}"
+  },
+  "Zameriavač používa nastavenia mierenia vpravo. Namier na terč a stlač R2. Kurzor Windows sa pohybuje iba vtedy, keď je zapnuté ovládanie myši pohybom ovládača.": {
+    "en": "The crosshair uses the aiming settings on the right. Aim at a target and press R2. The Windows cursor moves only when motion mouse is enabled.",
+    "cs": "Zaměřovač používá nastavení míření vpravo. Zamiř na terč a stiskni R2. Kurzor Windows se pohybuje pouze při zapnutém ovládání myši pohybem ovladače."
+  },
+  "Zap.": {
+    "en": "On",
+    "cs": "Zap."
+  },
+  "Zápis do ovládača zlyhal.": {
+    "en": "Writing to the controller failed.",
+    "cs": "Zápis do ovladače selhal."
+  },
+  "Zapni ju prepínačom alebo kombináciou PS + R1. Test mierenia funguje aj pri vypnutom ovládaní myši.": {
+    "en": "Enable it with the switch or PS + R1. The aim test works even with mouse control off.",
+    "cs": "Zapni ji přepínačem nebo kombinací PS + R1. Test míření funguje i při vypnutém ovládání myši."
+  },
+  "zapnutá": {
+    "en": "on",
+    "cs": "zapnutá"
+  },
+  "zapnutý": {
+    "en": "on",
+    "cs": "zapnutý"
+  },
+  "Zariadenie {0} sa nepodarilo načítať: {1}": {
+    "en": "Device {0} could not be read: {1}",
+    "cs": "Zařízení {0} se nepodařilo načíst: {1}"
+  },
+  "Zariadenie sa nepodarilo otvoriť.": {
+    "en": "The device could not be opened.",
+    "cs": "Zařízení se nepodařilo otevřít."
+  },
+  "Zásahy: {0} · Presnosť: {1:0} % · Priemerný čas na terč: {2:0.00} s": {
+    "en": "Hits: {0} · Accuracy: {1:0} % · Average target time: {2:0.00} s",
+    "cs": "Zásahy: {0} · Přesnost: {1:0} % · Průměrný čas na terč: {2:0.00} s"
+  },
+  "Zastavenie automatického profilu": {
+    "en": "Stopping automatic profile switching",
+    "cs": "Zastavení automatického přepínání profilů"
+  },
+  "ZASTAVIŤ": {
+    "en": "Stop",
+    "cs": "Zastavit"
+  },
+  "Zastaviť vibrácie": {
+    "en": "Stop vibration",
+    "cs": "Zastavit vibrace"
+  },
+  "Zatiaľ žiadne pravidlá.": {
+    "en": "No rules yet.",
+    "cs": "Zatím žádná pravidla."
+  },
+  "Zatvorené: {0}": {
+    "en": "Closed: {0}",
+    "cs": "Zavřeno: {0}"
+  },
+  "Zážitok: odpor na oboch spúšťach, silné klasické vibrácie z basov a svetelný pás reagujúci na zvuk.": {
+    "en": "Immersion: resistance on both triggers, strong bass vibration and an audio-reactive lightbar.",
+    "cs": "Zážitek: odpor na obou spouštích, silné vibrace podle basů a světelný pás reagující na zvuk."
+  },
+  "Zelená": {
+    "en": "Green",
+    "cs": "Zelená"
+  },
+  "Zmeny nastavení sa do aktívneho profilu ukladajú automaticky.": {
+    "en": "Setting changes are automatically saved to the active profile.",
+    "cs": "Změny nastavení se do aktivního profilu ukládají automaticky."
+  },
+  "Znovu odošle efekt do ovládača, aj keď ho medzitým zmenila hra.": {
+    "en": "Sends the effect again, even if a game has changed it in the meantime.",
+    "cs": "Znovu odešle efekt do ovladače, i když ho mezitím změnila hra."
+  },
+  "zóna 0 = uvoľnená spúšť · 9 = úplne stlačená · biela = cvaknutie · oranžová = vibrácie": {
+    "en": "zone 0 = released · 9 = fully pressed · white = click · orange = vibration",
+    "cs": "zóna 0 = uvolněná spoušť · 9 = úplně stisknutá · bílá = cvaknutí · oranžová = vibrace"
+  },
+  "Zosilnenie": {
+    "en": "Gain",
+    "cs": "Zesílení"
+  },
+  "Zotrvačnosť": {
+    "en": "Inertia",
+    "cs": "Setrvačnost"
+  },
+  "Zruší prepojenie s ostatnými ovládačmi a vytvorí vlastný profil s rovnakými nastaveniami.": {
+    "en": "Unlinks this controller and creates its own profile with the same settings.",
+    "cs": "Zruší propojení s ostatními ovladači a vytvoří vlastní profil se stejnými nastaveními."
+  },
+  "Zrušiť": {
+    "en": "Cancel",
+    "cs": "Zrušit"
+  },
+  "Zrýchlenie": {
+    "en": "Acceleration",
+    "cs": "Zrychlení"
+  },
+  "Zrýchlenie pri rýchlom pohybe": {
+    "en": "Acceleration for fast movement",
+    "cs": "Zrychlení při rychlém pohybu"
+  },
+  "ZVUK OVLÁDAČA": {
+    "en": "Controller audio",
+    "cs": "Zvuk ovladače"
+  },
+  "Zvuk pod nastaveným prahom sa považuje za ticho.": {
+    "en": "Audio below this threshold is treated as silence.",
+    "cs": "Zvuk pod nastaveným prahem se považuje za ticho."
+  },
+  "Zvukové zariadenie ovládača má {0} kanály, haptika potrebuje 4. ": {
+    "en": "The controller audio device has {0} channels; haptics require 4. ",
+    "cs": "Zvukové zařízení ovladače má {0} kanálů, haptika potřebuje 4. "
+  },
+  "Zvukové zariadenie ovládača sa nenašlo.": {
+    "en": "The controller audio device was not found.",
+    "cs": "Zvukové zařízení ovladače nebylo nalezeno."
+  },
+  "Žiadna zo sledovaných hier nebeží.": {
+    "en": "None of the monitored games are running.",
+    "cs": "Žádná ze sledovaných her neběží."
+  },
+  "žiadny (neovládaný)": {
+    "en": "none (not controlled)",
+    "cs": "žádný (neovládaný)"
+  },
+  "Žiadny odpor ani vibrácia – prepíše aj efekty hry.": {
+    "en": "No resistance or vibration. Overrides game effects too.",
+    "cs": "Žádný odpor ani vibrace. Přepíše i efekty hry."
+  },
+  "Žiadny ovládač": {
+    "en": "No controller",
+    "cs": "Žádný ovladač"
+  },
+  "Živý 3D náhľad, test mierenia, ovládanie myši pohybom a kalibrácia": {
+    "en": "Live 3D preview, aim test, motion mouse and calibration",
+    "cs": "Živý 3D náhled, test míření, ovládání myši pohybem a kalibrace"
+  },
+  "ŽIVÝ NÁHĽAD": {
+    "en": "Live preview",
+    "cs": "Živý náhled"
+  },
+  "ŽIVÝ TEST": {
+    "en": "Live test",
+    "cs": "Živý test"
+  },
+  "Farba zo spektra": {
+    "en": "Spectrum colour",
+    "cs": "Barva ze spektra"
+  },
+  "Bez profilu": {
+    "en": "No profile",
+    "cs": "Bez profilu"
+  },
+  "V pokoji": {
+    "en": "Still",
+    "cs": "V klidu"
+  },
+  "V pohybe": {
+    "en": "Moving",
+    "cs": "V pohybu"
+  },
+  "Bez akcie": {
+    "en": "No action",
+    "cs": "Bez akce"
+  },
+  "— (neposiela sa)": {
+    "en": "— (not sent)",
+    "cs": "— (neodesílá se)"
+  },
+  "DualSense Tweaker od LCKS\nProfil: {0}\n{1}: {2}": {
+    "en": "DualSense Tweaker by LCKS\nProfile: {0}\n{1}: {2}",
+    "cs": "DualSense Tweaker od LCKS\nProfil: {0}\n{1}: {2}"
+  },
+  "DualSense Tweaker – chyba": {
+    "en": "DualSense Tweaker – error",
+    "cs": "DualSense Tweaker – chyba"
+  },
+  "Programy (*.exe)|*.exe": {
+    "en": "Programs (*.exe)|*.exe",
+    "cs": "Programy (*.exe)|*.exe"
+  },
+  "Profily": {
+    "en": "Profiles",
+    "cs": "Profily"
+  },
+  "Gyroskop": {
+    "en": "Gyroscope",
+    "cs": "Gyroskop"
+  },
+  "Nastavenia": {
+    "en": "Settings",
+    "cs": "Nastavení"
+  },
+  "Reakcia na zvuk": {
+    "en": "Audio reaction",
+    "cs": "Reakce na zvuk"
+  },
+  "Odpor": {
+    "en": "Resistance",
+    "cs": "Odpor"
+  },
+  "Cvaknutie": {
+    "en": "Click",
+    "cs": "Cvaknutí"
+  },
+  "Automaticky": {
+    "en": "Automatic",
+    "cs": "Automaticky"
+  },
+  "Zariadenie": {
+    "en": "Device",
+    "cs": "Zařízení"
+  },
+  "Kurzor reaguje na pohyb": {
+    "en": "Cursor follows your movement",
+    "cs": "Kurzor reaguje na pohyb"
+  },
+  "Meriam posun… {0:0} %": {
+    "en": "Measuring bias… {0:0} %",
+    "cs": "Měřím posun… {0:0} %"
+  },
+  "Profil „{0}“ (skratka {1}).": {
+    "en": "Profile “{0}” (shortcut {1}).",
+    "cs": "Profil „{0}“ (zkratka {1})."
+  },
+  "Profil „{0}“ neexistuje.": {
+    "en": "Profile “{0}” does not exist.",
+    "cs": "Profil „{0}“ neexistuje."
+  },
+  "Prst na dotykovom paneli": {
+    "en": "Finger on touchpad",
+    "cs": "Prst na dotykovém panelu"
+  },
+  "Prsty: {0}": {
+    "en": "Fingers: {0}",
+    "cs": "Prsty: {0}"
+  },
+  "Koniec.": {
+    "en": "Closed.",
+    "cs": "Konec."
+  }
+}

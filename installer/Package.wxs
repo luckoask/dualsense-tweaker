@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  DualSense Tweaker od LCKS – Windows Installer package (WiX Toolset v5).
+  Build with tools\build-installer.ps1; it publishes the self-contained app into $(PayloadDir) first,
+  so the target PC needs nothing else (the .NET runtime is part of the package).
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="DualSense Tweaker"
+           Manufacturer="LCKS"
+           Version="$(ProductVersion)"
+           UpgradeCode="97574113-B7C6-41D8-854C-AA1042ECCF7A"
+           Scope="perMachine"
+           Language="1051"
+           Codepage="1250"
+           Compressed="yes">
+
+    <SummaryInformation Description="DualSense Tweaker od LCKS" Manufacturer="LCKS" />
+
+    <!-- A newer version replaces the old one in place; downgrades are refused. -->
+    <MajorUpgrade DowngradeErrorMessage="Už je nainštalovaná novšia verzia aplikácie [ProductName]." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <!-- Windows 11 (build 22000 and later), 64-bit. -->
+    <Property Id="WINDOWSBUILD">
+      <RegistrySearch Id="WindowsBuild" Root="HKLM" Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+                      Name="CurrentBuildNumber" Type="raw" Bitness="always64" />
+    </Property>
+    <Launch Condition="Installed OR WINDOWSBUILD &gt;= 22000"
+            Message="DualSense Tweaker vyžaduje Windows 11 (64-bit)." />
+
+    <!-- Apps & Features entry -->
+    <Icon Id="AppIcon.ico" SourceFile="$(IconFile)" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+    <Property Id="ARPCOMMENTS" Value="Nastavenie ovládača DualSense od LCKS" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="LcksFolder" Name="LCKS">
+        <Directory Id="INSTALLFOLDER" Name="DualSense Tweaker" />
+      </Directory>
+    </StandardDirectory>
+
+    <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+      <Component Id="MainExecutable">
+        <File Id="AppExe" Source="$(PayloadDir)\DualSenseTweaker.exe" KeyPath="yes" />
+        <!-- Lets the next installer find (and gracefully close) a running copy. -->
+        <RegistryValue Root="HKLM" Key="Software\LCKS\DualSense Tweaker" Name="InstallPath" Type="string" Value="[INSTALLFOLDER]" />
+      </Component>
+      <!-- Everything else the self-contained app needs: .NET runtime, WPF, HidSharp, NAudio. -->
+      <Files Include="$(PayloadDir)\**">
+        <Exclude Files="$(PayloadDir)\DualSenseTweaker.exe" />
+      </Files>
+    </ComponentGroup>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="StartMenuShortcut">
+        <Shortcut Id="StartMenuShortcut" Name="DualSense Tweaker" Description="DualSense Tweaker od LCKS"
+                  Target="[INSTALLFOLDER]DualSenseTweaker.exe" WorkingDirectory="INSTALLFOLDER" />
+        <!-- Shortcut components need a per-user key path (Windows Installer rule ICE38/ICE43). -->
+        <RegistryValue Root="HKCU" Key="Software\LCKS\DualSense Tweaker" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="DesktopShortcut">
+        <Shortcut Id="DesktopShortcut" Name="DualSense Tweaker" Description="DualSense Tweaker od LCKS"
+                  Target="[INSTALLFOLDER]DualSenseTweaker.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RegistryValue Root="HKCU" Key="Software\LCKS\DualSense Tweaker" Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+
+    <Feature Id="Application" Title="DualSense Tweaker"
+             Description="Aplikácia so všetkými potrebnými súčasťami a odkazom v ponuke Štart."
+             Level="1" AllowAbsent="no" ConfigurableDirectory="INSTALLFOLDER" Display="expand">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentRef Id="StartMenuShortcut" />
+      <Feature Id="Desktop" Title="Odkaz na ploche" Description="Ikona DualSense Tweaker na pracovnej ploche." Level="1">
+        <ComponentRef Id="DesktopShortcut" />
+      </Feature>
+    </Feature>
+
+    <!--
+      A running copy is asked to quit the normal way before files are replaced or removed (it puts the
+      controllers back and saves profiles). On uninstall it also drops "start with Windows" of the user.
+      Settings and profiles in %AppData%\DualSenseTweaker stay.
+    -->
+    <Property Id="EXISTING_EXE">
+      <RegistrySearch Id="ExistingInstall" Root="HKLM" Key="Software\LCKS\DualSense Tweaker" Name="InstallPath"
+                      Type="directory" Bitness="always64">
+        <FileSearch Name="DualSenseTweaker.exe" />
+      </RegistrySearch>
+    </Property>
+    <CustomAction Id="CloseRunningApp" Property="EXISTING_EXE" ExeCommand="--exit" Execute="immediate" Return="ignore" />
+    <CustomAction Id="UninstallUserCleanup" Property="EXISTING_EXE" ExeCommand="--uninstall" Execute="immediate" Return="ignore" />
+    <InstallExecuteSequence>
+      <Custom Action="UninstallUserCleanup" Before="InstallValidate"
+              Condition="EXISTING_EXE AND REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />
+      <Custom Action="CloseRunningApp" Before="InstallValidate"
+              Condition="EXISTING_EXE AND NOT (REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE)" />
+    </InstallExecuteSequence>
+
+    <!-- Wizard: welcome → components and folder → install → finish (with "launch"). No license page. -->
+    <UI>
+      <ui:WixUI Id="WixUI_FeatureTree" InstallDirectory="INSTALLFOLDER" />
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="2" Condition="NOT Installed" />
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3" Condition="NOT Installed" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication" Order="999"
+               Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed" />
+    </UI>
+    <WixVariable Id="WixUIBannerBmp" Value="Assets\banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Assets\dialog.bmp" />
+
+    <!-- Started from the wizard (as the user, not elevated), like double-clicking the shortcut. -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Spustiť DualSense Tweaker" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+    <Property Id="WixShellExecTarget" Value="[#AppExe]" />
+    <CustomAction Id="LaunchApplication" BinaryRef="Wix4UtilCA_$(sys.BUILDARCHSHORT)" DllEntry="WixShellExec" Impersonate="yes" />
+  </Package>
+</Wix>

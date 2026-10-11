@@ -1,0 +1,23 @@
+PS5 Controller - Taohid Animation
+Original creator: https://sketchfab.com/taohidanimation
+Original model: https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License terms: https://creativecommons.org/licenses/by/4.0/
+
+Interactive GLB adaptation: SafaElmali / DualSense Studio
+Source: https://github.com/SafaElmali/dualsense-studio
+Revision: 77ad9437c85b0c8990b6a66b167a5f56332757a2
+Asset: controller/dualsense.glb
+SHA-256: E55E172F3A6704769818954970FDA2D29038A31F85BA7358A36D0549DF4F9D30
+Prior modifications: connected parts split into named controls; original transforms baked;
+original geometry, UVs and embedded textures preserved.
+
+DualSense Tweaker adaptation: LCKS
+The original bundled GLB remains unchanged. At runtime its geometry is normalized to
+160 mm width and aligned with the controller's sensor coordinates. Materials are adapted
+to native WPF rendering. Buttons, sticks, triggers, touch contacts and LEDs are animated
+from DualSense input reports and application settings.
+
+This model is an independent visual recreation, not an official Sony product or a
+dimensionally certified engineering CAD model. No endorsement by the creators or Sony
+is implied. The CC BY 4.0 license applies to the model independently of the application.

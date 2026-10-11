@@ -1,0 +1,573 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:l="clr-namespace:DualSenseTweaker.Localization"
+                    xmlns:c="clr-namespace:DualSenseTweaker.Controls">
+
+    <!-- ═══ LCKS design language (shared with CoopSplit) ═══════════════════════════ -->
+
+    <FontFamily x:Key="UiFont">Segoe UI Variable Text, Segoe UI</FontFamily>
+    <FontFamily x:Key="MonoFont">Cascadia Mono, Consolas</FontFamily>
+    <FontFamily x:Key="DisplayFont">Bahnschrift</FontFamily>
+
+    <Color x:Key="BlueColor">#FF4F82F7</Color>
+    <Color x:Key="PurpleColor">#FF8E6CF0</Color>
+    <Color x:Key="OrangeColor">#FFF2884A</Color>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource BlueColor}" />
+    <SolidColorBrush x:Key="PurpleBrush" Color="{StaticResource PurpleColor}" />
+    <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource OrangeColor}" />
+
+    <!-- Blue → purple → orange, the brand gradient -->
+    <LinearGradientBrush x:Key="BrandGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource BlueColor}" />
+        <GradientStop Offset="0.5" Color="{StaticResource PurpleColor}" />
+        <GradientStop Offset="1" Color="{StaticResource OrangeColor}" />
+    </LinearGradientBrush>
+    <!-- Softer version for the big action button -->
+    <LinearGradientBrush x:Key="BrandSoftGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="#FF5B86E5" />
+        <GradientStop Offset="0.5" Color="#FF9670DB" />
+        <GradientStop Offset="1" Color="#FFDC9574" />
+    </LinearGradientBrush>
+    <!-- Second half of the product name -->
+    <LinearGradientBrush x:Key="TitleGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="#FF8B7BFF" />
+        <GradientStop Offset="1" Color="#FFFF9A5C" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SliderFillGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource BlueColor}" />
+        <GradientStop Offset="1" Color="{StaticResource PurpleColor}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SwitchOnGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="#FF5B7CF0" />
+        <GradientStop Offset="1" Color="#FFF28C4A" />
+    </LinearGradientBrush>
+
+
+    <!-- Faint 44 px grid behind everything -->
+
+
+    <!-- ═══ Panels and text ════════════════════════════════════════════════════════ -->
+
+    <!-- Big card with a numbered title (01 GAME style). -->
+    <Style x:Key="Panel" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PanelBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="Padding" Value="28,24,28,26" />
+        <Setter Property="Margin" Value="0,0,18,18" />
+    </Style>
+
+    <!-- Rounded inner box -->
+    <Style x:Key="Inset" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource ItemBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ItemBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="18,14" />
+    </Style>
+
+    <Style x:Key="Hint" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,12,0,0" />
+    </Style>
+
+    <Style x:Key="SettingTitle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="SettingHint" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="Foreground" Value="{DynamicResource DimTextBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,1,0,0" />
+    </Style>
+
+    <!-- Labels in SliderRow and value columns -->
+    <Style x:Key="RowLabel" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="RowValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Right" />
+    </Style>
+
+    <Style x:Key="MonoValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ConnectionDot" TargetType="Ellipse">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Fill" Value="{DynamicResource OfflineBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                <Setter Property="Fill" Value="{DynamicResource OnlineBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ═══ Choice controls ════════════════════════════════════════════════════════ -->
+
+    <!-- Segmented choice: equal-width segments in a rounded frame, the selected one raised. -->
+    <Style x:Key="Segmented" TargetType="ListBox">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border CornerRadius="12" Padding="3" Background="{DynamicResource SegmentedBrush}"
+                            BorderBrush="{DynamicResource ItemBorderBrush}" BorderThickness="1">
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Segment" Padding="10,7" CornerRadius="9" BorderThickness="1"
+                                        Background="Transparent" BorderBrush="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Segment" Property="Background" Value="{DynamicResource SelectedBrush}" />
+                                        <Setter TargetName="Segment" Property="BorderBrush" Value="{DynamicResource SelectedBorderBrush}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="Segment" Property="Opacity" Value="0.4" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- On/off switch: dark track off, brand gradient on, white knob. -->
+    <Style x:Key="Switch" TargetType="CheckBox">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid Width="44" Height="24" Background="Transparent">
+                        <Border x:Name="Track" CornerRadius="12" Background="{DynamicResource SwitchOffBrush}" />
+                        <Ellipse x:Name="Knob" Width="18" Height="18" Margin="3,0" HorizontalAlignment="Left" Fill="White" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Track" Property="Background" Value="{StaticResource SwitchOnGradient}" />
+                            <Setter TargetName="Knob" Property="HorizontalAlignment" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Track" Property="Opacity" Value="0.88" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.35" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Color picker: a wrap of round swatches bound with SelectedValue (hex string). -->
+    <Style x:Key="SwatchList" TargetType="ListBox">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="SelectedValuePath" Value="Hex" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="ToolTip" Value="{Binding Hex}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid Width="28" Height="28" Margin="0,0,3,4">
+                                    <Ellipse x:Name="Ring" Stroke="Transparent" StrokeThickness="2" />
+                                    <Ellipse Margin="5" Fill="{Binding Brush}" Stroke="{DynamicResource SwatchEdgeBrush}" StrokeThickness="1" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource SwatchHoverBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource TextBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Mode tiles (SPAN / PROJECT style) used for profiles. -->
+    <Style x:Key="ProfileTiles" TargetType="ListBox">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid Margin="0,0,14,14">
+                                    <Border x:Name="Tile" MinHeight="168" Padding="20,18" CornerRadius="18" BorderThickness="1.5"
+                                            Background="{DynamicResource ItemBrush}" BorderBrush="{DynamicResource ItemBorderBrush}">
+                                        <StackPanel>
+                                            <Border Width="42" Height="42" HorizontalAlignment="Left" CornerRadius="11"
+                                                    Background="{DynamicResource IconTileBrush}" BorderBrush="{DynamicResource ItemBorderBrush}" BorderThickness="1">
+                                                <Viewbox Width="20" Height="20">
+                                                    <Canvas Width="24" Height="24">
+                                                        <Path Data="{Binding Icon}" Stroke="{DynamicResource TextBrush}" StrokeThickness="1.8"
+                                                              StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                            <c:TrackedText Margin="0,18,0,0" Text="{Binding UpperName}" FontFamily="{StaticResource DisplayFont}"
+                                                           FontSize="19" Spacing="3.5" Foreground="{DynamicResource TextBrush}" />
+                                            <TextBlock Margin="0,10,0,0" FontSize="12.5" TextWrapping="Wrap"
+                                                       Foreground="{DynamicResource MutedTextBrush}" Text="{Binding Description}" />
+                                            <TextBlock Margin="0,8,0,0" FontSize="11.5" Foreground="{DynamicResource DimTextBrush}" Text="{Binding Detail}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Ellipse x:Name="Dot" Width="8" Height="8" Margin="0,22,22,0" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                             Fill="{DynamicResource OnlineBrush}" Visibility="Hidden" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Tile" Property="Background" Value="{DynamicResource ItemHoverBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Tile" Property="BorderBrush" Value="{StaticResource BrandGradient}" />
+                                        <Setter TargetName="Tile" Property="Background" Value="{DynamicResource SelectedTileBrush}" />
+                                        <Setter TargetName="Dot" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Controller list: one wide card per controller (name, connection, profile, link), "UPRAVUJEŠ" on the edited one. -->
+    <Style x:Key="ControllerCards" TargetType="ListBox">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Card" Margin="0,0,0,10" Padding="14" CornerRadius="16" BorderThickness="1.5"
+                                        Background="{DynamicResource ItemBrush}" BorderBrush="{DynamicResource ItemBorderBrush}">
+                                    <DockPanel>
+                                        <Border Width="52" Height="52" Margin="0,0,16,0" CornerRadius="13" DockPanel.Dock="Left">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Offset="0" Color="#FF2C3E70" />
+                                                    <GradientStop Offset="1" Color="#FF6B3A2C" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Viewbox Width="26" Height="26">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Stroke="White" StrokeThickness="1.7" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                          Data="M6 9h12a4 4 0 0 1 3.9 3.2l.8 4.1a2 2 0 0 1-3.4 1.8L17 16H7l-2.3 2.1a2 2 0 0 1-3.4-1.8l.8-4.1A4 4 0 0 1 6 9z M8 11v3 M6.5 12.5h3 M15.5 12h1 M17.5 14h1" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                        <StackPanel DockPanel.Dock="Right" Margin="12,0,4,0" VerticalAlignment="Center" Orientation="Horizontal">
+                                            <Border x:Name="Editing" Margin="0,0,14,0" Padding="9,4" CornerRadius="8" VerticalAlignment="Center"
+                                                    Background="{StaticResource BrandSoftGradient}" Visibility="Collapsed">
+                                                <c:TrackedText Text="{l:Text 'UPRAVUJEŠ'}" FontSize="10" Spacing="2" Foreground="White" />
+                                            </Border>
+                                            <c:BatteryIndicator x:Name="Battery" Width="28" Height="14" VerticalAlignment="Center"
+                                                                Level="{Binding Battery}" IsCharging="{Binding IsCharging}" IsKnown="{Binding HasBattery}" />
+                                        </StackPanel>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Ellipse x:Name="Dot" Width="8" Height="8" Margin="0,0,9,0" VerticalAlignment="Center" Fill="{DynamicResource OfflineBrush}" />
+                                                <c:TrackedText Text="{Binding UpperName}" FontFamily="{StaticResource DisplayFont}" FontSize="16" Spacing="2.6" Foreground="{DynamicResource TextBrush}" />
+                                            </StackPanel>
+                                            <TextBlock Margin="17,5,0,0" FontSize="12.5" Foreground="{DynamicResource MutedTextBrush}">
+                                                <Run Text="{Binding Model, Mode=OneWay}" /><Run Text=" · " /><Run Text="{Binding Detail, Mode=OneWay}" />
+                                            </TextBlock>
+                                            <StackPanel Margin="17,6,0,0" Orientation="Horizontal">
+                                                <TextBlock FontSize="12" Foreground="{DynamicResource DimTextBrush}" Text="{l:Text 'Profil: '}" />
+                                                <TextBlock x:Name="Profile" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" Text="{Binding ProfileText}" />
+                                                <StackPanel x:Name="Link" Margin="12,0,0,0" Orientation="Horizontal">
+                                                    <Viewbox Width="12" Height="12" Margin="0,0,5,0" VerticalAlignment="Center">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Stroke="{StaticResource AccentBrush}" StrokeThickness="2.4" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                                                  Data="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1 M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock FontSize="12" Foreground="{StaticResource AccentBrush}" Text="{Binding LinkedText, StringFormat=prepojený s {0}}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                        <Setter TargetName="Dot" Property="Fill" Value="{DynamicResource OnlineBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                                        <Setter TargetName="Card" Property="Opacity" Value="0.6" />
+                                        <Setter TargetName="Battery" Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsManaged}" Value="False">
+                                        <Setter TargetName="Dot" Property="Fill" Value="{DynamicResource WarningBrush}" />
+                                        <Setter TargetName="Profile" Property="Foreground" Value="{DynamicResource DimTextBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding LinkedText}" Value="{x:Null}">
+                                        <Setter TargetName="Link" Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter TargetName="Editing" Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Card" Property="Background" Value="{DynamicResource ItemHoverBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Card" Property="BorderBrush" Value="{StaticResource BrandGradient}" />
+                                        <Setter TargetName="Card" Property="Background" Value="{DynamicResource SelectedTileBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Top navigation: "01 ZARIADENIE" tabs with a brand-gradient underline. -->
+    <Style x:Key="NavTabs" TargetType="ListBox">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="ToolTip" Value="{Binding TranslatedSubtitle}" />
+                    <Setter Property="AutomationProperties.AutomationId" Value="{Binding Key}" />
+                    <Setter Property="AutomationProperties.Name" Value="{Binding UpperTitle}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid Margin="0,0,18,0" Background="Transparent">
+                                    <StackPanel Margin="0,6,0,13" Orientation="Horizontal">
+                                        <c:TrackedText Margin="0,0,9,0" Text="{Binding Number}" FontSize="12" Spacing="1.5"
+                                                       Foreground="{DynamicResource NumberBrush}" />
+                                        <c:TrackedText x:Name="Title" Text="{Binding UpperTitle}" FontSize="11.5" Spacing="1.8"
+                                                       Foreground="{DynamicResource DimTextBrush}" />
+                                    </StackPanel>
+                                    <Border x:Name="Underline" Height="2" VerticalAlignment="Bottom" CornerRadius="1"
+                                            Background="{StaticResource BrandGradient}" Visibility="Hidden" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Title" Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Title" Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                        <Setter TargetName="Underline" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══ Buttons, keys, meters ══════════════════════════════════════════════════ -->
+
+    <!-- The one big gradient action (START style). -->
+    <Style x:Key="BigAction" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Glow" CornerRadius="22" Background="{StaticResource BrandSoftGradient}" Opacity="0.35" Margin="6,10,6,-6">
+                            <Border.Effect>
+                                <BlurEffect Radius="26" />
+                            </Border.Effect>
+                        </Border>
+                        <Border x:Name="Face" Height="78" CornerRadius="20" Background="{StaticResource BrandSoftGradient}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Glow" Property="Opacity" Value="0.6" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Face" Property="Opacity" Value="0.85" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="KeyCap" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource KeyCapBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KeyCapBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="7,2" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="KeyCapText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+    </Style>
+
+    <!-- Small pill label -->
+    <Style x:Key="Badge" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource ItemBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ItemBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="13,6" />
+        <Setter Property="Margin" Value="4" />
+    </Style>
+
+    <!-- Level meter -->
+    <Style x:Key="Meter" TargetType="ProgressBar">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Foreground" Value="{StaticResource SliderFillGradient}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border x:Name="PART_Track" CornerRadius="3" Background="{DynamicResource TrackBrush}" />
+                        <Border x:Name="PART_Indicator" CornerRadius="3" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BeatDot" TargetType="Ellipse">
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Fill" Value="{DynamicResource TrackBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Audio.BeatVisible}" Value="True">
+                <Setter Property="Fill" Value="{StaticResource BrandGradient}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <LinearGradientBrush x:Key="TouchpadBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="{DynamicResource ItemHoverColor}" />
+        <GradientStop Offset="1" Color="{DynamicResource PanelColor}" />
+    </LinearGradientBrush>
+</ResourceDictionary>
