@@ -21,6 +21,12 @@
     <!-- A newer version replaces the old one in place; downgrades are refused. -->
     <MajorUpgrade DowngradeErrorMessage="Už je nainštalovaná novšia verzia aplikácie [ProductName]." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+    <Property Id="INSTALLLEVEL" Value="1" />
+    <!-- AllowAbsent protects wizard selection; these conditions also protect silent installs. -->
+    <Launch Condition="Installed OR NOT ADDLOCAL OR ADDLOCAL~=&quot;ALL&quot; OR ADDLOCAL~&gt;&lt;&quot;Application&quot;"
+            Message="DualSense Tweaker (Application) je povinná súčasť." />
+    <Launch Condition="NOT Installed OR REMOVE~=&quot;ALL&quot; OR NOT (REMOVE~&gt;&lt;&quot;Application&quot;)"
+            Message="Povinnú aplikáciu možno odstrániť iba odinštalovaním celého produktu." />
 
     <!-- Windows 11 (build 22000 and later), 64-bit. -->
     <Property Id="WINDOWSBUILD">
@@ -37,7 +43,9 @@
 
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="LcksFolder" Name="LCKS">
-        <Directory Id="INSTALLFOLDER" Name="DualSense Tweaker" />
+        <Directory Id="INSTALLFOLDER" Name="DualSense Tweaker">
+          <Directory Id="MACROFOLDER" Name="MacroGamer" />
+        </Directory>
       </Directory>
     </StandardDirectory>
 
@@ -53,7 +61,24 @@
       </Files>
     </ComponentGroup>
 
+    <!-- Separate wildcard: no companion dependencies enter the required application feature. -->
+    <ComponentGroup Id="MacroGamerFiles" Directory="MACROFOLDER">
+      <Component Id="MacroGamerExecutable">
+        <File Id="MacroGamerExe" Source="$(MacroPayloadDir)\MacroGamer.exe" KeyPath="yes" />
+        <RegistryValue Root="HKLM" Key="Software\LCKS\DualSense Tweaker" Name="MacroGamerInstalled" Type="integer" Value="1" />
+        <RegistryValue Root="HKLM" Key="Software\LCKS\DualSense Tweaker" Name="MacroGamerPath" Type="string" Value="[MACROFOLDER]" />
+      </Component>
+      <Files Include="$(MacroPayloadDir)\**">
+        <Exclude Files="$(MacroPayloadDir)\MacroGamer.exe" />
+      </Files>
+    </ComponentGroup>
+
     <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="MacroStartMenuShortcut">
+        <Shortcut Id="MacroStartMenuShortcut" Name="Macro Gamer" Description="Macro Gamer od LCKS"
+                  Target="[MACROFOLDER]MacroGamer.exe" WorkingDirectory="MACROFOLDER" />
+        <RegistryValue Root="HKCU" Key="Software\LCKS\DualSense Tweaker\MacroGamer" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
       <Component Id="StartMenuShortcut">
         <Shortcut Id="StartMenuShortcut" Name="DualSense Tweaker" Description="DualSense Tweaker od LCKS"
                   Target="[INSTALLFOLDER]DualSenseTweaker.exe" WorkingDirectory="INSTALLFOLDER" />
@@ -63,6 +88,11 @@
     </StandardDirectory>
 
     <StandardDirectory Id="DesktopFolder">
+      <Component Id="MacroDesktopShortcut">
+        <Shortcut Id="MacroDesktopShortcut" Name="Macro Gamer" Description="Macro Gamer od LCKS"
+                  Target="[MACROFOLDER]MacroGamer.exe" WorkingDirectory="MACROFOLDER" />
+        <RegistryValue Root="HKCU" Key="Software\LCKS\DualSense Tweaker\MacroGamer" Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
       <Component Id="DesktopShortcut">
         <Shortcut Id="DesktopShortcut" Name="DualSense Tweaker" Description="DualSense Tweaker od LCKS"
                   Target="[INSTALLFOLDER]DualSenseTweaker.exe" WorkingDirectory="INSTALLFOLDER" />
@@ -79,6 +109,16 @@
         <ComponentRef Id="DesktopShortcut" />
       </Feature>
     </Feature>
+    <Feature Id="MacroGamer" Title="Macro Gamer"
+             Description="Voliteľná samostatná aplikácia pre makrá, Lua skripty a vstup klávesnice/myši."
+             Level="2" AllowAbsent="yes" AllowAdvertise="no" Display="expand">
+      <ComponentGroupRef Id="MacroGamerFiles" />
+      <ComponentRef Id="MacroStartMenuShortcut" />
+      <Feature Id="MacroDesktop" Title="Macro Gamer – odkaz na ploche"
+               Description="Voliteľná ikona Macro Gamer na pracovnej ploche." Level="2" AllowAdvertise="no">
+        <ComponentRef Id="MacroDesktopShortcut" />
+      </Feature>
+    </Feature>
 
     <!--
       A running copy is asked to quit the normal way before files are replaced or removed (it puts the
@@ -93,7 +133,18 @@
     </Property>
     <CustomAction Id="CloseRunningApp" Property="EXISTING_EXE" ExeCommand="--exit" Execute="immediate" Return="ignore" />
     <CustomAction Id="UninstallUserCleanup" Property="EXISTING_EXE" ExeCommand="--uninstall" Execute="immediate" Return="ignore" />
+    <Property Id="EXISTING_MACRO_EXE">
+      <RegistrySearch Id="ExistingMacroInstall" Root="HKLM" Key="Software\LCKS\DualSense Tweaker" Name="MacroGamerPath"
+                      Type="directory" Bitness="always64">
+        <FileSearch Name="MacroGamer.exe" />
+      </RegistrySearch>
+    </Property>
+    <CustomAction Id="CloseRunningMacroGamer" Property="EXISTING_MACRO_EXE" ExeCommand="--exit" Execute="immediate" Return="ignore" />
+    <CustomAction Id="RequireCoreApplication" Error="DualSense Tweaker (Application) je povinná súčasť." />
     <InstallExecuteSequence>
+      <Custom Action="RequireCoreApplication" After="CostFinalize"
+              Condition="NOT Installed AND NOT (&amp;Application = 3)" />
+      <Custom Action="CloseRunningMacroGamer" Before="InstallValidate" Condition="EXISTING_MACRO_EXE" />
       <Custom Action="UninstallUserCleanup" Before="InstallValidate"
               Condition="EXISTING_EXE AND REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />
       <Custom Action="CloseRunningApp" Before="InstallValidate"

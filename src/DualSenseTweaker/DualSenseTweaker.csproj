@@ -15,7 +15,7 @@
     <Authors>LCKS</Authors>
     <Copyright>© LCKS</Copyright>
     <AssemblyTitle>DualSense Tweaker od LCKS</AssemblyTitle>
-    <Version>1.0.7</Version>
+    <Version>1.1.0</Version>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <!-- App translations are embedded; keep only the English fallback for framework resources. -->
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
