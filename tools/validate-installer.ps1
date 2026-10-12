@@ -65,6 +65,15 @@ function Assert-Both {
     if (-not $worker.WaitForExit(5000)) { $worker.Kill(); throw "Installed worker did not exit." }
     $response | Set-Content (Join-Path $evidence "installed-worker.json")
     if ($worker.ExitCode -ne 0 -or -not ($response | ConvertFrom-Json).Success) { throw "Installed Lua worker failed: $response" }
+    $app = Start-Process (Join-Path $macro "MacroGamer.exe") -PassThru
+    try {
+        $watch = [Diagnostics.Stopwatch]::StartNew()
+        do { Start-Sleep -Milliseconds 100; $app.Refresh() } while (-not $app.HasExited -and -not $app.MainWindowHandle -and $watch.Elapsed.TotalSeconds -lt 10)
+        if ($app.HasExited -or -not $app.MainWindowHandle -or -not $app.MainWindowTitle.StartsWith("Macro Gamer ")) { throw "Installed companion did not open its main WPF window." }
+        $closer = Start-Process (Join-Path $macro "MacroGamer.exe") -ArgumentList "--exit" -PassThru -Wait
+        if ($closer.ExitCode -ne 0 -or -not $app.WaitForExit(15000)) { throw "Installed companion did not close gracefully." }
+        "PASS: installed self-contained WPF application opened its main window and exited through --exit." | Set-Content (Join-Path $evidence "installed-ui.txt")
+    } finally { if (-not $app.HasExited) { $app.Kill() }; $app.Dispose(); $worker.Dispose() }
 }
 try {
     Invoke-Msi /i $Msi "ADDLOCAL=MacroGamer" @(1603)

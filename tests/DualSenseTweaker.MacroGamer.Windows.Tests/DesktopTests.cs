@@ -103,14 +103,26 @@ public class DesktopTests
             var macro = new MacroDefinition { Enabled = true, Trigger = new() { Kind = TriggerKind.Manual }, Actions = [new() { Kind = ActionKind.KeyDown, Code = "F24" }, new() { Kind = ActionKind.Delay, DurationMs = 5000 }] };
             Await(engine.ConfigureAsync([macro], null)); engine.Enable(); Assert.True(engine.Start(macro.Id));
             PumpUntil(() => messages.Contains(0x100));
-            Await(engine.StopAllAsync("Native emergency-stop verification")); PumpUntil(() => messages.Contains(0x101));
+            Task? stopped = null;
+            using var hotkey = new EmergencyHotkey(window, () => stopped = engine.StopAllAsync("Native global emergency hotkey"));
+            Assert.True(hotkey.Available, $"Could not register emergency hotkey: {hotkey.Error}");
+            try
+            {
+                foreach (string key in new[] { "CTRL", "SHIFT", "F10" }) Await(backend.SetControlAsync(OutputControl.Key(key), true, default).AsTask());
+                PumpUntil(() => stopped is not null);
+            }
+            finally
+            {
+                foreach (string key in new[] { "F10", "SHIFT", "CTRL" }) Await(backend.SetControlAsync(OutputControl.Key(key), false, default).AsTask());
+            }
+            Await(stopped!); PumpUntil(() => messages.Contains(0x101));
             Assert.Empty(Await(engine.Ledger.HeldAsync())); Assert.False(engine.Snapshot.Enabled);
             var point = window.PointToScreen(new Point(100, 100)); SetCursorPos((int)point.X, (int)point.Y);
             Await(backend.SetControlAsync(OutputControl.Mouse("X2"), true, default).AsTask());
             Await(backend.SetControlAsync(OutputControl.Mouse("X2"), false, default).AsTask());
             Await(backend.MoveMouseAsync(2, 2, default).AsTask()); Await(backend.WheelAsync(120, default).AsTask());
             PumpUntil(() => messages.Contains(0x20B) && messages.Contains(0x20C) && messages.Contains(0x20A));
-            File.WriteAllText(Path.Combine(evidence, "native-output.txt"), "PASS: SendInput delivered F24 down/up to own HWND; engine Stop All released held F24; X2 down/up and wheel messages received.\n");
+            File.WriteAllText(Path.Combine(evidence, "native-output.txt"), "PASS: SendInput delivered F24 down/up to own HWND; registered Ctrl+Shift+F10 received WM_HOTKEY and released held F24; X2 down/up and wheel messages received.\n");
         }
         finally { Await(engine.DisposeAsync().AsTask()); source.RemoveHook(Hook); SetCursorPos(previous.X, previous.Y); }
     }

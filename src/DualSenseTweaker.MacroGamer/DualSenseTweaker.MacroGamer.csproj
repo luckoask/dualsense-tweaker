@@ -15,6 +15,7 @@
     <NoWarn>$(NoWarn);WPF0001</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="DualSenseTweaker.MacroGamer.Windows.Tests" />
     <ProjectReference Include="..\DualSenseTweaker.MacroGamer.Presentation\DualSenseTweaker.MacroGamer.Presentation.csproj" />
     <ProjectReference Include="..\DualSenseTweaker.MacroGamer.ScriptHost\DualSenseTweaker.MacroGamer.ScriptHost.csproj" ReferenceOutputAssembly="false" />
     <Page Include="..\DualSenseTweaker\Themes\Dark.xaml" Link="Themes\Dark.xaml" />
