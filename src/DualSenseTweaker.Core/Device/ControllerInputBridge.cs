@@ -32,6 +32,6 @@ public sealed class ControllerInputBridge : IAsyncDisposable
     {
         if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
         _manager.AllInputReceived -= OnInput; _manager.DeviceDisconnected -= OnDisconnected;
-        await _publisher.DisposeAsync();
+        await _publisher.DisposeAsync().ConfigureAwait(false);
     }
 }

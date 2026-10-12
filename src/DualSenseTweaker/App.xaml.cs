@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.IO;
 using System.Windows.Threading;
 using DualSenseTweaker.Core.Audio;
 using DualSenseTweaker.Core.Device;
@@ -56,6 +57,7 @@ public partial class App : Application
         _instance = new SingleInstance("DualSenseTweaker");
         if (!_instance.IsFirst)
         {
+            if (HasArgument(e, "--share-input")) _instance.SignalInputSharing();
             // Already running (e.g. in the tray): bring that window up instead.
             _instance.SignalFirstInstance();
             _instance.Dispose();
@@ -90,7 +92,7 @@ public partial class App : Application
         ApplyAppearance();
         _registry = new ControllerRegistry(_profiles, settings, live, refresh, _preferences);
         _manager = new DualSenseManager(_registry.SourcesFor);
-        _inputBridge = new ControllerInputBridge(_manager);
+        if (ShouldShareInput(e)) EnableInputSharing();
         _registry.Attach(_manager);
         _audio = new AudioEngine(settings, live, _manager);
         _watcher = new GameProfileWatcher(_profiles, _preferences);
@@ -146,6 +148,7 @@ public partial class App : Application
         Log.Info(L.Format($"Štart hotový za {startupClock.ElapsedMilliseconds} ms."));
         Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, () => _tray?.PrepareMenu());
         _instance.ListenForShowRequests(() => Dispatcher.InvokeAsync(ShowMainWindow));
+        _instance.ListenForInputSharing(() => Dispatcher.InvokeAsync(EnableInputSharing));
         _instance.ListenForExitRequests(() => Dispatcher.InvokeAsync(() =>
         {
             Log.Info(L.Text("Inštalátor požiadal o ukončenie."));
@@ -157,6 +160,17 @@ public partial class App : Application
     {
         Cleanup();
         base.OnExit(e);
+    }
+    private void EnableInputSharing()
+    {
+        if (_manager is null || _inputBridge is not null || _cleanedUp != 0) return;
+        TryRun(() => _inputBridge = new ControllerInputBridge(_manager), "Input sharing startup");
+    }
+    private static bool ShouldShareInput(StartupEventArgs e)
+    {
+        if (HasArgument(e, "--share-input") || File.Exists(Path.Combine(AppContext.BaseDirectory, "MacroGamer", "MacroGamer.exe"))) return true;
+        using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"Software\LCKS\DualSense Tweaker");
+        return key?.GetValue("MacroGamerInstalled") is int installed && installed == 1;
     }
 
     /// <summary>

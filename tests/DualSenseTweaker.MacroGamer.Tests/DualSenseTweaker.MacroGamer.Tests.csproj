@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Core\DualSenseTweaker.MacroGamer.Core.csproj" />
     <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Output\DualSenseTweaker.MacroGamer.Output.csproj" />
     <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Scripting\DualSenseTweaker.MacroGamer.Scripting.csproj" />
+    <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Presentation\DualSenseTweaker.MacroGamer.Presentation.csproj" />
     <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.ScriptHost\DualSenseTweaker.MacroGamer.ScriptHost.csproj" ReferenceOutputAssembly="false" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="xunit" Version="2.9.3" />

@@ -58,8 +58,10 @@ internal sealed class SingleInstance : IDisposable
     private readonly Mutex _mutex;
     private readonly EventWaitHandle _showRequest;
     private readonly EventWaitHandle _exitRequest;
+    private readonly EventWaitHandle _shareInputRequest;
     private RegisteredWaitHandle? _wait;
     private RegisteredWaitHandle? _exitWait;
+    private RegisteredWaitHandle? _shareWait;
 
     public SingleInstance(string id)
     {
@@ -67,6 +69,7 @@ internal sealed class SingleInstance : IDisposable
         IsFirst = createdNew;
         _showRequest = new EventWaitHandle(false, EventResetMode.AutoReset, $@"Local\{id}.Show");
         _exitRequest = new EventWaitHandle(false, EventResetMode.AutoReset, $@"Local\{id}.Exit");
+        _shareInputRequest = new EventWaitHandle(false, EventResetMode.AutoReset, $@"Local\{id}.ShareInput");
     }
 
     /// <summary>
@@ -101,6 +104,9 @@ internal sealed class SingleInstance : IDisposable
     public bool IsFirst { get; }
 
     public void SignalFirstInstance() => _showRequest.Set();
+    public void SignalInputSharing() => _shareInputRequest.Set();
+    public void ListenForInputSharing(Action enable) =>
+        _shareWait = ThreadPool.RegisterWaitForSingleObject(_shareInputRequest, (_, _) => enable(), null, Timeout.Infinite, executeOnlyOnce: false);
 
     /// <param name="onShow">Called on a thread-pool thread whenever another instance starts.</param>
     public void ListenForShowRequests(Action onShow) =>
@@ -114,10 +120,12 @@ internal sealed class SingleInstance : IDisposable
     {
         _wait?.Unregister(null);
         _exitWait?.Unregister(null);
+        _shareWait?.Unregister(null);
         if (IsFirst)
             _mutex.ReleaseMutex();
         _mutex.Dispose();
         _showRequest.Dispose();
         _exitRequest.Dispose();
+        _shareInputRequest.Dispose();
     }
 }

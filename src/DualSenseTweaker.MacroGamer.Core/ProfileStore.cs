@@ -29,12 +29,13 @@ public sealed record MacroProfile
     public ScriptDefinition[] Scripts { get; init; } = [];
     public InputRecording[] Recordings { get; init; } = [];
     public Dictionary<string, double> Variables { get; init; } = [];
+    public Dictionary<string, string> RecordingKeyMappings { get; init; } = new() { ["R1"] = "E", ["Cross"] = "SPACE", ["Circle"] = "Q", ["Square"] = "R" };
     public void Validate()
     {
         if (FormatVersion != 1 || Id == Guid.Empty || string.IsNullOrWhiteSpace(Name) || Name.Length > 128 ||
             ControllerId?.Length > 1024 || GameExecutable?.Length > 1024 || !Enum.IsDefined(Backend) ||
             Macros is null || Macros.Length > 256 || Scripts is null || Scripts.Length > 64 ||
-            Recordings is null || Recordings.Length > 16 || Variables is null || Variables.Count > 64)
+            Recordings is null || Recordings.Length > 16 || Variables is null || Variables.Count > 64 || RecordingKeyMappings is null || RecordingKeyMappings.Count > 23)
             throw new InvalidDataException("Invalid or unsupported profile format.");
         foreach (var macro in Macros) (macro ?? throw new InvalidDataException("Null macro.")).Validate();
         foreach (var script in Scripts) (script ?? throw new InvalidDataException("Null script.")).Validate();
@@ -43,13 +44,20 @@ public sealed record MacroProfile
             throw new InvalidDataException("Duplicate macro/script identities.");
         foreach (var (key, value) in Variables)
             if (string.IsNullOrWhiteSpace(key) || key.Length > 64 || !double.IsFinite(value)) throw new InvalidDataException("Invalid profile variable.");
+        var mapped = new HashSet<PadButtons>();
+        foreach (var (buttonName, keyName) in RecordingKeyMappings)
+        {
+            if (!Enum.TryParse<PadButtons>(buttonName, true, out var button) || !Enum.IsDefined(button) || button == PadButtons.None || !mapped.Add(button) || string.IsNullOrWhiteSpace(keyName))
+                throw new InvalidDataException("Invalid or duplicate recording mapping.");
+            OutputControl.Key(keyName).Validate();
+        }
     }
     public MacroProfile Duplicate(string name) => this with
     {
         Id = Guid.NewGuid(), Name = name,
         Macros = Macros.Select(m => m.Snapshot() with { Id = Guid.NewGuid() }).ToArray(),
         Scripts = Scripts.Select(s => s with { Id = Guid.NewGuid() }).ToArray(),
-        Variables = new(Variables), Recordings = Recordings.Select(r => r with { Points = r.Points.ToArray() }).ToArray(),
+        Variables = new(Variables), RecordingKeyMappings = new(RecordingKeyMappings), Recordings = Recordings.Select(r => r with { Points = r.Points.ToArray() }).ToArray(),
     };
     public static MacroProfile Default() => new()
     {

@@ -119,4 +119,5 @@ public sealed class DiagnosticLog(int capacity = 1000)
         }
     }
     public IReadOnlyList<DiagnosticEntry> Entries { get { lock (_gate) return _entries.ToArray(); } }
+    public void Clear() { lock (_gate) _entries.Clear(); }
 }

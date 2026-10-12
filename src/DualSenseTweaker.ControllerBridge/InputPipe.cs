@@ -135,8 +135,8 @@ public sealed class InputPipePublisher : IAsyncDisposable
         if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
         _stop.Cancel();
         foreach (var subscriber in _subscribers.Values) subscriber.Queue.Writer.TryComplete();
-        await _accept;
-        await Task.WhenAll(_writers.Values);
+        await _accept.ConfigureAwait(false);
+        await Task.WhenAll(_writers.Values).ConfigureAwait(false);
         _stop.Dispose();
     }
 }

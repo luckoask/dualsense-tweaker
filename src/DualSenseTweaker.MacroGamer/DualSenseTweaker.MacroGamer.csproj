@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>MacroGamer</AssemblyName>
+    <Product>Macro Gamer</Product>
+    <Company>LCKS</Company>
+    <Version>1.1.0</Version>
+    <ApplicationIcon>..\DualSenseTweaker\Assets\app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DualSenseTweaker.MacroGamer.Presentation\DualSenseTweaker.MacroGamer.Presentation.csproj" />
+    <ProjectReference Include="..\DualSenseTweaker.MacroGamer.ScriptHost\DualSenseTweaker.MacroGamer.ScriptHost.csproj" ReferenceOutputAssembly="false" />
+    <Page Include="..\DualSenseTweaker\Themes\Dark.xaml" Link="Themes\Dark.xaml" />
+    <Page Include="..\DualSenseTweaker\Themes\Light.xaml" Link="Themes\Light.xaml" />
+    <Page Include="..\DualSenseTweaker\Themes\Controls.xaml" Link="Themes\Controls.xaml" />
+    <Resource Include="..\DualSenseTweaker\Assets\app.ico" Link="Assets\app.ico" />
+    <EmbeddedResource Include="Localization\strings.json" LogicalName="MacroGamer.Localization.strings.json" />
+    <None Include="..\..\samples\macro-gamer\*.lua" Link="samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\third-party\MoonSharp-LICENSE.txt" Link="licenses\MoonSharp-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="CopyScriptWorker" AfterTargets="Build">
+    <ItemGroup><ScriptWorkerFiles Include="..\DualSenseTweaker.MacroGamer.ScriptHost\bin\$(Configuration)\net10.0\*.*" /></ItemGroup>
+    <Copy SourceFiles="@(ScriptWorkerFiles)" DestinationFiles="@(ScriptWorkerFiles->'$(OutDir)script-worker\%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

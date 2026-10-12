@@ -1,0 +1,490 @@
+{
+  "Prehľad": {
+    "en": "Dashboard",
+    "cs": "Přehled"
+  },
+  "Ovládače": {
+    "en": "Controllers",
+    "cs": "Ovladače"
+  },
+  "Makrá": {
+    "en": "Macros",
+    "cs": "Makra"
+  },
+  "Editor makier": {
+    "en": "Macro editor",
+    "cs": "Editor maker"
+  },
+  "Skripty": {
+    "en": "Scripts",
+    "cs": "Skripty"
+  },
+  "Profily": {
+    "en": "Profiles",
+    "cs": "Profily"
+  },
+  "Diagnostika": {
+    "en": "Diagnostics",
+    "cs": "Diagnostika"
+  },
+  "Nastavenia": {
+    "en": "Settings",
+    "cs": "Nastavení"
+  },
+  "Samostatný makro runtime": {
+    "en": "Standalone macro runtime",
+    "cs": "Samostatný makro runtime"
+  },
+  "Núdzové zastavenie": {
+    "en": "Emergency stop",
+    "cs": "Nouzové zastavení"
+  },
+  "STOP VŠETKO": {
+    "en": "STOP ALL",
+    "cs": "ZASTAVIT VŠE"
+  },
+  "Uložiť profil": {
+    "en": "Save profile",
+    "cs": "Uložit profil"
+  },
+  "Zapnúť engine": {
+    "en": "Enable engine",
+    "cs": "Zapnout engine"
+  },
+  "AKTÍVNY PROFIL": {
+    "en": "ACTIVE PROFILE",
+    "cs": "AKTIVNÍ PROFIL"
+  },
+  "Tvoj ovládač. Tvoje sekvencie. Všetko pod kontrolou.": {
+    "en": "Your controller. Your sequences. Everything under control.",
+    "cs": "Tvůj ovladač. Tvé sekvence. Vše pod kontrolou."
+  },
+  "OVLÁDAČ": {
+    "en": "CONTROLLER",
+    "cs": "OVLADAČ"
+  },
+  "ENGINE": {
+    "en": "ENGINE",
+    "cs": "ENGINE"
+  },
+  "VÝSTUP": {
+    "en": "OUTPUT",
+    "cs": "VÝSTUP"
+  },
+  "POSLEDNÝ VSTUP": {
+    "en": "LATEST INPUT",
+    "cs": "POSLEDNÍ VSTUP"
+  },
+  "Pri každom spustení je engine vypnutý.": {
+    "en": "The engine starts disabled on every launch.",
+    "cs": "Při každém spuštění je engine vypnutý."
+  },
+  "Aktívne syntetické vstupy": {
+    "en": "Held synthetic inputs",
+    "cs": "Aktivní syntetické vstupy"
+  },
+  "Začni bezpečne": {
+    "en": "Start safely",
+    "cs": "Začni bezpečně"
+  },
+  "Otvor Tweaker, pripoj ovládač a vyber diagnostický výstup. Povoľ makro R1 → E, ulož profil a zapni engine. V diagnostike uvidíš skutočné udalosti Down/Up. Klávesnicu a myš zvoľ až pre aplikáciu, ktorá takéto vstupy podporuje.": {
+    "en": "Open Tweaker, connect a controller and select diagnostic output. Enable the R1 → E macro, save the profile and enable the engine. Diagnostics shows real Down/Up events. Select keyboard/mouse output for an application that accepts it.",
+    "cs": "Otevři Tweaker, připoj ovladač a vyber diagnostický výstup. Povol makro R1 → E, ulož profil a zapni engine. V diagnostice uvidíš skutečné události Down/Up. Klávesnici a myš zvol pro aplikaci, která tyto vstupy podporuje."
+  },
+  "Jedno HID pripojenie spravuje DualSense Tweaker. Macro Gamer prijíma jeho normalizované vstupy cez lokálny kanál.": {
+    "en": "DualSense Tweaker owns the HID connection. Macro Gamer receives normalized input through a local channel.",
+    "cs": "Jedno HID připojení spravuje DualSense Tweaker. Macro Gamer přijímá normalizované vstupy přes místní kanál."
+  },
+  "Otvoriť DualSense Tweaker": {
+    "en": "Open DualSense Tweaker",
+    "cs": "Otevřít DualSense Tweaker"
+  },
+  "Pripojené ovládače": {
+    "en": "Connected controllers",
+    "cs": "Připojené ovladače"
+  },
+  "Priradiť vybraný ovládač": {
+    "en": "Associate selected controller",
+    "cs": "Přiřadit vybraný ovladač"
+  },
+  "Automatický výber": {
+    "en": "Automatic selection",
+    "cs": "Automatický výběr"
+  },
+  "Uložené sekvencie majú vlastné spúšťače, opakovanie a časové limity. Zmeny makier pri uložení bezpečne vypnú engine.": {
+    "en": "Saved sequences have their own triggers, repetitions and runtime limits. Saving macro changes safely disables the engine.",
+    "cs": "Uložené sekvence mají vlastní spouštěče, opakování a časové limity. Změny maker při uložení bezpečně vypnou engine."
+  },
+  "Nové makro": {
+    "en": "New macro",
+    "cs": "Nové makro"
+  },
+  "Upraviť": {
+    "en": "Edit",
+    "cs": "Upravit"
+  },
+  "Spustiť makro": {
+    "en": "Run macro",
+    "cs": "Spustit makro"
+  },
+  "Importovať": {
+    "en": "Import",
+    "cs": "Importovat"
+  },
+  "Exportovať": {
+    "en": "Export",
+    "cs": "Exportovat"
+  },
+  "Odstrániť": {
+    "en": "Delete",
+    "cs": "Odstranit"
+  },
+  "Názov": {
+    "en": "Name",
+    "cs": "Název"
+  },
+  "Povolené v profile": {
+    "en": "Enabled in profile",
+    "cs": "Povoleno v profilu"
+  },
+  "Spúšťač": {
+    "en": "Trigger",
+    "cs": "Spouštěč"
+  },
+  "Tlačidlá (napr. L1+R1)": {
+    "en": "Buttons (e.g. L1+R1)",
+    "cs": "Tlačítka (např. L1+R1)"
+  },
+  "Vyžadované tlačidlá": {
+    "en": "Required buttons",
+    "cs": "Požadovaná tlačítka"
+  },
+  "Režim": {
+    "en": "Mode",
+    "cs": "Režim"
+  },
+  "Počet opakovaní": {
+    "en": "Repeat count",
+    "cs": "Počet opakování"
+  },
+  "Opakovať počas aktivity": {
+    "en": "Repeat while active",
+    "cs": "Opakovat během aktivity"
+  },
+  "Maximálny čas (ms)": {
+    "en": "Maximum runtime (ms)",
+    "cs": "Maximální čas (ms)"
+  },
+  "Analógová spúšť": {
+    "en": "Analog trigger",
+    "cs": "Analogová spoušť"
+  },
+  "Prah (1–255)": {
+    "en": "Threshold (1–255)",
+    "cs": "Práh (1–255)"
+  },
+  "Držanie pred spustením (ms)": {
+    "en": "Hold before firing (ms)",
+    "cs": "Držení před spuštěním (ms)"
+  },
+  "Poradie akcií": {
+    "en": "Action sequence",
+    "cs": "Pořadí akcí"
+  },
+  "Pridať": {
+    "en": "Add",
+    "cs": "Přidat"
+  },
+  "Akcia": {
+    "en": "Action",
+    "cs": "Akce"
+  },
+  "Kláves alebo tlačidlo myši": {
+    "en": "Key or mouse button",
+    "cs": "Klávesa nebo tlačítko myši"
+  },
+  "Čas (ms)": {
+    "en": "Duration (ms)",
+    "cs": "Čas (ms)"
+  },
+  "Záznam a prehrávanie": {
+    "en": "Recording and playback",
+    "cs": "Záznam a přehrávání"
+  },
+  "Nahrať vstupy": {
+    "en": "Record input",
+    "cs": "Nahrát vstupy"
+  },
+  "Zastaviť záznam": {
+    "en": "Stop recording",
+    "cs": "Zastavit záznam"
+  },
+  "Prehrávanie používa mapované tlačidlá. Analógové a dotykové dáta zostávajú v zázname; virtuálny gamepad nie je dostupný.": {
+    "en": "Playback uses mapped buttons. Analog and touch data remain in the recording; virtual gamepad output is unavailable.",
+    "cs": "Přehrávání používá mapovaná tlačítka. Analogová a dotyková data zůstávají v záznamu; virtuální gamepad není dostupný."
+  },
+  "Tlačidlo": {
+    "en": "Button",
+    "cs": "Tlačítko"
+  },
+  "Kláves": {
+    "en": "Key",
+    "cs": "Klávesa"
+  },
+  "Pridať mapovanie": {
+    "en": "Add mapping",
+    "cs": "Přidat mapování"
+  },
+  "Odstrániť mapovanie": {
+    "en": "Remove mapping",
+    "cs": "Odstranit mapování"
+  },
+  "Vytvoriť makro zo záznamu": {
+    "en": "Create macro from recording",
+    "cs": "Vytvořit makro ze záznamu"
+  },
+  "Odstrániť záznam": {
+    "en": "Delete recording",
+    "cs": "Odstranit záznam"
+  },
+  "Lua beží v izolovanom procese. Úpravy a uloženie nemenia snapshot bežiaceho skriptu. Na novú verziu použi Zastaviť a Spustiť.": {
+    "en": "Lua runs in an isolated process. Editing and saving preserves the running script snapshot. Stop and run to use the new version.",
+    "cs": "Lua běží v izolovaném procesu. Úpravy a uložení nemění snapshot běžícího skriptu. Pro novou verzi použij Zastavit a Spustit."
+  },
+  "Nový skript": {
+    "en": "New script",
+    "cs": "Nový skript"
+  },
+  "Overiť": {
+    "en": "Validate",
+    "cs": "Ověřit"
+  },
+  "Spustiť skript": {
+    "en": "Run script",
+    "cs": "Spustit skript"
+  },
+  "Zastaviť skripty": {
+    "en": "Stop scripts",
+    "cs": "Zastavit skripty"
+  },
+  "Načítať": {
+    "en": "Load",
+    "cs": "Načíst"
+  },
+  "Načítať príklad": {
+    "en": "Load example",
+    "cs": "Načíst příklad"
+  },
+  "Profily Macro Gamer sú oddelené od nastavení Tweaker. Prepnutie profilu vždy vypne engine.": {
+    "en": "Macro Gamer profiles are separate from Tweaker settings. Switching profiles always disables the engine.",
+    "cs": "Profily Macro Gamer jsou oddělené od nastavení Tweaker. Přepnutí profilu vždy vypne engine."
+  },
+  "Aktivovať": {
+    "en": "Activate",
+    "cs": "Aktivovat"
+  },
+  "Názov aktívneho profilu": {
+    "en": "Active profile name",
+    "cs": "Název aktivního profilu"
+  },
+  "Herný program (voliteľné)": {
+    "en": "Game executable (optional)",
+    "cs": "Herní program (volitelné)"
+  },
+  "Výstupný backend": {
+    "en": "Output backend",
+    "cs": "Výstupní backend"
+  },
+  "Číselné premenné profilu (JSON)": {
+    "en": "Numeric profile variables (JSON)",
+    "cs": "Číselné proměnné profilu (JSON)"
+  },
+  "Nový profil": {
+    "en": "New profile",
+    "cs": "Nový profil"
+  },
+  "Duplikovať": {
+    "en": "Duplicate",
+    "cs": "Duplikovat"
+  },
+  "Časovanie, chyby, skutočné výstupné udalosti a držané vstupy. Časy v zázname sú UTC.": {
+    "en": "Scheduling, errors, actual output events and held inputs. Log times are UTC.",
+    "cs": "Časování, chyby, skutečné výstupní události a držené vstupy. Časy v záznamu jsou UTC."
+  },
+  "Exportovať záznam": {
+    "en": "Export log",
+    "cs": "Exportovat záznam"
+  },
+  "Vyčistiť záznam": {
+    "en": "Clear log",
+    "cs": "Vyčistit záznam"
+  },
+  "Macro Gamer sa nespúšťa automaticky a nepovoľuje makrá pri štarte.": {
+    "en": "Macro Gamer does not start automatically or enable macros on launch.",
+    "cs": "Macro Gamer se nespouští automaticky a nepovoluje makra při startu."
+  },
+  "Jazyk": {
+    "en": "Language",
+    "cs": "Jazyk"
+  },
+  "Vzhľad": {
+    "en": "Appearance",
+    "cs": "Vzhled"
+  },
+  "Vyberať profil podľa aktívnej hry": {
+    "en": "Select profile for foreground game",
+    "cs": "Vybírat profil podle aktivní hry"
+  },
+  "Automatické prepnutie nikdy nezapne engine.": {
+    "en": "Automatic switching never enables the engine.",
+    "cs": "Automatické přepnutí nikdy nezapne engine."
+  },
+  "Núdzová klávesová skratka": {
+    "en": "Emergency hotkey",
+    "cs": "Nouzová klávesová zkratka"
+  },
+  "Uložiť nastavenia": {
+    "en": "Save settings",
+    "cs": "Uložit nastavení"
+  },
+  "Samostatné dáta aplikácie": {
+    "en": "Separate application data",
+    "cs": "Samostatná data aplikace"
+  },
+  "Otvoriť priečinok": {
+    "en": "Open folder",
+    "cs": "Otevřít složku"
+  },
+  "Klávesnica a myš používajú Windows SendInput. Podpora v konkrétnej hre závisí od jej nastavení a pravidiel. Fyzický ovládač ostáva viditeľný; Steam Input môže pridať vlastné mapovanie. PS5 a Remote Play nie sú podporované výstupy.": {
+    "en": "Keyboard/mouse output uses Windows SendInput. Game support depends on settings and rules. The physical controller remains visible; Steam Input may add its own mapping. PS5 and Remote Play output are unsupported.",
+    "cs": "Klávesnice a myš používají Windows SendInput. Podpora ve hře závisí na jejím nastavení a pravidlech. Fyzický ovladač zůstává viditelný; Steam Input může přidat vlastní mapování. PS5 a Remote Play nejsou podporované výstupy."
+  },
+  "Diagnostický výstup": {
+    "en": "Diagnostic output",
+    "cs": "Diagnostický výstup"
+  },
+  "Klávesnica a myš": {
+    "en": "Keyboard and mouse",
+    "cs": "Klávesnice a myš"
+  },
+  "Virtuálny ovládač — nedostupný": {
+    "en": "Virtual controller — unavailable",
+    "cs": "Virtuální ovladač — nedostupný"
+  },
+  "Žiadne aktívne makro": {
+    "en": "No active macro",
+    "cs": "Žádné aktivní makro"
+  },
+  "Žiadny aktívny skript": {
+    "en": "No active script",
+    "cs": "Žádný aktivní skript"
+  },
+  "Ovládač nie je pripojený": {
+    "en": "Controller disconnected",
+    "cs": "Ovladač není připojený"
+  },
+  "Tweaker poskytuje vstup": {
+    "en": "Tweaker input source connected",
+    "cs": "Tweaker poskytuje vstup"
+  },
+  "Spusti DualSense Tweaker v sekcii Ovládače": {
+    "en": "Open DualSense Tweaker in Controllers",
+    "cs": "Spusť DualSense Tweaker v sekci Ovladače"
+  },
+  "Automaticky prvý ovládač": {
+    "en": "First connected controller automatically",
+    "cs": "Automaticky první ovladač"
+  },
+  "Výstup nie je dostupný": {
+    "en": "Output unavailable",
+    "cs": "Výstup není dostupný"
+  },
+  "Čakám na skutočné vstupné dáta": {
+    "en": "Waiting for real controller input",
+    "cs": "Čekám na skutečná vstupní data"
+  },
+  "Nahrávam vstupy": {
+    "en": "Recording input",
+    "cs": "Nahrávám vstupy"
+  },
+  "Nahrávanie je zastavené": {
+    "en": "Recording stopped",
+    "cs": "Nahrávání je zastaveno"
+  },
+  "Zatiaľ žiadny záznam": {
+    "en": "No recording yet",
+    "cs": "Zatím žádný záznam"
+  },
+  "Núdzová klávesová skratka nie je dostupná": {
+    "en": "Emergency hotkey unavailable",
+    "cs": "Nouzová klávesová zkratka není dostupná"
+  },
+  "Engine je zapnutý": {
+    "en": "Engine enabled",
+    "cs": "Engine je zapnutý"
+  },
+  "Všetky vstupy boli zastavené": {
+    "en": "All inputs stopped",
+    "cs": "Všechny vstupy byly zastaveny"
+  },
+  "Odstrániť vybrané makro?": {
+    "en": "Delete the selected macro?",
+    "cs": "Odstranit vybrané makro?"
+  },
+  "Zapni engine a povoľ vybrané makro": {
+    "en": "Enable the engine and the selected macro",
+    "cs": "Zapni engine a povol vybrané makro"
+  },
+  "Nahrané makro": {
+    "en": "Recorded macro",
+    "cs": "Nahrané makro"
+  },
+  "Odstrániť vybraný skript?": {
+    "en": "Delete the selected script?",
+    "cs": "Odstranit vybraný skript?"
+  },
+  "Skript je platný": {
+    "en": "Script is valid",
+    "cs": "Skript je platný"
+  },
+  "Skripty boli zastavené": {
+    "en": "Scripts stopped",
+    "cs": "Skripty byly zastaveny"
+  },
+  "Posledný profil nemožno odstrániť": {
+    "en": "The last profile cannot be deleted",
+    "cs": "Poslední profil nelze odstranit"
+  },
+  "Odstrániť aktívny profil?": {
+    "en": "Delete the active profile?",
+    "cs": "Odstranit aktivní profil?"
+  },
+  "Vyber pripojený ovládač": {
+    "en": "Select a connected controller",
+    "cs": "Vyber připojený ovladač"
+  },
+  "Nastavenia boli uložené": {
+    "en": "Settings saved",
+    "cs": "Nastavení bylo uloženo"
+  },
+  "Profil bol uložený": {
+    "en": "Profile saved",
+    "cs": "Profil byl uložen"
+  },
+  "Automatický profil bol vybraný; engine zostáva vypnutý": {
+    "en": "Automatic profile selected; engine remains disabled",
+    "cs": "Automatický profil byl vybrán; engine zůstává vypnutý"
+  },
+  "Rozpracované úpravy boli obnovené; engine je vypnutý": {
+    "en": "Draft restored; engine is disabled",
+    "cs": "Rozpracované úpravy byly obnoveny; engine je vypnutý"
+  },
+  "Skratka je obsadená; použi STOP VŠETKO": {
+    "en": "Hotkey unavailable; use STOP ALL",
+    "cs": "Zkratka je obsazená; použij ZASTAVIT VŠE"
+  },
+  "DualSense Tweaker sa nenašiel. Oprav inštaláciu alebo ho spusti manuálne s --share-input.": {
+    "en": "DualSense Tweaker was not found. Repair the installation or launch it manually with --share-input.",
+    "cs": "DualSense Tweaker nebyl nalezen. Oprav instalaci nebo jej spusť ručně s --share-input."
+  }
+}
