@@ -108,6 +108,33 @@ public class PresentationTests : IDisposable
         await runtime.ReceiveAsync(new() { SessionId = session, Kind = BridgeMessageKind.Snapshot, Controllers = [new("other", "DualSense", "Bluetooth", 80)] });
         Assert.True(runtime.SourceOnline); Assert.Single(runtime.Controllers); Assert.Null(runtime.SelectedController);
     }
+    [Theory]
+    [InlineData("{\"Macros\":[null]}")]
+    [InlineData("{\"Scripts\":[null]}")]
+    [InlineData("{\"Mappings\":[null]}")]
+    [InlineData("{\"Recordings\":[null]}")]
+    [InlineData("{\"ProfileName\":null}")]
+    public async Task MaliciousDraftIsRejectedBeforeChangingAnyEditors(string corruptedFields)
+    {
+        var original = Create(out var first); Guid id = first.ActiveProfile.Id; int macroCount = original.Macros.Count;
+        await original.DisposeAsync();
+        var node = System.Text.Json.Nodes.JsonNode.Parse(corruptedFields)!.AsObject();
+        node["Format"] = 1; node["ProfileId"] = id;
+        File.WriteAllText(Path.Combine(_root, "editor-draft.json"), node.ToJsonString());
+        await using var view = Create(out var runtime); Assert.Equal(macroCount, view.Macros.Count); Assert.False(view.EngineEnabled);
+        Assert.Contains(runtime.Diagnostics.Entries, entry => entry.Message.StartsWith("Editor draft rejected:"));
+    }
+    [Fact]
+    public async Task ClosingWhileRecordingPreservesActualCapturedFrames()
+    {
+        var view = Create(out var runtime); Guid session = Guid.NewGuid();
+        await runtime.ReceiveAsync(new() { SessionId = session, Kind = BridgeMessageKind.Snapshot, Controllers = [new("pad", "DualSense", "USB", 50)] });
+        await view.RecordCommand.ExecuteAsync();
+        foreach (var frame in new[] { EngineTests.Frame(0), EngineTests.Frame(1, PadButtons.R1), EngineTests.Frame(2) })
+            await runtime.ReceiveAsync(new() { SessionId = session, Kind = BridgeMessageKind.Frame, Frame = frame with { SessionId = session } });
+        await view.DisposeAsync();
+        await using var reopened = Create(out _); Assert.Single(reopened.Recordings); Assert.Equal(3, reopened.Recordings[0].Points.Length);
+    }
     private sealed class FakeInteraction : IUserInteraction
     {
         public string? OpenPath, SavePath;

@@ -18,8 +18,8 @@ public readonly record struct OutputControl(ControlKind Kind, string Code)
         "PAGEUP", "PAGEDOWN", "UP", "DOWN", "LEFT", "RIGHT", "SHIFT", "CTRL", "ALT",
         "LSHIFT", "RSHIFT", "LCTRL", "RCTRL", "LALT", "RALT", "CAPSLOCK",
     };
-    public static OutputControl Key(string code) => new(ControlKind.Keyboard, code.Trim().ToUpperInvariant());
-    public static OutputControl Mouse(string code) => new(ControlKind.MouseButton, code.Trim().ToUpperInvariant());
+    public static OutputControl Key(string code) => new OutputControl(ControlKind.Keyboard, code).Normalize();
+    public static OutputControl Mouse(string code) => new OutputControl(ControlKind.MouseButton, code).Normalize();
     public void Validate()
     {
         if (string.IsNullOrWhiteSpace(Code) || Code.Length > 16 || !Enum.IsDefined(Kind))
@@ -31,7 +31,17 @@ public readonly record struct OutputControl(ControlKind Kind, string Code)
               normalized.StartsWith('F') && int.TryParse(normalized.AsSpan(1), out var n) && n is >= 1 and <= 24;
         if (!valid) throw new InvalidDataException($"Unsupported output control: {Code}");
     }
-    public OutputControl Normalize() => this with { Code = Code.ToUpperInvariant() };
+    public OutputControl Normalize()
+    {
+        if (Code is null) throw new InvalidDataException("Output control is missing.");
+        string code = Code.Trim().ToUpperInvariant();
+        if (Kind == ControlKind.Keyboard)
+        {
+            code = code switch { "CTRL" => "LCTRL", "SHIFT" => "LSHIFT", "ALT" => "LALT", _ => code };
+            if (code.StartsWith('F') && int.TryParse(code.AsSpan(1), out var number)) code = "F" + number.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        }
+        return this with { Code = code };
+    }
     public override string ToString() => $"{Kind}:{Code}";
 }
 

@@ -153,6 +153,7 @@ public sealed class ScriptCoordinator : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         lock (_gate) { if (_disposed) return; _disposed = true; }
-        await StopAllAsync(); _stop.Cancel(); _queue.Writer.TryComplete(); await _consumer; _stop.Dispose();
+        try { await StopAllAsync(); }
+        finally { _stop.Cancel(); _queue.Writer.TryComplete(); await _consumer; _stop.Dispose(); }
     }
 }

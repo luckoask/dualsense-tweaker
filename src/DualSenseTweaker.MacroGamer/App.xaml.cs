@@ -28,7 +28,7 @@ public partial class App : Application
         {
             string worker = FindWorker(); _runtime = new(worker);
             TextCatalog.Apply(this, _runtime.Settings.Language, _runtime.Settings.Theme);
-            var window = new MainWindow(); MainWindow = window;
+            var window = new MainWindow { Width = Math.Min(1280, SystemParameters.WorkArea.Width), Height = Math.Min(850, SystemParameters.WorkArea.Height) }; MainWindow = window;
             _viewModel = new(_runtime, new WindowsInteraction(window), action => Dispatcher.BeginInvoke(action), TextCatalog.Text);
             window.DataContext = _viewModel;
             _viewModel.AppearanceRequested += (language, theme) => { TextCatalog.Apply(this, language, theme); _viewModel.RefreshAll(); };

@@ -56,6 +56,9 @@ public sealed class CompanionRuntime : IAsyncDisposable
     public async ValueTask ReceiveAsync(BridgeMessage message)
     {
         message.Validate();
+        await _operations.WaitAsync();
+        try
+        {
         switch (message.Kind)
         {
             case BridgeMessageKind.Snapshot:
@@ -87,12 +90,16 @@ public sealed class CompanionRuntime : IAsyncDisposable
                 await StopAllAsync("Input gap"); break;
         }
         Notify();
+        }
+        finally { _operations.Release(); }
     }
     private async ValueTask SourceDisconnectedAsync(string reason)
     {
         Volatile.Write(ref _sourceOnline, false); Volatile.Write(ref _controllers, []); SourceError = reason; _lastFrame = null;
+        await _operations.WaitAsync();
         try { await StopAllAsync(reason); }
         catch (Exception ex) { Diagnostics.Write(ex.Message, "Error"); }
+        finally { _operations.Release(); }
         Notify();
     }
     public async Task ActivateAsync(MacroProfile profile)
@@ -136,7 +143,8 @@ public sealed class CompanionRuntime : IAsyncDisposable
     {
         if (Recorder.IsRecording && Recorder.Count > 0) LastRecording = Recorder.Stop();
         else if (Recorder.IsRecording) { try { Recorder.Stop(); } catch (InvalidDataException) { } }
-        await _engine.StopAllAsync(reason); await _scripts.StopAllAsync(); Notify();
+        try { await _engine.StopAllAsync(reason); }
+        finally { await _scripts.StopAllAsync(); Notify(); }
     }
     public async Task StartRecordingAsync()
     {

@@ -33,6 +33,7 @@ public class DesktopTests
         string evidence = Path.Combine(Environment.GetEnvironmentVariable("GITHUB_WORKSPACE") ?? root, "artifacts", "validation", "desktop");
         Directory.CreateDirectory(evidence);
         var application = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+        SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(application.Dispatcher));
         application.Resources.MergedDictionaries.Add(new() { Source = new Uri("/MacroGamer;component/Themes/Dark.xaml", UriKind.Relative) });
         application.Resources.MergedDictionaries.Add(new() { Source = new Uri("/MacroGamer;component/Themes/MacroTheme.xaml", UriKind.Relative) });
         application.Resources.MergedDictionaries.Add(new() { Source = new Uri("/MacroGamer;component/Themes/Controls.xaml", UriKind.Relative) });
@@ -52,6 +53,17 @@ public class DesktopTests
                 {
                     model.Section = section; window.UpdateLayout(); Pump();
                     Assert.Equal(section, Descendants(window).OfType<TabControl>().Single().SelectedIndex);
+                    foreach (var grid in Descendants(window).OfType<Grid>().Where(g => g.ColumnDefinitions.Count == 3))
+                    {
+                        var panels = grid.Children.OfType<StackPanel>().ToArray();
+                        for (int i = 0; i < panels.Length; i++)
+                        for (int j = i + 1; j < panels.Length; j++)
+                        {
+                            var first = panels[i].TransformToAncestor(grid).TransformBounds(new Rect(panels[i].RenderSize));
+                            var second = panels[j].TransformToAncestor(grid).TransformBounds(new Rect(panels[j].RenderSize));
+                            Assert.False(first.IntersectsWith(second), "Editable field groups overlap.");
+                        }
+                    }
                     var bitmap = new RenderTargetBitmap((int)window.ActualWidth, (int)window.ActualHeight, 96, 96, PixelFormats.Pbgra32);
                     bitmap.Render(window); var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
                     using var stream = File.Create(Path.Combine(evidence, $"{language}-{theme}-{section}.png")); encoder.Save(stream);

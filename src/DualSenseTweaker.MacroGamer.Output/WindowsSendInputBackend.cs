@@ -30,7 +30,7 @@ public static class NativeInputBuilder
     };
     public static NativeInput Control(OutputControl control, bool pressed)
     {
-        control.Validate(); string code = control.Code.ToUpperInvariant();
+        control = control.Normalize(); control.Validate(); string code = control.Code;
         if (control.Kind == ControlKind.Keyboard)
         {
             ushort key = code.Length == 1 ? code[0] : Keys.TryGetValue(code, out var value) ? value : (ushort)(0x70 + int.Parse(code.AsSpan(1)) - 1);

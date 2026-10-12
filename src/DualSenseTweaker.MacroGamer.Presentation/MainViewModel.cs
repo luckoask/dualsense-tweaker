@@ -237,8 +237,9 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
         try
         {
             if (new FileInfo(DraftPath).Length > MacroProfileStore.MaxFileBytes) throw new InvalidDataException("Oversized editor draft.");
-            var draft = JsonSerializer.Deserialize<EditorDraft>(File.ReadAllText(DraftPath), new JsonSerializerOptions { MaxDepth = 16 }) ?? throw new InvalidDataException("Invalid editor draft.");
-            if (draft.Format != 1 || draft.ProfileId != _runtime.ActiveProfile.Id || draft.Macros is null || draft.Macros.Length > 256 || draft.Scripts is null || draft.Scripts.Length > 64) return;
+            var draft = JsonSerializer.Deserialize<EditorDraft>(File.ReadAllText(DraftPath), new JsonSerializerOptions { MaxDepth = 16, UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Disallow }) ?? throw new InvalidDataException("Invalid editor draft.");
+            ValidateDraftStructure(draft);
+            if (draft.ProfileId != _runtime.ActiveProfile.Id) return;
             ProfileName = draft.ProfileName; GameExecutable = draft.GameExecutable; VariablesJson = draft.VariablesJson; Backend = draft.Backend;
             Macros.Clear(); foreach (var m in draft.Macros) { if (m.Actions is null || m.Actions.Length > 2048) throw new InvalidDataException("Invalid draft actions."); var editor = new MacroEditor { Id = m.Id, Name = m.Name, Enabled = m.Enabled, Trigger = m.Trigger, Buttons = m.Buttons, RequiredButtons = m.RequiredButtons, AnalogTrigger = m.AnalogTrigger, HeldMs = m.HeldMs, Threshold = m.Threshold, Mode = m.Mode, RepeatCount = m.RepeatCount, RepeatWhileActive = m.RepeatWhileActive, MaxRuntimeMs = m.MaxRuntimeMs }; editor.Actions.Clear(); foreach (var action in m.Actions) editor.Actions.Add(new() { Kind = action.Kind, Code = action.Code, Duration = action.Duration, X = action.X, Y = action.Y }); Macros.Add(editor); }
             Scripts.Clear(); foreach (var s in draft.Scripts) Scripts.Add(new() { Id = s.Id, Name = s.Name, Enabled = s.Enabled, Source = s.Source });
@@ -248,13 +249,47 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
         }
         catch (Exception ex) when (ex is IOException or JsonException or InvalidDataException) { _runtime.Diagnostics.Write($"Editor draft rejected: {ex.Message}", "Error"); }
     }
+    private static void ValidateDraftStructure(EditorDraft draft)
+    {
+        static bool Text(string? value, int maximum) => value is not null && value.Length <= maximum;
+        if (draft.Format != 1 || draft.ProfileId == Guid.Empty || !Enum.IsDefined(draft.Backend) ||
+            !Text(draft.ProfileName, 128) || !Text(draft.GameExecutable, 260) || !Text(draft.VariablesJson, 8192) ||
+            draft.Macros is not { Length: <= 256 } || draft.Scripts is not { Length: <= 64 } ||
+            draft.Mappings is not { Length: <= 23 } || draft.Recordings is not { Length: <= 16 })
+            throw new InvalidDataException("Invalid editor draft structure.");
+        foreach (var m in draft.Macros)
+        {
+            if (m is null || m.Id == Guid.Empty || !Text(m.Name, 128) || !Text(m.Buttons, 256) || !Text(m.RequiredButtons, 256) ||
+                !Text(m.AnalogTrigger, 16) || !Text(m.HeldMs, 32) || !Text(m.Threshold, 32) || !Text(m.RepeatCount, 32) || !Text(m.MaxRuntimeMs, 32) ||
+                !Enum.IsDefined(m.Trigger) || !Enum.IsDefined(m.Mode) || m.Actions is not { Length: <= 2048 })
+                throw new InvalidDataException("Invalid macro draft structure.");
+            foreach (var a in m.Actions)
+                if (a is null || !Enum.IsDefined(a.Kind) || !Text(a.Code, 32) || !Text(a.Duration, 32) || !Text(a.X, 32) || !Text(a.Y, 32))
+                    throw new InvalidDataException("Invalid action draft structure.");
+        }
+        if (draft.Macros.Select(m => m.Id).Distinct().Count() != draft.Macros.Length) throw new InvalidDataException("Duplicate macro draft identity.");
+        foreach (var s in draft.Scripts)
+            if (s is null || s.Id == Guid.Empty || !Text(s.Name, 128) || !Text(s.Source, 64_000)) throw new InvalidDataException("Invalid script draft structure.");
+        if (draft.Scripts.Select(s => s.Id).Distinct().Count() != draft.Scripts.Length) throw new InvalidDataException("Duplicate script draft identity.");
+        foreach (var mapping in draft.Mappings)
+            if (mapping is null || !Text(mapping.Button, 128) || !Text(mapping.Key, 32)) throw new InvalidDataException("Invalid mapping draft structure.");
+        foreach (var recording in draft.Recordings) (recording ?? throw new InvalidDataException("Null recording draft.")).Validate();
+    }
     private void DeleteDraft() { if (File.Exists(DraftPath)) File.Delete(DraftPath); }
     public async ValueTask DisposeAsync()
     {
         if (_disposed) return;
-        await _runtime.StopAllAsync("Application closing");
+        Exception? stopFailure = null;
+        try { await _runtime.StopAllAsync("Application closing"); }
+        catch (Exception ex) { stopFailure = ex; _runtime.Diagnostics.Write(ex.Message, "Error"); }
+        if (_runtime.LastRecording is { } recording && !Recordings.Contains(recording))
+        {
+            if (Recordings.Count >= 16) throw new InvalidDataException("Save or export the completed recording before closing (recording limit 16).");
+            Recordings.Add(recording);
+        }
         try { await SaveAsync(); } catch (Exception ex) { _runtime.Diagnostics.Write($"Profile not valid yet; preserving editor draft: {ex.Message}", "Warning"); await Task.Run(SaveDraft); }
         await _runtime.SaveSettingsAsync(_runtime.Settings with { Language = Language, Theme = Theme, AutoGameProfiles = AutoGameProfiles });
+        if (stopFailure is not null) throw new InvalidOperationException("Edits were preserved, but output release failed. Retry Stop All before closing.", stopFailure);
         _disposed = true; _runtime.Changed -= OnRuntimeChanged; await _runtime.DisposeAsync();
     }
     public sealed record EditorDraft

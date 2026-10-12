@@ -228,6 +228,20 @@ public class EngineTests
 
 public class LedgerTests
 {
+    [Theory]
+    [InlineData("CTRL", "LCTRL")]
+    [InlineData("SHIFT", "LSHIFT")]
+    [InlineData("ALT", "LALT")]
+    [InlineData("F01", "F1")]
+    public async Task NativeKeyAliasesShareOneHoldUntilTheLastOwnerReleases(string firstCode, string secondCode)
+    {
+        var output = new DiagnosticOutputBackend(); var ledger = new OutputLedger(output, new());
+        Guid first = Guid.NewGuid(), second = Guid.NewGuid();
+        await ledger.PressAsync(first, OutputControl.Key(firstCode), default);
+        await ledger.PressAsync(second, OutputControl.Key(secondCode), default);
+        Assert.Single(output.Events); await ledger.ReleaseOwnerAsync(first); Assert.Single(output.Events);
+        await ledger.ReleaseOwnerAsync(second); Assert.Equal(2, output.Events.Count); Assert.Empty(await ledger.HeldAsync());
+    }
     [Fact]
     public async Task OverlappingOwnersGenerateOneDownAndOneFinalUp()
     {

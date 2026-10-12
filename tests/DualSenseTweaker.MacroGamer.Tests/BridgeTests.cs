@@ -60,7 +60,10 @@ public class BridgeTests
         publisher.Publish(frame); Assert.Equal(frame, (await BridgeProtocol.ReadAsync(client, deadline.Token))!.Frame);
         publisher.PublishDisconnected("pad", frame.ConnectionId!.Value);
         Assert.Equal(BridgeMessageKind.Disconnected, (await BridgeProtocol.ReadAsync(client, deadline.Token))!.Kind);
-        await publisher.DisposeAsync(); Assert.Null(await BridgeProtocol.ReadAsync(client, deadline.Token));
+        await publisher.DisposeAsync();
+        // Canceling a Windows pipe write can leave a truncated final heartbeat. Both paths mean source loss.
+        try { while (await BridgeProtocol.ReadAsync(client, deadline.Token) is not null) { } }
+        catch (EndOfStreamException) { }
     }
     [Fact]
     public async Task SlowConsumerDoesNotBlockProducerAndReceivesObservableGap()
