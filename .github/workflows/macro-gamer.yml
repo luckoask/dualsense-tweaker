@@ -1,5 +1,7 @@
 name: Macro Gamer Windows validation
 on:
+  push:
+    branches: [feat/macro-gamer]
   pull_request:
   workflow_dispatch:
 permissions:
