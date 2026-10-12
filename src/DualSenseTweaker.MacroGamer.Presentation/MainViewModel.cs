@@ -14,6 +14,12 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     private readonly Action<Action> _post;
     private readonly Func<string, string> _text;
     private readonly List<AsyncCommand> _commands = [];
+    private static readonly string[] NavigationSources = ["Prehľad", "Ovládače", "Makrá", "Editor makier", "Skripty", "Profily", "Diagnostika", "Nastavenia"];
+    private readonly NavigationItem[] _navigation;
+    private readonly Choice<ActionKind>[] _actionKinds;
+    private readonly Choice<TriggerKind>[] _triggerKinds;
+    private readonly Choice<RunMode>[] _runModes;
+    private readonly Choice<OutputBackendKind>[] _backends;
     private MacroEditor? _macro; private ScriptEditor? _script; private ActionEditor? _action;
     private MacroProfile? _profileCandidate; private ControllerDescriptor? _controllerCandidate;
     private InputRecording? _recording; private RecordingMapping? _mapping;
@@ -28,14 +34,14 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     public ObservableCollection<RecordingMapping> RecordingMappings { get; } = [new("R1", "E"), new("Cross", "SPACE"), new("Circle", "Q"), new("Square", "R")];
     public ObservableCollection<DiagnosticEntry> Diagnostics { get; } = [];
     public ObservableCollection<OutputEvent> OutputEvents { get; } = [];
-    public NavigationItem[] Navigation => new[] { "Prehľad", "Ovládače", "Makrá", "Editor makier", "Skripty", "Profily", "Diagnostika", "Nastavenia" }.Select((n, i) => new NavigationItem(i.ToString(), T(n))).ToArray();
-    public Choice<ActionKind>[] ActionKinds => Enum.GetValues<ActionKind>().Select(k => new Choice<ActionKind>(k, T(EnumLabel(k.ToString())))).ToArray();
-    public Choice<TriggerKind>[] TriggerKinds => Enum.GetValues<TriggerKind>().Where(k => k != TriggerKind.Disconnected).Select(k => new Choice<TriggerKind>(k, T(EnumLabel(k.ToString())))).ToArray();
-    public Choice<RunMode>[] RunModes => Enum.GetValues<RunMode>().Select(k => new Choice<RunMode>(k, T(EnumLabel(k.ToString())))).ToArray();
-    public Choice<OutputBackendKind>[] Backends => [new(OutputBackendKind.Diagnostic, T("Diagnostický výstup")), new(OutputBackendKind.KeyboardMouse, T("Klávesnica a myš")), new(OutputBackendKind.VirtualController, T("Virtuálny ovládač — nedostupný"), false)];
-    public string[] Languages => ["SK", "EN", "CZ"];
-    public string[] Themes => ["Dark", "Light"];
-    public string[] AnalogTriggers => ["L2", "R2"];
+    public NavigationItem[] Navigation => _navigation;
+    public Choice<ActionKind>[] ActionKinds => _actionKinds;
+    public Choice<TriggerKind>[] TriggerKinds => _triggerKinds;
+    public Choice<RunMode>[] RunModes => _runModes;
+    public Choice<OutputBackendKind>[] Backends => _backends;
+    public string[] Languages { get; } = ["SK", "EN", "CZ"];
+    public string[] Themes { get; } = ["Dark", "Light"];
+    public string[] AnalogTriggers { get; } = ["L2", "R2"];
     public string[] ButtonNames => Enum.GetNames<PadButtons>().Where(n => n != "None").ToArray();
     public string[] Samples => Directory.Exists(Path.Combine(AppContext.BaseDirectory, "samples")) ? Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "samples"), "*.lua").Select(Path.GetFileName).OfType<string>().ToArray() : [];
     public string? SelectedSample { get; set; }
@@ -122,6 +128,11 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     public MainViewModel(CompanionRuntime runtime, IUserInteraction interaction, Action<Action> post, Func<string, string> text)
     {
         _runtime = runtime; _interaction = interaction; _post = post; _text = text;
+        _navigation = NavigationSources.Select((name, index) => new NavigationItem(index.ToString(), T(name))).ToArray();
+        _actionKinds = Enum.GetValues<ActionKind>().Select(kind => new Choice<ActionKind>(kind, T(EnumLabel(kind.ToString())))).ToArray();
+        _triggerKinds = Enum.GetValues<TriggerKind>().Where(kind => kind != TriggerKind.Disconnected).Select(kind => new Choice<TriggerKind>(kind, T(EnumLabel(kind.ToString())))).ToArray();
+        _runModes = Enum.GetValues<RunMode>().Select(kind => new Choice<RunMode>(kind, T(EnumLabel(kind.ToString())))).ToArray();
+        _backends = [new(OutputBackendKind.Diagnostic, T("Diagnostický výstup")), new(OutputBackendKind.KeyboardMouse, T("Klávesnica a myš")), new(OutputBackendKind.VirtualController, T("Virtuálny ovládač — nedostupný"), false)];
         _language = runtime.Settings.Language; _theme = runtime.Settings.Theme; _autoGames = runtime.Settings.AutoGameProfiles;
         EnableCommand = Command(async () => { if (!EmergencyAvailable) throw new InvalidOperationException(T("Núdzová klávesová skratka nie je dostupná")); await SaveAsync(); await runtime.EnableAsync(); Status = T("Engine je zapnutý"); }, () => !EngineEnabled);
         StopAllCommand = Command(async () => { await runtime.StopAllAsync(); Status = T("Všetky vstupy boli zastavené"); });
@@ -130,11 +141,11 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
         DeleteMacroCommand = Command(async () => { if (SelectedMacro is null || !interaction.Confirm(T("Odstrániť vybrané makro?"))) return; Macros.Remove(SelectedMacro); SelectedMacro = Macros.FirstOrDefault(); await SaveAsync(); }, () => SelectedMacro is not null);
         RunMacroCommand = Command(async () => { var id = SelectedMacro?.Id ?? throw new InvalidOperationException("Select a macro."); await SaveAsync(); if (!runtime.Engine.Start(id)) throw new InvalidOperationException(T("Zapni engine a povoľ vybrané makro")); }, () => SelectedMacro is not null && EngineEnabled);
         EditMacroCommand = Command(() => { Section = 3; return Task.CompletedTask; }, () => SelectedMacro is not null);
-        AddActionCommand = Command(() => { var action = new ActionEditor(new() { Kind = ActionKind.Delay, DurationMs = 100 }); SelectedMacro!.Actions.Add(action); SelectedAction = action; return Task.CompletedTask; }, () => SelectedMacro is not null);
+        AddActionCommand = Command(() => { if (SelectedMacro!.Actions.Count >= 2048) throw new InvalidDataException("Action limit reached (2048)."); var action = new ActionEditor(new() { Kind = ActionKind.Delay, DurationMs = 100 }); SelectedMacro!.Actions.Add(action); SelectedAction = action; return Task.CompletedTask; }, () => SelectedMacro is not null);
         RemoveActionCommand = Command(() => { SelectedMacro!.Actions.Remove(SelectedAction!); SelectedAction = SelectedMacro.Actions.FirstOrDefault(); return Task.CompletedTask; }, () => SelectedMacro is not null && SelectedAction is not null);
         UpActionCommand = Command(() => MoveAction(-1), () => SelectedAction is not null && SelectedMacro?.Actions.IndexOf(SelectedAction) > 0);
         DownActionCommand = Command(() => MoveAction(1), () => SelectedAction is not null && SelectedMacro is not null && SelectedMacro.Actions.IndexOf(SelectedAction) < SelectedMacro.Actions.Count - 1);
-        ImportMacroCommand = Command(async () => { string? path = interaction.OpenFile(JsonFilter); if (path is null) return; var macro = await Task.Run(() => MacroProfileStore.ImportMacro(path)); var editor = new MacroEditor(macro with { Id = Guid.NewGuid(), Enabled = false }); Macros.Add(editor); SelectedMacro = editor; await SaveAsync(); });
+        ImportMacroCommand = Command(async () => { if (Macros.Count >= 256) throw new InvalidDataException("Macro limit reached."); string? path = interaction.OpenFile(JsonFilter); if (path is null) return; var macro = await Task.Run(() => MacroProfileStore.ImportMacro(path)); var editor = new MacroEditor(macro with { Id = Guid.NewGuid(), Enabled = false }); Macros.Add(editor); SelectedMacro = editor; await SaveAsync(); });
         ExportMacroCommand = Command(async () => { var macro = SelectedMacro!.ToDefinition(); string? path = interaction.SaveFile("macro.json", JsonFilter); if (path is not null) await Task.Run(() => MacroProfileStore.ExportMacro(macro, path)); }, () => SelectedMacro is not null);
         RecordCommand = Command(async () => { CollectRecording(); await runtime.StartRecordingAsync(); }, () => !IsRecording && Recordings.Count < 16);
         StopRecordCommand = Command(async () => { var recording = runtime.StopRecording(); if (Recordings.Count >= 16) throw new InvalidDataException("Delete a recording first (limit 16)."); Recordings.Add(recording); SelectedRecording = recording; await SaveAsync(); }, () => IsRecording);
@@ -145,16 +156,16 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
             var macro = SelectedRecording!.ToKeyboardMacro(T("Nahrané makro"), mappings); var editor = new MacroEditor(macro); Macros.Add(editor); SelectedMacro = editor; Section = 3; await SaveAsync();
         }, () => SelectedRecording is not null);
         DeleteRecordingCommand = Command(async () => { Recordings.Remove(SelectedRecording!); SelectedRecording = Recordings.FirstOrDefault(); await SaveAsync(); }, () => SelectedRecording is not null);
-        AddMappingCommand = Command(() => { var mapping = new RecordingMapping(); RecordingMappings.Add(mapping); SelectedMapping = mapping; return Task.CompletedTask; });
+        AddMappingCommand = Command(() => { if (RecordingMappings.Count >= 23) throw new InvalidDataException("Recording mapping limit reached (23)."); var mapping = new RecordingMapping(); RecordingMappings.Add(mapping); SelectedMapping = mapping; return Task.CompletedTask; });
         RemoveMappingCommand = Command(() => { if (SelectedMapping is not null) RecordingMappings.Remove(SelectedMapping); return Task.CompletedTask; });
         NewScriptCommand = Command(() => { if (Scripts.Count >= 64) throw new InvalidDataException("Script limit reached."); var script = new ScriptEditor(); Scripts.Add(script); SelectedScript = script; Section = 4; return Task.CompletedTask; });
         DeleteScriptCommand = Command(async () => { if (!interaction.Confirm(T("Odstrániť vybraný skript?"))) return; await runtime.Scripts.StopAllAsync(); Scripts.Remove(SelectedScript!); SelectedScript = Scripts.FirstOrDefault(); await SaveAsync(); }, () => SelectedScript is not null);
         ValidateScriptCommand = Command(async () => { var result = await runtime.Scripts.ValidateAsync(SelectedScript!.ToDefinition(), ParseVariables()); ScriptError = result.Success ? T("Skript je platný") : result.Error ?? "Validation failed."; }, () => SelectedScript is not null);
         RunScriptCommand = Command(async () => { await SaveAsync(); await runtime.Scripts.StartAsync(SelectedScript!.ToDefinition(), ParseVariables()); ScriptError = ""; }, () => SelectedScript is not null && EngineEnabled);
         StopScriptsCommand = Command(async () => { await runtime.Scripts.StopAllAsync(); Status = T("Skripty boli zastavené"); });
-        LoadScriptCommand = Command(async () => { string? path = interaction.OpenFile(LuaFilter); if (path is null) return; var info = new FileInfo(path); if (info.Length > 256_000) throw new InvalidDataException("Script file too large."); var source = await File.ReadAllTextAsync(path); var script = new ScriptEditor(new() { Name = Path.GetFileNameWithoutExtension(path), Source = source }); script.ToDefinition(); Scripts.Add(script); SelectedScript = script; });
+        LoadScriptCommand = Command(async () => { if (Scripts.Count >= 64) throw new InvalidDataException("Script limit reached."); string? path = interaction.OpenFile(LuaFilter); if (path is null) return; var info = new FileInfo(path); if (info.Length > 256_000) throw new InvalidDataException("Script file too large."); var source = await File.ReadAllTextAsync(path); var script = new ScriptEditor(new() { Name = Path.GetFileNameWithoutExtension(path), Source = source }); script.ToDefinition(); Scripts.Add(script); SelectedScript = script; });
         ExportScriptCommand = Command(async () => { var script = SelectedScript!.ToDefinition(); string? path = interaction.SaveFile("script.lua", LuaFilter); if (path is not null) await File.WriteAllTextAsync(path, script.Source); }, () => SelectedScript is not null);
-        LoadSampleCommand = Command(async () => { if (SelectedSample is null || !Samples.Contains(SelectedSample)) return; var script = new ScriptEditor(new() { Name = Path.GetFileNameWithoutExtension(SelectedSample), Source = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "samples", SelectedSample)) }); Scripts.Add(script); SelectedScript = script; });
+        LoadSampleCommand = Command(async () => { if (Scripts.Count >= 64) throw new InvalidDataException("Script limit reached."); if (SelectedSample is null || !Samples.Contains(SelectedSample)) return; var script = new ScriptEditor(new() { Name = Path.GetFileNameWithoutExtension(SelectedSample), Source = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "samples", SelectedSample)) }); Scripts.Add(script); SelectedScript = script; });
         NewProfileCommand = Command(async () => { await SaveAsync(); var profile = new MacroProfile { Name = T("Nový profil") }; runtime.Store.Save(profile); await runtime.ActivateAsync(profile); LoadEditors(); });
         ActivateProfileCommand = Command(async () => { if (ProfileCandidate is null) return; var id = ProfileCandidate.Id; await SaveAsync(); var profile = runtime.Store.LoadAll().First(p => p.Id == id); await runtime.ActivateAsync(profile); LoadEditors(); });
         DuplicateProfileCommand = Command(async () => { await SaveAsync(); var profile = runtime.ActiveProfile.Duplicate(ProfileName + " (copy)"); runtime.Store.Save(profile); await runtime.ActivateAsync(profile); LoadEditors(); });
@@ -201,6 +212,15 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
         "Error" => "Chyba",
         _ => value,
     };
+    public override void RefreshAll()
+    {
+        foreach (var item in _actionKinds) item.Label = T(EnumLabel(item.Value.ToString()));
+        foreach (var item in _triggerKinds) item.Label = T(EnumLabel(item.Value.ToString()));
+        foreach (var item in _runModes) item.Label = T(EnumLabel(item.Value.ToString()));
+        _backends[0].Label = T("Diagnostický výstup"); _backends[1].Label = T("Klávesnica a myš"); _backends[2].Label = T("Virtuálny ovládač — nedostupný");
+        for (int i = 0; i < _navigation.Length; i++) _navigation[i].Title = T(NavigationSources[i]);
+        base.RefreshAll();
+    }
     private string T(string source) => _text(source);
     private AsyncCommand Command(Func<Task> action, Func<bool>? enabled = null) { var command = new AsyncCommand(action, Error, enabled); _commands.Add(command); return command; }
     public void Error(Exception exception) { Status = exception.Message; ScriptError = exception.Message; _runtime.Diagnostics.Write(exception.Message, "Error"); RefreshCommands(); }

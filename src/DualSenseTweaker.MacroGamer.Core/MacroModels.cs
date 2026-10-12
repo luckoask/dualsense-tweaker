@@ -56,7 +56,7 @@ public sealed record MacroAction
         ? OutputControl.Mouse(Code) : OutputControl.Key(Code);
     public void Validate()
     {
-        if (!Enum.IsDefined(Kind) || DurationMs is < 0 or > 60_000 || X is < -10_000 or > 10_000 || Y is < -10_000 or > 10_000)
+        if (!Enum.IsDefined(Kind) || Code is null || Code.Length > 16 || DurationMs is < 0 or > 60_000 || X is < -10_000 or > 10_000 || Y is < -10_000 or > 10_000)
             throw new InvalidDataException("Action parameters exceed allowed limits.");
         if (Kind is ActionKind.KeyDown or ActionKind.KeyUp or ActionKind.KeyTap or ActionKind.MouseDown or ActionKind.MouseUp or ActionKind.MouseTap)
         {

@@ -14,7 +14,7 @@ public abstract class ObservableModel : INotifyPropertyChanged
     protected void Raise([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new(name));
     protected bool Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
     { if (EqualityComparer<T>.Default.Equals(field, value)) return false; field = value; Raise(name); return true; }
-    public void RefreshAll() => Raise("");
+    public virtual void RefreshAll() => Raise("");
 }
 public sealed class AsyncCommand(Func<Task> run, Action<Exception> error, Func<bool>? canRun = null) : ObservableModel, ICommand
 {
@@ -31,8 +31,19 @@ public sealed class AsyncCommand(Func<Task> run, Action<Exception> error, Func<b
     }
     public void Refresh() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }
-public sealed record Choice<T>(T Value, string Label, bool Available = true);
-public sealed record NavigationItem(string Key, string Title);
+public sealed class Choice<T>(T value, string label, bool available = true) : ObservableModel
+{
+    private string _label = label;
+    public T Value { get; } = value;
+    public string Label { get => _label; set => Set(ref _label, value); }
+    public bool Available { get; } = available;
+}
+public sealed class NavigationItem(string key, string title) : ObservableModel
+{
+    private string _title = title;
+    public string Key { get; } = key;
+    public string Title { get => _title; set => Set(ref _title, value); }
+}
 
 public sealed class ActionEditor : ObservableModel
 {

@@ -53,6 +53,11 @@ public class DesktopTests
                 {
                     model.Section = section; window.UpdateLayout(); Pump();
                     Assert.Equal(section, Descendants(window).OfType<TabControl>().Single().SelectedIndex);
+                    foreach (var combo in Descendants(window).OfType<ComboBox>().Where(c => c.SelectedValuePath == "Value"))
+                    {
+                        Assert.NotNull(combo.SelectedItem);
+                        Assert.False(Validation.GetHasError(combo), "Selected enum value failed WPF validation.");
+                    }
                     foreach (var grid in Descendants(window).OfType<Grid>().Where(g => g.ColumnDefinitions.Count == 3))
                     {
                         var panels = grid.Children.OfType<StackPanel>().ToArray();

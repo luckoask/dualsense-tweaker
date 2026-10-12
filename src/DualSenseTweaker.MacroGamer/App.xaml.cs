@@ -19,18 +19,34 @@ public partial class App : Application
     private DispatcherTimer? _display;
     private bool _closing, _cleaned, _checkingGame;
     private long _lastGameCheck;
+    public App() => StartupPhase("Application created");
+    private static void StartupPhase(string phase)
+    {
+        try
+        {
+            string root = DualSenseTweaker.MacroGamer.Core.MacroProfileStore.DefaultRoot;
+            Directory.CreateDirectory(root); File.WriteAllText(Path.Combine(root, "startup-phase.log"), $"{DateTimeOffset.UtcNow:O} {phase}");
+        }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
+    }
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        StartupPhase("Startup event received");
         if (e.Args.Contains("--exit", StringComparer.OrdinalIgnoreCase)) { CompanionInstance.RequestExit(); Shutdown(); return; }
         _instance = new(); if (!_instance.IsFirst) { _instance.RequestShow(); _instance.Dispose(); _instance = null; Shutdown(); return; }
+        StartupPhase("Single instance acquired");
         try
         {
             string worker = FindWorker(); _runtime = new(worker);
+            StartupPhase("Worker found and profiles loaded");
             TextCatalog.Apply(this, _runtime.Settings.Language, _runtime.Settings.Theme);
             var window = new MainWindow { Width = Math.Min(1280, SystemParameters.WorkArea.Width), Height = Math.Min(850, SystemParameters.WorkArea.Height) }; MainWindow = window;
+            StartupPhase("Window constructed");
             _viewModel = new(_runtime, new WindowsInteraction(window), action => Dispatcher.BeginInvoke(action), TextCatalog.Text);
             window.DataContext = _viewModel;
+            StartupPhase("Editors initialized");
             _viewModel.AppearanceRequested += (language, theme) => { TextCatalog.Apply(this, language, theme); _viewModel.RefreshAll(); };
             window.SourceInitialized += (_, _) =>
             {
@@ -43,7 +59,7 @@ public partial class App : Application
             _instance.Listen(() => Dispatcher.BeginInvoke(() => { window.Show(); window.WindowState = WindowState.Normal; window.Activate(); }),
                 () => Dispatcher.BeginInvoke(window.Close));
             DispatcherUnhandledException += OnUiError;
-            window.Show(); await _runtime.StartInputAsync();
+            window.Show(); StartupPhase("Window shown"); await _runtime.StartInputAsync();
             _display = new(TimeSpan.FromMilliseconds(200), DispatcherPriority.Background, async (_, _) =>
             {
                 _viewModel.RefreshStatus();
