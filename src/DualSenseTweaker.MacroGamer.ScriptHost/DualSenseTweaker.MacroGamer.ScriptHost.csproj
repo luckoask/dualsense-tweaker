@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>MacroGamer.ScriptHost</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DualSenseTweaker.MacroGamer.Scripting\DualSenseTweaker.MacroGamer.Scripting.csproj" />
+    <RuntimeHostConfigurationOption Include="System.GC.HeapHardLimit" Value="134217728" />
+  </ItemGroup>
+</Project>

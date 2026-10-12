@@ -23,6 +23,7 @@ public sealed class MacroEngine : IAsyncDisposable
         public MacroDefinition Macro { get; } = macro;
         public CancellationTokenSource Cancellation { get; } = new();
         public Task Completion { get; set; } = Task.CompletedTask;
+        public Exception? Failure { get; set; }
     }
     private readonly Lock _gate = new();
     private readonly InputTransitionDetector _transitions = new();
@@ -84,6 +85,25 @@ public sealed class MacroEngine : IAsyncDisposable
             started = StartLocked(macro);
         }
         Publish(); return started;
+    }
+    public async Task ExecuteSequenceAsync(string name, MacroAction[] actions, CancellationToken token = default)
+    {
+        var macro = new MacroDefinition { Name = name, Actions = actions.ToArray(), Enabled = true,
+            Trigger = new() { Kind = TriggerKind.Manual }, MaxRuntimeMs = 60_000 };
+        macro.Validate(); Run run;
+        lock (_gate)
+        {
+            if (!StartLocked(macro)) throw new InvalidOperationException("Engine is disabled, stopping, or at its concurrent execution limit.");
+            run = _runs[macro.Id];
+        }
+        Publish();
+        using var registration = token.Register(() =>
+        {
+            lock (_gate) if (_runs.TryGetValue(macro.Id, out var current) && ReferenceEquals(current, run)) current.Cancellation.Cancel();
+        });
+        await run.Completion;
+        token.ThrowIfCancellationRequested();
+        if (run.Failure is not null) throw new InvalidOperationException("Approved sequence failed.", run.Failure);
     }
     public void ProcessFrame(PadFrame frame)
     {
@@ -163,6 +183,7 @@ public sealed class MacroEngine : IAsyncDisposable
     private bool StartLocked(MacroDefinition macro)
     {
         if (!_enabled || _stopping || _disposed || !macro.Enabled || _runs.ContainsKey(macro.Id)) return false;
+        if (macro.Mode == RunMode.Hold && (_current is null || !TriggerMatcher.IsActive(macro.Trigger, _current))) return false;
         if (_runs.Count >= 8) { Diagnostics.Write("Concurrent run limit reached.", "Warning"); return false; }
         var run = new Run(macro.Snapshot());
         _runs[macro.Id] = run; _state = ExecutionState.Running;
@@ -216,11 +237,11 @@ public sealed class MacroEngine : IAsyncDisposable
         {
             if (deadline.IsCancellationRequested && !token.IsCancellationRequested) Diagnostics.Write($"Runtime limit stopped {macro.Name}.", "Warning");
         }
-        catch (Exception ex) { RecordError(ex); Diagnostics.Write($"{macro.Name}: {ex.Message}", "Error"); }
+        catch (Exception ex) { run.Failure = ex; RecordError(ex); Diagnostics.Write($"{macro.Name}: {ex.Message}", "Error"); }
         finally
         {
             try { await Ledger.ReleaseOwnerAsync(run.Owner); }
-            catch (Exception ex) { RecordError(ex); Diagnostics.Write(ex.Message, "Error"); }
+            catch (Exception ex) { run.Failure = ex; RecordError(ex); Diagnostics.Write(ex.Message, "Error"); }
             lock (_gate)
             {
                 _runs.Remove(macro.Id);

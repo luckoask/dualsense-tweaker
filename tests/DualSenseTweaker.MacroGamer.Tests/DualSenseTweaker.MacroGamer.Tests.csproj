@@ -10,8 +10,19 @@
     <Using Include="Xunit" />
     <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Core\DualSenseTweaker.MacroGamer.Core.csproj" />
     <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Output\DualSenseTweaker.MacroGamer.Output.csproj" />
+    <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.Scripting\DualSenseTweaker.MacroGamer.Scripting.csproj" />
+    <ProjectReference Include="..\..\src\DualSenseTweaker.MacroGamer.ScriptHost\DualSenseTweaker.MacroGamer.ScriptHost.csproj" ReferenceOutputAssembly="false" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" PrivateAssets="all" />
+  </ItemGroup>
+  <Target Name="CopyScriptWorkerForTests" AfterTargets="Build">
+    <ItemGroup>
+      <ScriptWorkerFiles Include="..\..\src\DualSenseTweaker.MacroGamer.ScriptHost\bin\$(Configuration)\net10.0\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ScriptWorkerFiles)" DestinationFiles="@(ScriptWorkerFiles->'$(OutDir)script-worker\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  <ItemGroup>
+    <None Include="..\..\samples\macro-gamer\*.lua" Link="samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
