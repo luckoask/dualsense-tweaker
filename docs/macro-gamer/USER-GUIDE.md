@@ -57,6 +57,8 @@ Záznam má `formatVersion: 1`, `controllerId` a pole `points` s `offsetUs` a ce
 
 ## Skripty a profily
 
+Príklady makier `r1-tap.json`, `combo-tap.json` a `trigger-hold.json` nájdeš v nainštalovanom priečinku `MacroGamer\samples`; načítaj ich cez import makra. Sú predvolene vypnuté. Uloženie profilu počas nahrávania záznam ukončí a zachová zachytené body. Automatický výber hry sa počas nahrávania odloží. Limit súboru profilu 4 MiB platí aj pre súčet uložených záznamov.
+
 V **Skripty** vytvor alebo načítaj `.lua`, použi **Overiť**, povoľ ho v profile, ulož, zapni engine a použi **Spustiť skript**. Overenie spúšťa skutočný izolovaný interpreter bez výstupu na plochu. Editor ukazuje chyby vrátane riadkov, ktoré Lua poskytne. Knižnica obsahuje päť overovaných príkladov; úplné API je v [SCRIPTING.md](SCRIPTING.md). Úprava a uloženie textu neprepíšu snapshot bežiaceho skriptu. Na spustenie novej verzie najprv zastav skripty a znovu zapni engine.
 
 **Profily** umožňujú vytvorenie, premenovanie uložením názvu, duplikovanie, odstránenie a JSON import/export. V **Ovládače** priraď fyzickú identitu alebo automatický prvý ovládač. Herné priradenie môže byť názov `.exe` alebo cesta. Automatický výber sleduje program v popredí; prepnutie profilu engine vždy vypne. Číselné premenné sú JSON objekt, napríklad `{"tap_ms":60}`. Nastavenia jazyka SK/EN/CZ a témy sa ukladajú oddelene od Tweakeru.
