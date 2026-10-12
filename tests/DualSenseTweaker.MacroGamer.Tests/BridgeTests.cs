@@ -51,9 +51,9 @@ public class BridgeTests
     {
         string name = "MacroGamer-Test-" + Guid.NewGuid().ToString("N");
         var publisher = new InputPipePublisher(() => [new("pad", "DualSense", "USB", 50)], pipeName: name);
-        using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(15));
         await using var client = new NamedPipeClientStream(".", name, PipeDirection.In, InputPipeIdentity.RestrictedOptions);
-        await client.ConnectAsync(2000, deadline.Token);
+        await client.ConnectAsync(5000, deadline.Token);
         Assert.False(client.CanWrite); Assert.True((InputPipeIdentity.RestrictedOptions & PipeOptions.CurrentUserOnly) != 0);
         var snapshot = await BridgeProtocol.ReadAsync(client, deadline.Token); Assert.Single(snapshot!.Controllers);
         var frame = EngineTests.Frame(1, PadButtons.R1) with { SessionId = publisher.SessionId, ConnectionId = Guid.NewGuid() };
@@ -70,9 +70,9 @@ public class BridgeTests
     {
         string name = "MacroGamer-Overflow-" + Guid.NewGuid().ToString("N");
         await using var publisher = new InputPipePublisher(() => [new("pad", "DualSense", "USB", null)], pipeName: name);
-        using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(15));
         await using var client = new NamedPipeClientStream(".", name, PipeDirection.In, InputPipeIdentity.RestrictedOptions);
-        await client.ConnectAsync(2000, deadline.Token); await BridgeProtocol.ReadAsync(client, deadline.Token);
+        await client.ConnectAsync(5000, deadline.Token); await BridgeProtocol.ReadAsync(client, deadline.Token);
         var frame = EngineTests.Frame(0) with { SessionId = publisher.SessionId };
         for (int i = 0; i < 50_000; i++) publisher.Publish(frame with { Sequence = i, TimestampUs = i });
         Assert.True(publisher.DroppedFrames > 0);

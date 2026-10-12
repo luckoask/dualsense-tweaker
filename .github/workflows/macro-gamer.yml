@@ -24,18 +24,21 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           dotnet build DualSenseTweaker.sln -c Release --no-restore
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          dotnet test DualSenseTweaker.sln -c Release --no-build --logger trx --results-directory artifacts/validation/windows
+          dotnet test DualSenseTweaker.sln -c Release --no-build -m:1 --logger trx --results-directory artifacts/validation/windows
           exit $LASTEXITCODE
       - name: Build distributable MSI
+        if: ${{ !cancelled() }}
         shell: pwsh
         run: ./tools/build-installer.ps1
       - name: Build previous version for a real major upgrade
+        if: ${{ !cancelled() }}
         shell: pwsh
         run: |
           git worktree add --detach ../macro-gamer-baseline 922c2fd409bd3d0d8a520a430bafc9ee0b02635d
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           & ../macro-gamer-baseline/tools/build-installer.ps1
       - name: Validate MSI tables and clean install, repair, feature removal, upgrade, uninstall
+        if: ${{ !cancelled() }}
         shell: pwsh
         run: ./tools/validate-installer.ps1 -Msi publish/DualSenseTweaker-1.1.0-x64.msi -PreviousMsi ../macro-gamer-baseline/publish/DualSenseTweaker-1.0.7-x64.msi
       - name: Upload installer and verification evidence
