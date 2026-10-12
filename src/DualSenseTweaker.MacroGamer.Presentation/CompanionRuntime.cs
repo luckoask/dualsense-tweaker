@@ -17,6 +17,7 @@ public sealed class CompanionRuntime : IAsyncDisposable
     private ControllerDescriptor[] _controllers = [];
     private bool _sourceOnline;
     private PadFrame? _lastFrame;
+    private InputRecording? _lastRecording;
     private string? _controllerId;
     private int _disposed;
     public DiagnosticLog Diagnostics { get; } = new();
@@ -24,7 +25,8 @@ public sealed class CompanionRuntime : IAsyncDisposable
     public MacroProfile ActiveProfile { get; private set; }
     public CompanionSettings Settings { get; private set; }
     public InputRecorder Recorder { get; } = new();
-    public InputRecording? LastRecording { get; private set; }
+    public InputRecording? LastRecording { get => Volatile.Read(ref _lastRecording); private set => Volatile.Write(ref _lastRecording, value); }
+    public void AcknowledgeRecording(InputRecording recording) => Interlocked.CompareExchange(ref _lastRecording, null, recording);
     public string? SourceError { get; private set; }
     public MacroEngine Engine => _engine;
     public ScriptCoordinator Scripts => _scripts;
@@ -78,7 +80,11 @@ public sealed class CompanionRuntime : IAsyncDisposable
                     await StopAllAsync("Controller connection generation changed");
                 _lastFrame = frame;
                 try { Recorder.Observe(frame); }
-                catch (Exception ex) when (ex is InvalidOperationException or InvalidDataException) { Diagnostics.Write(ex.Message, "Error"); }
+                catch (Exception ex) when (ex is InvalidOperationException or InvalidDataException)
+                {
+                    Diagnostics.Write(ex.Message, "Error");
+                    if (Recorder.Count > 0) LastRecording = Recorder.Stop();
+                }
                 _engine.ProcessFrame(frame); _scripts.ProcessFrame(frame);
                 break;
             case BridgeMessageKind.Disconnected when message.ControllerId == _controllerId:
@@ -109,7 +115,7 @@ public sealed class CompanionRuntime : IAsyncDisposable
         {
             await StopAllAsync("Profile changed");
             _engine.Changed -= OnEngineChanged; await _scripts.DisposeAsync(); await _engine.DisposeAsync();
-            ActiveProfile = profile; _controllerId = profile.ControllerId ?? Controllers.FirstOrDefault()?.Id; _lastFrame = null;
+            ActiveProfile = profile; LastRecording = null; _controllerId = profile.ControllerId ?? Controllers.FirstOrDefault()?.Id; _lastFrame = null;
             _engine = CreateEngine(profile.Backend); _scripts = new(_engine, _workerPath);
             await _engine.ConfigureAsync(profile.Macros, _controllerId);
             Settings = Settings with { SelectedProfileId = profile.Id }; await Task.Run(() => Store.SaveSettings(Settings));

@@ -486,5 +486,109 @@
   "DualSense Tweaker sa nenašiel. Oprav inštaláciu alebo ho spusti manuálne s --share-input.": {
     "en": "DualSense Tweaker was not found. Repair the installation or launch it manually with --share-input.",
     "cs": "DualSense Tweaker nebyl nalezen. Oprav instalaci nebo jej spusť ručně s --share-input."
+  },
+  "Čakanie": {
+    "en": "Delay",
+    "cs": "Čekání"
+  },
+  "Stlačiť kláves": {
+    "en": "Key down",
+    "cs": "Stisknout klávesu"
+  },
+  "Uvoľniť kláves": {
+    "en": "Key up",
+    "cs": "Uvolnit klávesu"
+  },
+  "Tap klávesu": {
+    "en": "Key tap",
+    "cs": "Tap klávesy"
+  },
+  "Stlačiť myš": {
+    "en": "Mouse down",
+    "cs": "Stisknout myš"
+  },
+  "Uvoľniť myš": {
+    "en": "Mouse up",
+    "cs": "Uvolnit myš"
+  },
+  "Tap myši": {
+    "en": "Mouse tap",
+    "cs": "Tap myši"
+  },
+  "Pohyb myši": {
+    "en": "Mouse move",
+    "cs": "Pohyb myši"
+  },
+  "Koliesko myši": {
+    "en": "Mouse wheel",
+    "cs": "Kolečko myši"
+  },
+  "Manuálne": {
+    "en": "Manual",
+    "cs": "Ruční"
+  },
+  "Stlačenie": {
+    "en": "Press",
+    "cs": "Stisknutí"
+  },
+  "Uvoľnenie": {
+    "en": "Release",
+    "cs": "Uvolnění"
+  },
+  "Dlhé držanie": {
+    "en": "Held",
+    "cs": "Dlouhé držení"
+  },
+  "Kombinácia": {
+    "en": "Combination",
+    "cs": "Kombinace"
+  },
+  "Prah spúšte": {
+    "en": "Trigger threshold",
+    "cs": "Práh spouště"
+  },
+  "Pripojenie": {
+    "en": "Connected",
+    "cs": "Připojení"
+  },
+  "Odpojenie": {
+    "en": "Disconnected",
+    "cs": "Odpojení"
+  },
+  "Jednorazovo": {
+    "en": "Once",
+    "cs": "Jednorázově"
+  },
+  "Počas držania": {
+    "en": "Hold",
+    "cs": "Během držení"
+  },
+  "Prepínanie": {
+    "en": "Toggle",
+    "cs": "Přepínání"
+  },
+  "Nečinný": {
+    "en": "Idle",
+    "cs": "Nečinný"
+  },
+  "Pripravený": {
+    "en": "Armed",
+    "cs": "Připravený"
+  },
+  "Beží": {
+    "en": "Running",
+    "cs": "Běží"
+  },
+  "Zastavuje sa": {
+    "en": "Stopping",
+    "cs": "Zastavuje se"
+  },
+  "Zastavený": {
+    "en": "Stopped",
+    "cs": "Zastavený"
+  },
+  "Chyba": {
+    "en": "Error",
+    "cs": "Chyba"
   }
 }

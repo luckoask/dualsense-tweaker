@@ -1,0 +1,25 @@
+{
+  "id": "33333333-3333-4333-8333-333333333333",
+  "name": "R2 threshold → repeated E (3s limit)",
+  "enabled": false,
+  "trigger": {
+    "kind": "TriggerThreshold",
+    "analogTrigger": "R2",
+    "threshold": 128
+  },
+  "mode": "Hold",
+  "repeatCount": 1,
+  "repeatWhileActive": true,
+  "maxRuntimeMs": 3000,
+  "actions": [
+    {
+      "kind": "KeyTap",
+      "code": "E",
+      "durationMs": 40
+    },
+    {
+      "kind": "Delay",
+      "durationMs": 100
+    }
+  ]
+}

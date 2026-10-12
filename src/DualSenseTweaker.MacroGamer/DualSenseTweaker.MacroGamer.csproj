@@ -22,7 +22,7 @@
     <Page Include="..\DualSenseTweaker\Themes\Controls.xaml" Link="Themes\Controls.xaml" />
     <Resource Include="..\DualSenseTweaker\Assets\app.ico" Link="Assets\app.ico" />
     <EmbeddedResource Include="Localization\strings.json" LogicalName="MacroGamer.Localization.strings.json" />
-    <None Include="..\..\samples\macro-gamer\*.lua" Link="samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\samples\macro-gamer\*.lua;..\..\samples\macro-gamer\*.json" Link="samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\third-party\MoonSharp-LICENSE.txt" Link="licenses\MoonSharp-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <Target Name="CopyScriptWorker" AfterTargets="Build">

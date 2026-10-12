@@ -29,9 +29,9 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     public ObservableCollection<DiagnosticEntry> Diagnostics { get; } = [];
     public ObservableCollection<OutputEvent> OutputEvents { get; } = [];
     public NavigationItem[] Navigation => new[] { "Prehľad", "Ovládače", "Makrá", "Editor makier", "Skripty", "Profily", "Diagnostika", "Nastavenia" }.Select((n, i) => new NavigationItem(i.ToString(), T(n))).ToArray();
-    public Choice<ActionKind>[] ActionKinds => Enum.GetValues<ActionKind>().Select(k => new Choice<ActionKind>(k, k.ToString())).ToArray();
-    public Choice<TriggerKind>[] TriggerKinds => Enum.GetValues<TriggerKind>().Where(k => k != TriggerKind.Disconnected).Select(k => new Choice<TriggerKind>(k, k.ToString())).ToArray();
-    public Choice<RunMode>[] RunModes => Enum.GetValues<RunMode>().Select(k => new Choice<RunMode>(k, k.ToString())).ToArray();
+    public Choice<ActionKind>[] ActionKinds => Enum.GetValues<ActionKind>().Select(k => new Choice<ActionKind>(k, T(EnumLabel(k.ToString())))).ToArray();
+    public Choice<TriggerKind>[] TriggerKinds => Enum.GetValues<TriggerKind>().Where(k => k != TriggerKind.Disconnected).Select(k => new Choice<TriggerKind>(k, T(EnumLabel(k.ToString())))).ToArray();
+    public Choice<RunMode>[] RunModes => Enum.GetValues<RunMode>().Select(k => new Choice<RunMode>(k, T(EnumLabel(k.ToString())))).ToArray();
     public Choice<OutputBackendKind>[] Backends => [new(OutputBackendKind.Diagnostic, T("Diagnostický výstup")), new(OutputBackendKind.KeyboardMouse, T("Klávesnica a myš")), new(OutputBackendKind.VirtualController, T("Virtuálny ovládač — nedostupný"), false)];
     public string[] Languages => ["SK", "EN", "CZ"];
     public string[] Themes => ["Dark", "Light"];
@@ -57,7 +57,7 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     public string Theme { get => _theme; set { if (Set(ref _theme, value)) AppearanceRequested?.Invoke(Language, value); } }
     public bool AutoGameProfiles { get => _autoGames; set => Set(ref _autoGames, value); }
     public bool EngineEnabled => _runtime.Engine.Snapshot.Enabled;
-    public string EngineState => _runtime.Engine.Snapshot.State.ToString();
+    public string EngineState => T(EnumLabel(_runtime.Engine.Snapshot.State.ToString()));
     public string ActiveProfileName => _runtime.ActiveProfile.Name;
     public string ActiveMacros => _runtime.Engine.Snapshot.ActiveMacros.Length == 0 ? T("Žiadne aktívne makro") : string.Join(", ", _runtime.Engine.Snapshot.ActiveMacros);
     public string ActiveScripts => _runtime.Scripts.RunningScripts.Count == 0 ? T("Žiadny aktívny skript") : string.Join(", ", _runtime.Scripts.RunningScripts);
@@ -136,7 +136,7 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
         DownActionCommand = Command(() => MoveAction(1), () => SelectedAction is not null && SelectedMacro is not null && SelectedMacro.Actions.IndexOf(SelectedAction) < SelectedMacro.Actions.Count - 1);
         ImportMacroCommand = Command(async () => { string? path = interaction.OpenFile(JsonFilter); if (path is null) return; var macro = await Task.Run(() => MacroProfileStore.ImportMacro(path)); var editor = new MacroEditor(macro with { Id = Guid.NewGuid(), Enabled = false }); Macros.Add(editor); SelectedMacro = editor; await SaveAsync(); });
         ExportMacroCommand = Command(async () => { var macro = SelectedMacro!.ToDefinition(); string? path = interaction.SaveFile("macro.json", JsonFilter); if (path is not null) await Task.Run(() => MacroProfileStore.ExportMacro(macro, path)); }, () => SelectedMacro is not null);
-        RecordCommand = Command(runtime.StartRecordingAsync, () => !IsRecording);
+        RecordCommand = Command(async () => { CollectRecording(); await runtime.StartRecordingAsync(); }, () => !IsRecording && Recordings.Count < 16);
         StopRecordCommand = Command(async () => { var recording = runtime.StopRecording(); if (Recordings.Count >= 16) throw new InvalidDataException("Delete a recording first (limit 16)."); Recordings.Add(recording); SelectedRecording = recording; await SaveAsync(); }, () => IsRecording);
         RecordingToMacroCommand = Command(async () =>
         {
@@ -171,6 +171,36 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
         ClearDiagnosticsCommand = Command(() => { runtime.Diagnostics.Clear(); Diagnostics.Clear(); if (runtime.Engine.Ledger.Backend is DiagnosticOutputBackend output) output.Clear(); OutputEvents.Clear(); return Task.CompletedTask; });
         runtime.Changed += OnRuntimeChanged; LoadEditors(); RestoreDraft(); RefreshStatus();
     }
+    private static string EnumLabel(string value) => value switch
+    {
+        "Delay" => "Čakanie",
+        "KeyDown" => "Stlačiť kláves",
+        "KeyUp" => "Uvoľniť kláves",
+        "KeyTap" => "Tap klávesu",
+        "MouseDown" => "Stlačiť myš",
+        "MouseUp" => "Uvoľniť myš",
+        "MouseTap" => "Tap myši",
+        "MouseMove" => "Pohyb myši",
+        "MouseWheel" => "Koliesko myši",
+        "Manual" => "Manuálne",
+        "Press" => "Stlačenie",
+        "Release" => "Uvoľnenie",
+        "Held" => "Dlhé držanie",
+        "Combination" => "Kombinácia",
+        "TriggerThreshold" => "Prah spúšte",
+        "Connected" => "Pripojenie",
+        "Disconnected" => "Odpojenie",
+        "Once" => "Jednorazovo",
+        "Hold" => "Počas držania",
+        "Toggle" => "Prepínanie",
+        "Idle" => "Nečinný",
+        "Armed" => "Pripravený",
+        "Running" => "Beží",
+        "Stopping" => "Zastavuje sa",
+        "Stopped" => "Zastavený",
+        "Error" => "Chyba",
+        _ => value,
+    };
     private string T(string source) => _text(source);
     private AsyncCommand Command(Func<Task> action, Func<bool>? enabled = null) { var command = new AsyncCommand(action, Error, enabled); _commands.Add(command); return command; }
     public void Error(Exception exception) { Status = exception.Message; ScriptError = exception.Message; _runtime.Diagnostics.Write(exception.Message, "Error"); RefreshCommands(); }
@@ -180,6 +210,8 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     { Name = ProfileName, GameExecutable = string.IsNullOrWhiteSpace(GameExecutable) ? null : GameExecutable, Backend = Backend, Variables = ParseVariables(), RecordingKeyMappings = RecordingMappings.ToDictionary(m => m.Button, m => m.Key, StringComparer.OrdinalIgnoreCase), Macros = Macros.Select(m => m.ToDefinition()).ToArray(), Scripts = Scripts.Select(s => s.ToDefinition()).ToArray(), Recordings = Recordings.ToArray() };
     public async Task SaveAsync()
     {
+        if (_runtime.Recorder.IsRecording) await _runtime.StopAllAsync("Recording saved");
+        CollectRecording();
         await _runtime.SaveProfileAsync(BuildProfile());
         ReloadProfiles(); DeleteDraft(); Status = T("Profil bol uložený"); RefreshStatus();
     }
@@ -203,18 +235,27 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     public void RefreshStatus()
     {
         if (_disposed) return;
+        CollectRecording();
         var controllers = _runtime.Controllers;
         if (!Controllers.SequenceEqual(controllers)) { Controllers.Clear(); foreach (var controller in controllers) Controllers.Add(controller); ControllerCandidate = Controllers.FirstOrDefault(c => c.Id == _runtime.SelectedControllerId); }
         var entries = _runtime.Diagnostics.Entries.TakeLast(200).ToArray(); Diagnostics.Clear(); foreach (var entry in entries) Diagnostics.Add(entry);
         if (_runtime.Engine.Ledger.Backend is DiagnosticOutputBackend output) { OutputEvents.Clear(); foreach (var item in output.Events.TakeLast(100)) OutputEvents.Add(item); }
         _ = UpdateHeldAsync(); RefreshAll(); RefreshCommands();
     }
+    private void CollectRecording()
+    {
+        if (_runtime.LastRecording is not { } recording) return;
+        if (Recordings.Contains(recording)) { _runtime.AcknowledgeRecording(recording); return; }
+        if (Recordings.Count >= 16) throw new InvalidDataException("Delete or export a recording first (limit 16).");
+        Recordings.Add(recording); SelectedRecording = recording;
+        _runtime.AcknowledgeRecording(recording);
+    }
     private async Task UpdateHeldAsync()
     { try { var held = await _runtime.Engine.Ledger.HeldAsync(); HeldOutputs = held.Count == 0 ? "—" : string.Join(", ", held); Raise(nameof(HeldOutputs)); } catch (Exception ex) { _runtime.Diagnostics.Write(ex.Message, "Error"); } }
     public void RefreshCommands() { foreach (var command in _commands) command.Refresh(); }
     public async Task EvaluateGamesAsync(string? foregroundExecutable)
     {
-        if (!AutoGameProfiles || string.IsNullOrWhiteSpace(foregroundExecutable) || _lastAutomaticGame == foregroundExecutable) return;
+        if (!AutoGameProfiles || IsRecording || string.IsNullOrWhiteSpace(foregroundExecutable) || _lastAutomaticGame == foregroundExecutable) return;
         _lastAutomaticGame = foregroundExecutable;
         var match = Profiles.FirstOrDefault(p => !string.IsNullOrWhiteSpace(p.GameExecutable) && string.Equals(Path.GetFileName(p.GameExecutable), Path.GetFileName(foregroundExecutable), StringComparison.OrdinalIgnoreCase));
         if (match is null || match.Id == _runtime.ActiveProfile.Id) return;
@@ -253,7 +294,7 @@ public sealed class MainViewModel : ObservableModel, IAsyncDisposable
     {
         static bool Text(string? value, int maximum) => value is not null && value.Length <= maximum;
         if (draft.Format != 1 || draft.ProfileId == Guid.Empty || !Enum.IsDefined(draft.Backend) ||
-            !Text(draft.ProfileName, 128) || !Text(draft.GameExecutable, 260) || !Text(draft.VariablesJson, 8192) ||
+            !Text(draft.ProfileName, 128) || !Text(draft.GameExecutable, 1024) || !Text(draft.VariablesJson, 8192) ||
             draft.Macros is not { Length: <= 256 } || draft.Scripts is not { Length: <= 64 } ||
             draft.Mappings is not { Length: <= 23 } || draft.Recordings is not { Length: <= 16 })
             throw new InvalidDataException("Invalid editor draft structure.");

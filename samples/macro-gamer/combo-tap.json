@@ -1,0 +1,28 @@
+{
+  "id": "22222222-2222-4222-8222-222222222222",
+  "name": "L1 + R1 → Ctrl + E",
+  "enabled": false,
+  "trigger": {
+    "kind": "Combination",
+    "buttons": "L1, R1"
+  },
+  "mode": "Once",
+  "repeatCount": 1,
+  "repeatWhileActive": false,
+  "maxRuntimeMs": 3000,
+  "actions": [
+    {
+      "kind": "KeyDown",
+      "code": "CTRL"
+    },
+    {
+      "kind": "KeyTap",
+      "code": "E",
+      "durationMs": 60
+    },
+    {
+      "kind": "KeyUp",
+      "code": "CTRL"
+    }
+  ]
+}

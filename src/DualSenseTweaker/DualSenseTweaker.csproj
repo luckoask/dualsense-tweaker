@@ -34,6 +34,7 @@
     <EmbeddedResource Include="Assets\Controller\dualsense.glb" />
     <EmbeddedResource Include="Assets\Controller\ATTRIBUTION.txt" />
     <None Update="Assets\Controller\ATTRIBUTION.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\third-party\HidSharp-LICENSE.txt;..\..\third-party\NAudio-LICENSE.txt" Link="licenses\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <InternalsVisibleTo Include="DualSenseTweaker.Tests" />
   </ItemGroup>
 

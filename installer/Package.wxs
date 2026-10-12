@@ -146,7 +146,7 @@
       <Custom Action="RequireCoreApplication" After="CostFinalize"
               Condition="NOT Installed AND NOT (&amp;Application = 3)" />
       <Custom Action="RequireMacroForShortcut" After="RequireCoreApplication"
-              Condition="(&amp;MacroDesktop = 3 OR ($MacroDesktop = 3 AND NOT (&amp;MacroDesktop = 2))) AND NOT (&amp;MacroGamer = 3 OR ($MacroGamer = 3 AND NOT (&amp;MacroGamer = 2)))" />
+              Condition="(&amp;MacroDesktop = 3 OR (!MacroDesktop = 3 AND NOT (&amp;MacroDesktop = 2))) AND NOT (&amp;MacroGamer = 3 OR (!MacroGamer = 3 AND NOT (&amp;MacroGamer = 2)))" />
       <Custom Action="CloseRunningMacroGamer" Before="InstallValidate" Condition="EXISTING_MACRO_EXE" />
       <Custom Action="UninstallUserCleanup" Before="InstallValidate"
               Condition="EXISTING_EXE AND REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />

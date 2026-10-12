@@ -9,6 +9,17 @@ public class PersistenceAndRecorderTests : IDisposable
     public PersistenceAndRecorderTests() => Directory.CreateDirectory(_root);
     public void Dispose() => Directory.Delete(_root, recursive: true);
     [Fact]
+    public void ShippedMacroPresetsImportAndRoundTripAsRealDefinitions()
+    {
+        var files = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "samples"), "*.json"); Assert.Equal(3, files.Length);
+        foreach (string path in files)
+        {
+            var macro = MacroProfileStore.ImportMacro(path); Assert.False(macro.Enabled);
+            string exported = Path.Combine(_root, Path.GetFileName(path)); MacroProfileStore.ExportMacro(macro, exported);
+            var restored = MacroProfileStore.ImportMacro(exported); Assert.Equal(macro.Actions, restored.Actions); Assert.Equal(macro.Trigger, restored.Trigger);
+        }
+    }
+    [Fact]
     public void ProfilesAndSettingsRoundTripIndependently()
     {
         var store = new MacroProfileStore(_root); var profile = MacroProfile.Default() with { Name = "Game", ControllerId = "pad", GameExecutable = "game.exe", Variables = new() { ["duration"] = 60 } };

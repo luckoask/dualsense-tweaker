@@ -4,6 +4,8 @@ Aplikácia pre Windows na nastavenie ovládačov PS5 **DualSense** a **DualSense
 
 ## Inštalácia a spustenie
 
+Verzia **1.1.0** pridáva voliteľnú samostatnú aplikáciu **Macro Gamer** v rovnakom MSI. Predvolene sa neinštaluje. Má vlastný editor makier, Lua skripty, profily a diagnostický/klávesnicový výstup; pôvodné rozhranie Tweakeru ostáva samostatné. [Príručka Macro Gamer](docs/macro-gamer/USER-GUIDE.md) obsahuje inštaláciu, prvé makro a riešenie problémov; [kompatibilita](docs/macro-gamer/COMPATIBILITY.md) uvádza podporované výstupy a rozsah testovania.
+
 **Inštalátor:** `DualSenseTweaker-<verzia>-x64.msi` pre 64-bitový Windows 11. Sprievodca umožňuje vybrať priečinok a pridať odkaz na plochu. Predvolený priečinok je `C:\Program Files\LCKS\DualSense Tweaker`. Inštalátor obsahuje aj prostredie .NET, pridáva odkaz do ponuky Štart a umožňuje odinštalovanie cez *Nastavenia → Aplikácie*. Novšia verzia nahradí staršiu; spustenú aplikáciu najprv korektne ukončí. Pri odinštalovaní sa zruší automatické spúšťanie s Windows, ale profily a nastavenia v `%APPDATA%\DualSenseTweaker` zostanú zachované.
 
 Tichá inštalácia verzie 1.0.7:

@@ -135,6 +135,17 @@ public class PresentationTests : IDisposable
         await view.DisposeAsync();
         await using var reopened = Create(out _); Assert.Single(reopened.Recordings); Assert.Equal(3, reopened.Recordings[0].Points.Length);
     }
+    [Fact]
+    public async Task RecordingLimitAndSaveRetainFramesAndDeletionDoesNotRestoreADeletedRecording()
+    {
+        await using var view = Create(out var runtime); Guid session = Guid.NewGuid();
+        await runtime.ReceiveAsync(new() { SessionId = session, Kind = BridgeMessageKind.Snapshot, Controllers = [new("pad", "DualSense", "USB", 50)] });
+        await view.RecordCommand.ExecuteAsync();
+        foreach (var frame in new[] { EngineTests.Frame(0), EngineTests.Frame(1, PadButtons.R1), EngineTests.Frame(2, time: 61_000_000) })
+            await runtime.ReceiveAsync(new() { SessionId = session, Kind = BridgeMessageKind.Frame, Frame = frame with { SessionId = session } });
+        Assert.False(view.IsRecording); await view.SaveAsync(); Assert.Single(view.Recordings); Assert.Equal(2, view.Recordings[0].Points.Length);
+        await view.DeleteRecordingCommand.ExecuteAsync(); view.RefreshStatus(); Assert.Empty(view.Recordings); Assert.Empty(runtime.Store.LoadAll().Single().Recordings);
+    }
     private sealed class FakeInteraction : IUserInteraction
     {
         public string? OpenPath, SavePath;
