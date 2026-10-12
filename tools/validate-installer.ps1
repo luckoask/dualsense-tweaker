@@ -14,13 +14,13 @@ if (Test-Path (Join-Path $install "DualSenseTweaker.exe")) { throw "Use a clean 
 $installer = New-Object -ComObject WindowsInstaller.Installer
 $db = $installer.OpenDatabase($Msi, 0)
 function Read-Table([string]$query, [int]$columns) {
-    $view = $db.OpenView($query); $view.Execute()
+    $view = $db.OpenView($query); [void]$view.Execute()
     $result = @()
     while ($record = $view.Fetch()) {
         $row = @(); for ($i = 1; $i -le $columns; $i++) { $row += $record.StringData($i) }
         $result += ,$row
     }
-    $view.Close(); return ,$result
+    [void]$view.Close(); return ,$result
 }
 $features = Read-Table 'SELECT `Feature`, `Feature_Parent`, `Level`, `Attributes` FROM `Feature`' 4
 $features | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $evidence "features.json")
