@@ -69,7 +69,10 @@ function Assert-Both {
     try {
         $watch = [Diagnostics.Stopwatch]::StartNew()
         do { Start-Sleep -Milliseconds 100; $app.Refresh() } while (-not $app.HasExited -and -not $app.MainWindowHandle -and $watch.Elapsed.TotalSeconds -lt 10)
-        if ($app.HasExited -or -not $app.MainWindowHandle -or -not $app.MainWindowTitle.StartsWith("Macro Gamer ")) { throw "Installed companion did not open its main WPF window." }
+        if ($app.HasExited -or -not $app.MainWindowHandle -or -not $app.MainWindowTitle.StartsWith("Macro Gamer ")) {
+            Get-ChildItem $data -Filter "startup-error.log" -ErrorAction SilentlyContinue | Copy-Item -Destination $evidence
+            throw "Installed companion did not open its main WPF window. Title: $($app.MainWindowTitle); exited: $($app.HasExited)."
+        }
         $closer = Start-Process (Join-Path $macro "MacroGamer.exe") -ArgumentList "--exit" -PassThru -Wait
         if ($closer.ExitCode -ne 0 -or -not $app.WaitForExit(15000)) { throw "Installed companion did not close gracefully." }
         "PASS: installed self-contained WPF application opened its main window and exited through --exit." | Set-Content (Join-Path $evidence "installed-ui.txt")

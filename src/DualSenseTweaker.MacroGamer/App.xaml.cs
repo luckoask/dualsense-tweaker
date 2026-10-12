@@ -54,7 +54,17 @@ public partial class App : Application
                 finally { _checkingGame = false; }
             }, Dispatcher); _display.Start();
         }
-        catch (Exception ex) { MessageBox.Show(ex.Message, "Macro Gamer", MessageBoxButton.OK, MessageBoxImage.Error); _instance?.Dispose(); Shutdown(1); }
+        catch (Exception ex)
+        {
+            try
+            {
+                string root = DualSenseTweaker.MacroGamer.Core.MacroProfileStore.DefaultRoot;
+                Directory.CreateDirectory(root); File.WriteAllText(Path.Combine(root, "startup-error.log"), ex.ToString());
+            }
+            catch (IOException) { }
+            catch (UnauthorizedAccessException) { }
+            MessageBox.Show(ex.Message, "Macro Gamer", MessageBoxButton.OK, MessageBoxImage.Error); _instance?.Dispose(); Shutdown(1);
+        }
     }
     private static string FindWorker()
     {
