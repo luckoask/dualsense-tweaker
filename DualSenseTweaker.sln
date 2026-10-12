@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualSenseTweaker.MacroGamer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualSenseTweaker.MacroGamer", "src\DualSenseTweaker.MacroGamer\DualSenseTweaker.MacroGamer.csproj", "{508B89B6-DF43-49D6-B601-D34ECA889DB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualSenseTweaker.MacroGamer.Windows.Tests", "tests\DualSenseTweaker.MacroGamer.Windows.Tests\DualSenseTweaker.MacroGamer.Windows.Tests.csproj", "{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,18 @@ Global
 		{508B89B6-DF43-49D6-B601-D34ECA889DB1}.Release|x64.Build.0 = Release|Any CPU
 		{508B89B6-DF43-49D6-B601-D34ECA889DB1}.Release|x86.ActiveCfg = Release|Any CPU
 		{508B89B6-DF43-49D6-B601-D34ECA889DB1}.Release|x86.Build.0 = Release|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Debug|x64.Build.0 = Debug|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Debug|x86.Build.0 = Debug|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Release|x64.ActiveCfg = Release|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Release|x64.Build.0 = Release|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Release|x86.ActiveCfg = Release|Any CPU
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,5 +201,6 @@ Global
 		{ACA1DAD9-D0A2-4F10-83D5-114DE65E1B6E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{05EBEA8A-61E5-45BE-9BA9-B7C75CFA049C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{508B89B6-DF43-49D6-B601-D34ECA889DB1} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{DB0E0694-AF69-4B7A-8A5D-DBFAEE8F582E} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal

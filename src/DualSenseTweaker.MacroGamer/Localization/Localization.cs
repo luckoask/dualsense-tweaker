@@ -21,7 +21,7 @@ public static class TextCatalog
         Language = language;
         foreach (var source in Entries.Keys) application.Resources["MacroText:" + source] = Text(source);
         application.ThemeMode = theme == "Light" ? ThemeMode.Light : ThemeMode.Dark;
-        application.Resources.MergedDictionaries[0] = new() { Source = new Uri($"Themes/{theme}.xaml", UriKind.Relative) };
+        application.Resources.MergedDictionaries[0] = new() { Source = new Uri($"/MacroGamer;component/Themes/{theme}.xaml", UriKind.Relative) };
     }
 }
 public sealed class TextExtension(string source) : MarkupExtension

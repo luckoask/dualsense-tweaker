@@ -11,12 +11,12 @@ public class EngineTests
     internal static PadFrame Frame(long sequence, PadButtons buttons = PadButtons.None, string id = "pad", long? time = null, Guid? session = null, PadAnalog? analog = null) =>
         new(id, session ?? Session, sequence, time ?? sequence * 10_000, buttons, analog ?? PadAnalog.Centered);
     internal static MacroDefinition Macro(params MacroAction[] actions) => new() { Enabled = true, Name = "Test macro", Actions = actions };
-    internal static async Task Eventually(Func<bool> predicate)
+    internal static async Task Eventually(Func<bool> predicate, double timeoutSeconds = 3)
     {
         long start = Stopwatch.GetTimestamp();
         while (!predicate())
         {
-            if (Stopwatch.GetElapsedTime(start) > TimeSpan.FromSeconds(3)) throw new TimeoutException("Expected state was not observed.");
+            if (Stopwatch.GetElapsedTime(start) > TimeSpan.FromSeconds(timeoutSeconds)) throw new TimeoutException("Expected state was not observed.");
             await Task.Delay(2);
         }
     }

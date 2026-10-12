@@ -96,7 +96,9 @@ public sealed class ScriptWorkerClient(string workerPath, DiagnosticLog? diagnos
         if (_process is null) return;
         try
         {
-            if (!_process.HasExited) _process.Kill(entireProcessTree: true);
+            // The Windows Job allows exactly one process. Lua exposes no process creation API.
+            // Enumerating the host's entire process tree can delay emergency cancellation on Windows.
+            if (!_process.HasExited) _process.Kill();
             await _process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(2));
             if (_errorPump is not null) await _errorPump;
         }

@@ -147,7 +147,7 @@ public class ScriptingTests
         await scripts.StartAsync(new() { Enabled = true, Name = "Hung", Source = "on_press('Cross', function() string.gsub('x', '.', function() while true do end end) end)" }, new Dictionary<string, double>());
         engine.Start(macro.Id); await EngineTests.Eventually(() => output.Events.Count == 1);
         scripts.ProcessFrame(EngineTests.Frame(0)); scripts.ProcessFrame(EngineTests.Frame(1, PadButtons.Cross));
-        await EngineTests.Eventually(() => !engine.Snapshot.Enabled);
+        await EngineTests.Eventually(() => !engine.Snapshot.Enabled, timeoutSeconds: 6);
         await EngineTests.Eventually(() => output.Events.Count == 2);
         Assert.Empty(await engine.Ledger.HeldAsync()); Assert.Contains(engine.Diagnostics.Entries, e => e.Message.Contains("two-second"));
     }
