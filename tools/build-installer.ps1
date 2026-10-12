@@ -8,6 +8,9 @@ $payloadRoot = Join-Path $root "artifacts\payload"
 $corePayload = Join-Path $payloadRoot "Tweaker"
 $macroPayload = Join-Path $payloadRoot "MacroGamer"
 $workerPayload = Join-Path $payloadRoot "ScriptWorker"
+$dotnetRoot = Split-Path (Get-Command dotnet).Source
+$sdkVersion = (dotnet --version).Trim()
+$desktopSdk = Join-Path $dotnetRoot "sdk\$sdkVersion\Sdks\Microsoft.NET.Sdk.WindowsDesktop"
 
 function Publish-Application([string]$projectName, [string]$destination) {
     if (Test-Path $destination) { Remove-Item $destination -Recurse -Force }
@@ -15,6 +18,21 @@ function Publish-Application([string]$projectName, [string]$destination) {
         -p:PublishSingleFile=false -p:PublishReadyToRun=true -p:DebugType=none `
         -p:AllowedReferenceRelatedFileExtensions=.none -o $destination
     if ($LASTEXITCODE) { throw "Publish failed: $projectName" }
+    # Self-contained publish does not automatically preserve every runtime license notice.
+    $licenses = Join-Path $destination "licenses"
+    New-Item -ItemType Directory -Force $licenses | Out-Null
+    foreach ($notice in @(@("LICENSE.txt", "dotnet-LICENSE.txt"), @("ThirdPartyNotices.txt", "dotnet-THIRDPARTYNOTICES.txt"))) {
+        $source = Join-Path $dotnetRoot $notice[0]
+        if (-not (Test-Path $source)) { throw "Missing SDK/runtime license notice: $source" }
+        Copy-Item $source (Join-Path $licenses $notice[1])
+    }
+    if ($projectName -ne "DualSenseTweaker.MacroGamer.ScriptHost") {
+        foreach ($file in @("LICENSE.TXT", "THIRD-PARTY-NOTICES.TXT")) {
+            $source = Join-Path $desktopSdk $file
+            if (-not (Test-Path $source)) { throw "Missing Windows Desktop license notice: $source" }
+            Copy-Item $source (Join-Path $licenses "WindowsDesktop-$file")
+        }
+    }
 }
 
 Publish-Application "DualSenseTweaker" $corePayload
