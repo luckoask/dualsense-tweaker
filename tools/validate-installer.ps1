@@ -68,7 +68,8 @@ function Assert-Both {
     $app = Start-Process (Join-Path $macro "MacroGamer.exe") -PassThru
     try {
         $watch = [Diagnostics.Stopwatch]::StartNew()
-        do { Start-Sleep -Milliseconds 100; $app.Refresh() } while (-not $app.HasExited -and -not $app.MainWindowHandle -and $watch.Elapsed.TotalSeconds -lt 30)
+        # A process can create a temporary untitled window before its WPF main window.
+        do { Start-Sleep -Milliseconds 100; $app.Refresh() } while (-not $app.HasExited -and (-not $app.MainWindowHandle -or -not $app.MainWindowTitle.StartsWith("Macro Gamer ")) -and $watch.Elapsed.TotalSeconds -lt 30)
         if ($app.HasExited -or -not $app.MainWindowHandle -or -not $app.MainWindowTitle.StartsWith("Macro Gamer ")) {
             Get-ChildItem $data -Filter "startup-error.log" -ErrorAction SilentlyContinue | Copy-Item -Destination $evidence
             Get-ChildItem $data -Filter "startup-phase.log" -ErrorAction SilentlyContinue | Copy-Item -Destination $evidence

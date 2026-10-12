@@ -53,7 +53,7 @@ public sealed class CompanionRuntime : IAsyncDisposable
     public async Task StartInputAsync(string? pipeName = null)
     {
         await _engine.ConfigureAsync(ActiveProfile.Macros, _controllerId);
-        _inputTask = new InputPipeClient(pipeName).RunAsync(ReceiveAsync, SourceDisconnectedAsync, _stop.Token);
+        _inputTask = Task.Run(() => new InputPipeClient(pipeName).RunAsync(ReceiveAsync, SourceDisconnectedAsync, _stop.Token));
     }
     public async ValueTask ReceiveAsync(BridgeMessage message)
     {
