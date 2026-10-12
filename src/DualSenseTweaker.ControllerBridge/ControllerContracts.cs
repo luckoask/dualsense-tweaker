@@ -19,13 +19,13 @@ public readonly record struct PadAnalog(byte LeftX, byte LeftY, byte RightX, byt
 public readonly record struct TouchContact(bool Active, byte Id, int X, int Y);
 public sealed record ControllerDescriptor(string Id, string Model, string Transport, int? BatteryPercent);
 public sealed record PadFrame(string ControllerId, Guid SessionId, long Sequence, long TimestampUs,
-    PadButtons Buttons, PadAnalog Analog, TouchContact First = default, TouchContact Second = default)
+    PadButtons Buttons, PadAnalog Analog, TouchContact First = default, TouchContact Second = default, Guid? ConnectionId = null)
 {
     public bool IsPressed(PadButtons buttons) => buttons != PadButtons.None && (Buttons & buttons) == buttons;
     public void Validate()
     {
         if (string.IsNullOrWhiteSpace(ControllerId) || ControllerId.Length > 1024 || SessionId == Guid.Empty ||
-            Sequence < 0 || TimestampUs < 0 || ((uint)Buttons & ~((1u << 23) - 1)) != 0 ||
+            Sequence < 0 || TimestampUs < 0 || ConnectionId == Guid.Empty || ((uint)Buttons & ~((1u << 23) - 1)) != 0 ||
             First.X is < 0 or > 1919 || First.Y is < 0 or > 1079 || Second.X is < 0 or > 1919 || Second.Y is < 0 or > 1079)
             throw new InvalidDataException("Invalid normalized controller frame.");
     }

@@ -20,6 +20,7 @@ public partial class App : Application
     private PreferencesState? _preferences;
     private ProfileService? _profiles;
     private DualSenseManager? _manager;
+    private ControllerInputBridge? _inputBridge;
     private ControllerRegistry? _registry;
     private AudioEngine? _audio;
     private GameProfileWatcher? _watcher;
@@ -89,6 +90,7 @@ public partial class App : Application
         ApplyAppearance();
         _registry = new ControllerRegistry(_profiles, settings, live, refresh, _preferences);
         _manager = new DualSenseManager(_registry.SourcesFor);
+        _inputBridge = new ControllerInputBridge(_manager);
         _registry.Attach(_manager);
         _audio = new AudioEngine(settings, live, _manager);
         _watcher = new GameProfileWatcher(_profiles, _preferences);
@@ -171,6 +173,7 @@ public partial class App : Application
         TryRun(() => _hotkeys?.Dispose(), "Odregistrovanie skratiek");
         TryRun(() => _viewModel?.Dispose(), "Zatvorenie UI");
         TryRun(() => _audio?.Dispose(), "Zastavenie audia");
+        TryRun(() => _inputBridge?.DisposeAsync().AsTask().GetAwaiter().GetResult(), "Input bridge shutdown");
         TryRun(() => _manager?.Dispose(), L.Text("Uvoľnenie ovládača"));
         TryRun(() => _registry?.Dispose(), L.Text("Uvoľnenie zoznamu ovládačov"));
         TryRun(() => _profiles?.Dispose(), L.Text("Uloženie profilov"));

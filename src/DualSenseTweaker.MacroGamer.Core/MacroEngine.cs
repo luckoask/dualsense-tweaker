@@ -92,7 +92,7 @@ public sealed class MacroEngine : IAsyncDisposable
         {
             if (_disposed || _stopping || _controllerId is not null && !string.Equals(_controllerId, frame.ControllerId, StringComparison.OrdinalIgnoreCase)) return;
             _controllerId ??= frame.ControllerId;
-            sessionChanged = _current is not null && _current.SessionId != frame.SessionId;
+            sessionChanged = _current is not null && (_current.SessionId != frame.SessionId || _current.ConnectionId != frame.ConnectionId);
             if (sessionChanged)
             {
                 _enabled = false;

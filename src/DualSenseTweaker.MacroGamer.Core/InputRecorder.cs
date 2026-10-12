@@ -20,6 +20,7 @@ public sealed record InputRecording
                 throw new InvalidDataException("Invalid recording timeline or controller identity.");
             point.Frame.Validate();
             if (session is not null && point.Frame.SessionId != session) throw new InvalidDataException("Recording spans controller sessions.");
+            if (point.Frame.ConnectionId != Points[0].Frame.ConnectionId) throw new InvalidDataException("Recording spans controller connection generations.");
             session = point.Frame.SessionId; previous = point.OffsetUs;
         }
     }
@@ -81,6 +82,8 @@ public sealed class InputRecorder
             _session ??= frame.SessionId; _start ??= frame.TimestampUs;
             if (_session != frame.SessionId || frame.TimestampUs < _start || frame.TimestampUs - _start > 60_000_000 || _points.Count >= 8192)
             { _recording = false; throw new InvalidOperationException("Recording stopped: controller session or resource limit changed."); }
+            if (_points.Count != 0 && _points[0].Frame.ConnectionId != frame.ConnectionId)
+            { _recording = false; throw new InvalidOperationException("Recording stopped: controller connection generation changed."); }
             long offset = frame.TimestampUs - _start.Value;
             if (_points.Count != 0)
             {

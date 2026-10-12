@@ -12,7 +12,7 @@ public sealed class InputTransitionDetector
     {
         frame.Validate();
         _previous.TryGetValue(frame.ControllerId, out var previous);
-        if (previous?.SessionId != frame.SessionId) previous = null;
+        if (previous?.SessionId != frame.SessionId || previous?.ConnectionId != frame.ConnectionId) previous = null;
         if (previous is not null && (frame.Sequence <= previous.Sequence || frame.TimestampUs < previous.TimestampUs)) return null;
         _previous[frame.ControllerId] = frame;
         // The first sample is a baseline, not a fabricated press of buttons held before arming.

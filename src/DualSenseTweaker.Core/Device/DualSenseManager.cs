@@ -39,7 +39,7 @@ public sealed class DualSenseManager : IDisposable
     private volatile bool _disposed;
     private bool _started;
 
-    private sealed record OpenDevice(DualSenseDevice Device, Action<InputFrame, TimeSpan> InputHandler);
+    private sealed record OpenDevice(DualSenseDevice Device, Action<InputFrame, TimeSpan> InputHandler, Guid ConnectionId);
 
     /// <summary>Every controller shares the same sources (single-profile setups, tools, tests).</summary>
     public DualSenseManager(OutputSources sources) : this(_ => sources)
@@ -69,6 +69,10 @@ public sealed class DualSenseManager : IDisposable
 
     /// <summary>Every full input report of the selected controller (input thread, ~250×/s).</summary>
     public event Action<InputFrame, TimeSpan>? InputReceived;
+    /// <summary>Identity-bearing input for passive consumers. Subscribers must only enqueue; raised on HID reader threads.</summary>
+    public event Action<ControllerInfo, Guid, InputFrame, TimeSpan>? AllInputReceived;
+    /// <summary>Identity/generation closed by the manager; passive consumers must release their synthetic outputs.</summary>
+    public event Action<ControllerInfo, Guid>? DeviceDisconnected;
 
     /// <summary>The PS button of a connected controller was pressed 5× quickly (raised on its input thread).</summary>
     public event EventHandler<ControllerInfo>? PsButtonSequence;
@@ -256,8 +260,10 @@ public sealed class DualSenseManager : IDisposable
         try
         {
             var device = DualSenseDevice.Open(target, hid, sources);
+            var connectionId = Guid.NewGuid();
             Action<InputFrame, TimeSpan> handler = (frame, time) =>
             {
+                AllInputReceived?.Invoke(target, connectionId, frame, time);
                 if (ReferenceEquals(Volatile.Read(ref _selected), device))
                     InputReceived?.Invoke(frame, time);
             };
@@ -267,7 +273,7 @@ public sealed class DualSenseManager : IDisposable
             device.InputReceived += handler;
             lock (_gate)
             {
-                _devices[target.Key] = new OpenDevice(device, handler);
+                _devices[target.Key] = new OpenDevice(device, handler, connectionId);
                 _retryAt.Remove(target.Key);
             }
             _lastFailure = null;
@@ -360,6 +366,7 @@ public sealed class DualSenseManager : IDisposable
                 _selected = null;
         }
         var device = entry.Device;
+        DeviceDisconnected?.Invoke(device.Info, entry.ConnectionId);
         device.StatusChanged -= OnDeviceStatusChanged;
         device.PsButtonSequence -= OnDevicePsButtonSequence;
         device.InputReceived -= entry.InputHandler;
