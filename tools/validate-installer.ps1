@@ -49,14 +49,14 @@ function Assert-CoreOnly {
     if ($reg.MacroGamerInstalled) { throw "Optional registry flag remains." }
 }
 function Assert-Both {
-    foreach ($file in @("MacroGamer.exe", "MacroGamer.ScriptHost.exe", "MoonSharp.Interpreter.dll")) {
+    foreach ($file in @("MacroGamer.exe", "script-worker\MacroGamer.ScriptHost.exe", "MoonSharp.Interpreter.dll")) {
         if (-not (Test-Path (Join-Path $macro $file))) { throw "Missing installed companion file: $file" }
     }
     if (-not (Get-ItemProperty "HKLM:\Software\LCKS\DualSense Tweaker").MacroGamerInstalled) { throw "Optional registry flag absent." }
     if (Get-Process MacroGamer -ErrorAction SilentlyContinue) { throw "Companion started automatically." }
     # Exercise the installed, self-contained worker rather than the test build's worker.
     $start = New-Object Diagnostics.ProcessStartInfo
-    $start.FileName = Join-Path $macro "MacroGamer.ScriptHost.exe"
+    $start.FileName = Join-Path $macro "script-worker\MacroGamer.ScriptHost.exe"
     $start.UseShellExecute = $false; $start.RedirectStandardInput = $true; $start.RedirectStandardOutput = $true
     $worker = [Diagnostics.Process]::Start($start)
     $worker.StandardInput.WriteLine('{"operation":"Validate","source":"on_press(\"R1\", function() key_tap(\"E\", 60) end)"}')

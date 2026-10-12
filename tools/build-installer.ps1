@@ -20,24 +20,16 @@ function Publish-Application([string]$projectName, [string]$destination) {
 Publish-Application "DualSenseTweaker" $corePayload
 Publish-Application "DualSenseTweaker.MacroGamer" $macroPayload
 Publish-Application "DualSenseTweaker.MacroGamer.ScriptHost" $workerPayload
-# Worker and WPF app share one private runtime. Reject conflicting files instead of overwriting them.
-Get-ChildItem $workerPayload -Recurse -File | ForEach-Object {
-    $relative = $_.FullName.Substring($workerPayload.Length).TrimStart([char[]]"\/")
-    $destination = Join-Path $macroPayload $relative
-    if (Test-Path $destination) {
-        if ((Get-FileHash $_.FullName).Hash -ne (Get-FileHash $destination).Hash) {
-            throw "Conflicting companion/worker payload: $relative"
-        }
-    } else {
-        New-Item -ItemType Directory -Force (Split-Path $destination) | Out-Null
-        Copy-Item $_.FullName $destination
-    }
-}
+# WPF's WindowsBase implementation differs from the console runtime's facade. Keep the
+# self-contained worker in its own directory; never overwrite one runtime with another.
+$installedWorker = Join-Path $macroPayload "script-worker"
+New-Item -ItemType Directory -Force $installedWorker | Out-Null
+Copy-Item (Join-Path $workerPayload "*") $installedWorker -Recurse -Force
 $unexpected = Get-ChildItem $corePayload -Recurse -File | Where-Object {
     $_.Name -like "*MacroGamer*" -or $_.Name -eq "MoonSharp.Interpreter.dll"
 }
 if ($unexpected) { throw "Companion dependencies leaked into required payload: $($unexpected.Name -join ', ')" }
-foreach ($file in @("MacroGamer.exe", "MacroGamer.ScriptHost.exe", "MoonSharp.Interpreter.dll")) {
+foreach ($file in @("MacroGamer.exe", "script-worker\MacroGamer.ScriptHost.exe", "MoonSharp.Interpreter.dll")) {
     if (-not (Test-Path (Join-Path $macroPayload $file))) { throw "Missing optional payload: $file" }
 }
 if (-not (Test-Path (Join-Path $root "installer\Assets\dialog.bmp"))) {
